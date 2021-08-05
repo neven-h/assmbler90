@@ -1,0 +1,3 @@
+/Users/pit/CLionProjectsassembler90/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/pit/CLionProjectsassembler90/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/pit/CLionProjectsassembler90/cmake-build-debug/CMakeFiles/CLionProjectsassembler90.dir
