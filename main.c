@@ -64,3 +64,5 @@ void resetVars(globalVariables *vars) {
 void freeVars(globalVariables *vars) {
     free(vars);
 }
+
+int projectGit = 3; //friday
