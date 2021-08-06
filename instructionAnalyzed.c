@@ -414,7 +414,7 @@ Bool J_commandAnalyzed(char *str,char *before ,char *after, int instructionNum,i
 
 
 Bool validJOperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord,int foundValidOperands)
-{שול
+{
 
 }
 
