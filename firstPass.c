@@ -138,13 +138,12 @@ void getToNextLine(FILE *f) {
 
 Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,
                           WordNodePtr currentWord) {
-    long numOfBytes;
+   /* long numOfBytes;*/
     int directiveNum;
-    Bool labelBeforeEntryOrExtern;
     directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
 
-    if (directiveNum != DIRECTIVE_ERROR && directiveNum != DIRECTIVE_EXTERN &&
-        directiveNum != DIRECTIVE_ENTRY) {
+    if (directiveNum != DIRECTIVE_ERROR && directiveNum != DIRECTIVE_EXTERN && directiveNum != DIRECTIVE_ENTRY)
+    {
         DirectiveWordType directiveType = getDirectiveType(directiveNum);
 
         if (directiveNum == DIRECTIVE_BYTE || directiveNum == DIRECTIVE_HALF_WORD ||
@@ -152,7 +151,7 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
 
             int validInput[LINE_LENGTH] = {0};
             dataAnalysis(after, before, after, vars, validInput, directiveNum);
-            numOfBytes = ((sizeof(validInput) / sizeof(int)) * directiveNum);
+           /* numOfBytes = ((sizeof(validInput) / sizeof(int)) * directiveNum); */
             if (hasLabel == True)
 
                 /*we have a label and a data - add to symbol table the value is the DC before insert the numbers to the list*/
@@ -163,6 +162,7 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
                     currentLabel->codeOrData = Data;
                     currentLabel->entryOrExtern = NoEntryExtern;
                     addLabelToList(vars->headLabelTable, currentLabel);/*add the label to table*/
+                    return True;
                 }
 
             }
@@ -194,9 +194,6 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
         /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
     else {
         labelAndEntryOrExtern(hasLabel, directiveNum, vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
-        if (labelBeforeEntryOrExtern == False) {
-            return False; /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
-        } else {
             if (directiveNum == DIRECTIVE_ENTRY) {
 
             }

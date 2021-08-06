@@ -39,54 +39,121 @@ DirectiveWordType getDirectiveType(int directiveNum)
 
 }
 
-void dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive)
+Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive)
 {
-    int number;
+    int number,i;
     int counter=0;
     int delimiter;
     long validBitRange;
-    while(counter<LINE_LENGTH)
+    char line[LINE_LENGTH]={0};
+    int lastChar;
+
+    strcpy(line,after);
+    lastChar= strlen(line);
+
+    if(line[lastChar]==',') /* 3,4,5,7, situation*/
     {
-        //to check the stop condition - i think i will have memory
+        vars->type=ExtraneousComma;
+        vars->errorFound = True;
+        return False;
+    }
+    /*maybe add a check for non digit in the last char??*/
+
+    for(i=0; i<(LINE_LENGTH-2) && line[i]!='\0' ; i++) /* '\0' is the end of string char */
+    {
+        memset(line, 0, LINE_LENGTH);
+        strcpy(line, after);
+
+        memset(before, 0, LINE_LENGTH);
+        memset(after, 0, LINE_LENGTH);
 
         delimiter= split(str,",",before,after);
+        strip(before);
+        strip(after);
+
         if (delimiter==VALID_SPLIT)
         {
             strip(before);
-            if(strlen(before)==0 && counter==0) /*the first num is without a ,*/
+            if(strlen(before)==0 && i==0) /*the first num starts without a comma before - ,3,4,...*/
             {
                 vars->type=CommaBeforeFirstParam;
-                // printf("\n%s:Line %d:Illegal comma before the first param\n", vars->filename,
-                //      vars->currentLine);
+                /* printf("\n%s:Line %d:Illegal comma before the first param\n", vars->filename,  vars->currentLine); */
                 vars->errorFound = True;
-                continue;
+                return False;
             }
-            if(strlen(before)==0 && counter!=0) /*+65,,7...*/
+            if(strlen(before)==0 && i!=0) /*+65,,7...*/
             {
                 vars->type=CommaBetweenParams;
-                // printf("\n%s:Line %d:Illegal comma between param\n", vars->filename,
-                //      vars->currentLine);
+                // printf("\n%s:Line %d:Illegal comma between param\n", vars->filename,vars->currentLine); */
                 vars->errorFound = True;
-                continue;
+                return False;
             }
-            number=isValidNumberDirective(before,vars);
-            validBitRange=validNumByDirective(directive,number);
+            number=isValidNumberDirective(before,vars); /*errors will update in the function*/
+            if(number==INT_MIN)
+            {
+                return False; /*error - not a valid number*/
+            }
+            validBitRange=validNumByDirective(directive,number); /*check if the num is in the correct range according directive type*/
             if(validBitRange==VALID_BIT_RANGE){
-                validInput[counter]=number;
-                counter++;
-
+                validInput[i]=number;
+                continue;
             }
             else{
                 vars->type=ParamNotInBitRange;
-                // printf("\n%s:Line %d:number %d is not in bit range\n", vars->filename,
-                //      vars->currentLine,number);
+                /* printf("\n%s:Line %d:number %d is not in bit range\n", vars->filename, vars->currentLine,number);*/
                 vars->errorFound = True;
-                continue;
+                return False;
             }
 
         }
+        else{/*we couldn't find a comma*/
+
+
+        }
+
+
     }
-}
+   // while(counter<LINE_LENGTH)
+   // {
+        //to check the stop condition - i think i will have memory
+
+        //delimiter= split(str,",",before,after);
+        //if (delimiter==VALID_SPLIT)
+        //{
+        //    strip(before);
+         //   if(strlen(before)==0 && counter==0) /*the first num is without a ,*/
+         //   {
+         //       vars->type=CommaBeforeFirstParam;
+          //      // printf("\n%s:Line %d:Illegal comma before the first param\n", vars->filename,
+          //      //      vars->currentLine);
+         //       vars->errorFound = True;
+       //         return False;
+        //    }
+      //      if(strlen(before)==0 && counter!=0) /*+65,,7...*/
+     //       {
+      //          vars->type=CommaBetweenParams;
+                // printf("\n%s:Line %d:Illegal comma between param\n", vars->filename,
+                //      vars->currentLine);
+       //         vars->errorFound = True;
+     //           return False;
+    //        }
+     //       number=isValidNumberDirective(before,vars);
+      //      validBitRange=validNumByDirective(directive,number);
+      //      if(validBitRange==VALID_BIT_RANGE){
+      //          validInput[counter]=number;
+     //           counter++;
+//
+       //     }
+      //      else{
+//                // printf("\n%s:Line %d:number %d is not in bit range\n", vars->filename,
+                //      vars->currentLine,number);
+       //         vars->errorFound = True;
+        //        continue;
+            }
+
+
+
+
 
 void ascizAnalysis(char *str,globalVariables *vars)
 {

@@ -157,8 +157,8 @@ int isValidNumberDirective(char *str,globalVariables *vars)
         int Digit=(int)(num[i]);
         if(isdigit(Digit)==0)
         {
-            printf("\n%s:Line %d: %s not an integer\n", vars->filename,
-                   vars->currentLine,num);
+            vars->type=DirectiveOperandNotAnInt;
+            /*printf("\n%s:Line %d: %s not an integer\n", vars->filename,vars->currentLine,num);*/
             vars->errorFound = True;
             return INT_MIN;/*error- not an integer*/
         }
@@ -169,8 +169,8 @@ int isValidNumberDirective(char *str,globalVariables *vars)
         number=atoi(num);
         if (number==0) /*not an integer*/
         {
-            printf("\n%s:Line %d: %s not an integer\n", vars->filename,
-                   vars->currentLine,num);
+            vars->type=DirectiveOperandNotAnInt;
+            /*printf("\n%s:Line %d: %s not an integer\n", vars->filename,vars->currentLine,num);*/
             vars->errorFound = True;
             return INT_MIN;/*error- not an integer*/
         }
