@@ -4,6 +4,7 @@
 
 #include "inputAnalyzed.h"
 #include "default.h"
+#include "directiveAnalyzed.h"
 
 /*strip the given string from the white chars in the beginning and the end*/
 void strip(char *str) {
@@ -438,4 +439,69 @@ int isValidImmediate(char *str,globalVariables *vars) {
         }
         return validNum;
     }
+}
+
+Bool foundLabel(char *lineCpy,char *before,char *after,globalVariables *vars,labelListPtr currentLabel) {
+    int labelDelimiter, validLabel;
+
+    labelDelimiter = split(lineCpy, ":", before, after);
+    if (labelDelimiter == VALID_SPLIT)//*we found a ':' - Label*/
+    {
+        validLabel = isLegalLabel(before, vars);
+        /*to find if we have a label*/
+
+        if (validLabel == VALID_LABEL) {
+            strip(before);
+            strcpy(currentLabel->labelName, before);
+            return True; /*label flag*/
+        }
+        else return False; /*we found a label but it's not valid*/
+    }
+    else return False; /*we couldn't find ":'
+ * */
+}
+
+WordType directiveOrInstruction(char *lineCpy,char *before,char *after,globalVariables *vars)
+{
+    WordType word;
+    int lineAnalyzed,directiveName,instructionNum;
+    Bool isDirective;
+    lineAnalyzed = split(after, "\t\n", before, after);
+    if (lineAnalyzed == VALID_SPLIT) { /*we found a tab*/
+        strip(before);
+        strip(after);
+        isDirective =isDirectiveCommand(before); /*if we find a '.' it's a directive*/
+        if (isDirective == True) { /*check if a valid directive*/
+            directiveName=isValidDirectiveName(before);
+            if(directiveName!=DIRECTIVE_ERROR) /*it's a valid directive*/
+            {
+                word=Directive;
+            }
+            else {word=None;}
+        }
+        else { /*check if instruction or non*/
+            instructionNum=instructionValidName(before);
+            if(instructionNum!=INSTRUCTION_ERROR) /*we found a valid instruction*/
+            {
+                word=Instruction;
+            }
+            else{ /*if it's not a directive and not an instruction - error*/
+                vars->type=notDirectiveOrInstruction;
+                // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename,
+                //       vars->currentLine);
+                vars->errorFound=True;
+                word=None;
+            }
+        }
+    }
+    else{
+        vars->type=notDirectiveOrInstruction;
+        // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename,
+        //       vars->currentLine);
+        vars->errorFound=True;
+        word=None;
+
+    }
+    return word;
+
 }

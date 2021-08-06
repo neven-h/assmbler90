@@ -34,3 +34,5 @@ int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd)
     return VALID_LABEL;
 
 }
+
+

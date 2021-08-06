@@ -30,6 +30,7 @@ void firstPass(globalVariables *vars) {
     char lineCpy[LINE_LENGTH] = {0};
     char before[LINE_LENGTH] = {0};
     char after[LINE_LENGTH] = {0};
+    char lineCpyAfterLabel[LINE_LENGTH] = {0};
 
     char fileName[FILE_NAME_LENGTH + AS_EXTENSION_LENGTH];
     strcpy(vars->filename, fileName);
@@ -42,11 +43,14 @@ void firstPass(globalVariables *vars) {
     Bool directiveFirstPass;
     Bool isInstruction;
     Bool instructionFirstPass;
+    WordType word;
+
     int i, lineAnalyzed, label, directive;
     int numOfBytes;
     int instructionNum;
 
     while (!feof(vars->file)) {
+
 
         memset(line, 0, LINE_LENGTH);
         memset(lineCpy, 0, LINE_LENGTH);
@@ -86,71 +90,57 @@ void firstPass(globalVariables *vars) {
             exit(0);
         }
 
-        lineAnalyzed = split(lineCpy, ":", before, after);
-        if (lineAnalyzed == VALID_SPLIT)//*we found a ':' - Label*/
-        {
-            label = isLegalLabel(before, vars);
-            /*to find if we have a label*/
+        /*add bool function to check if we have a label*/
+        hasLabel = foundLabel(lineCpy, before, after, vars, currentLabel);
 
-            if (label == VALID_LABEL) {
-                strip(before);
-                strcpy(currentLabel->labelName, before);
-
-                //lastLabel = lastLabel->next;
-                hasLabel = True; /*label flag*/
-            }
-            strip(after);
-            /*to find if after label it's instruction or directive*/
-
-            lineAnalyzed = split(after, "\t\n", before, after);
-            if (lineAnalyzed == VALID_SPLIT) {
-                strip(before);
-                strip(after);
-                isDirective =isDirectiveCommand (before); /*if we find a '.' it's a directive*/
-                if (isDirective == True) {
-                    directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
-                    if(vars->errorFound==True) continue; /*if we found an error - continue to the next line **MAYBE PRINT BEFORE*/
-                }
-                /*if its not a directive - check an instruction*/
-                instructionNum=instructionValidName (before);
-                if(instructionNum!=INSTRUCTION_ERROR) {
-
-                    instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel,
-                                                                  currentWord,instructionNum);
-                }
-                if(instructionNum==INSTRUCTION_ERROR && isDirective==False ) /*not a directive and not an instruction*/
-                {
-                    vars->type=notDirectiveOrInstruction;
-                    // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename,
-                    //       vars->currentLine);
-                    vars->errorFound=True;
-                    continue; /*get the next line*/
-                }
-
-            }
-        }
-        else { /*we couldn't find : so we dont have any label so to find directive */
-            free(currentLabel);
-            /*אם אין label אז צריך לבדוק שוב אם directive  או instruction לבחון את נושא הlabel וקוד חוזרני??*/
-
-
+        if (hasLabel == True) { /*we found a label*/
+            strcpy(lineCpyAfterLabel, after);
+        } else { /*we couldn't fina d label, by split fun before=linecpy*/
+            strcpy(lineCpyAfterLabel, lineCpy);
         }
 
+        strip(lineCpyAfterLabel);
+        word = directiveOrInstruction(lineCpyAfterLabel, before, after,
+                                      vars); /*check if Directive or Instruction or none*/
+        if (word == Directive) {
+
+
+            directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
+            if (directiveFirstPass == False) continue; /*if we found an error - continue to the next line*/
+        } else {
+            if (word == Instruction) {
+
+                directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
+                if (vars->errorFound == True)
+                    continue; /*if we found an error - continue to the next line **MAYBE PRINT BEFORE*/
+            } else { /*not a directive and not an instruction than - None - error*/
+                continue; /*get the next line*/
+            }
+
+            /*if its not a directive - check an instruction*/
+            instructionNum = instructionValidName(before);
+            if (instructionNum != INSTRUCTION_ERROR) {
+
+                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel,
+                                                              currentWord, instructionNum);
+            }
         }
     }
+}
 
 void getToNextLine(FILE *f) {
     int c;
     while ((c = fgetc(f)) != EOF) {
         if (c == '\n')
             return;
-            }
-        }
+    }
+}
 
 Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,
                           WordNodePtr currentWord) {
-    int numOfBytes;
+    long numOfBytes;
     int directiveNum;
+    Bool labelBeforeEntryOrExtern;
     directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
 
     if (directiveNum != DIRECTIVE_ERROR && directiveNum != DIRECTIVE_EXTERN &&
@@ -201,25 +191,16 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             }
         }
     }
-    /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
+        /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
     else {
-        if (directiveNum == DIRECTIVE_ENTRY ) {
-            if(hasLabel == VALID_LABEL) /* a label before entry is invalid*/
-            {
-                vars->type=labelBeforeEntry;
-                // printf("\n%s:Line %d:Illegal Label before entry\n", vars->filename,
-                //       vars->currentLine);
-                vars->errorFound = True;
-            }
-            else{
-
-            }
-
+        labelBeforeEntryOrExtern = labelAndEntryOrExtern(hasLabel, directiveNum, vars);
+        if (labelBeforeEntryOrExtern == False) {
+            return False; /*it's invalid to have label before entry or extern*/
         } else {
-                if(directiveNum == DIRECTIVE_EXTERN)
-                {
+            if (directiveNum == DIRECTIVE_ENTRY) {
 
-                }
+            }
+
 
         }
 
@@ -227,46 +208,41 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
     }
 
     if (directiveNum == DIRECTIVE_ERROR) return False;
-
     return True;
+
 }
 
 
 Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,
-                          WordNodePtr currentWord, int instructionNum)
-
-{
+                            WordNodePtr currentWord, int instructionNum) {
     int ValidLabelName;
     int numOfOperands;
-    Bool validRCommand ,validICommand;
+    Bool validRCommand, validICommand;
 
     currentWord->word.wordType = Instruction;
-   if(hasLabel==True)
-   {
+    if (hasLabel == True) {
         ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
-       if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-           currentLabel->value = (vars->IC);
-           currentLabel->codeOrData = Code;
-           currentLabel->entryOrExtern = NoEntryExtern;
-           addLabelToList(vars->headLabelTable, currentLabel);/*add the label to table*/
-       }
-       else { if(ValidLabelName==LABEL_EXISTS)
-           {
-               vars->type=labelExistsInTable;
-               // printf("\n%s:Line %d: Label already exists in table\n", vars->filename,
-               //       vars->currentLine);
-               vars->errorFound = True;
-               return False;
-           }
-       }
-   }
-    if(hasLabel==False) /*we couldn't fond a label*/
+        if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
+            currentLabel->value = (vars->IC);
+            currentLabel->codeOrData = Code;
+            currentLabel->entryOrExtern = NoEntryExtern;
+            addLabelToList(vars->headLabelTable, currentLabel);/*add the label to table*/
+        } else {
+            if (ValidLabelName == LABEL_EXISTS) {
+                vars->type = labelExistsInTable;
+                // printf("\n%s:Line %d: Label already exists in table\n", vars->filename,
+                //       vars->currentLine);
+                vars->errorFound = True;
+                return False;
+            }
+        }
+    }
+    if (hasLabel == False) /*we couldn't fond a label*/
     {
         free(currentLabel);
     }
-    if (instructionNum<1 || instructionNum>27)
-    {
-        vars->type=IllegalInstruction;
+    if (instructionNum < 1 || instructionNum > 27) {
+        vars->type = IllegalInstruction;
         // printf("\n%s:Line %d: Instruction name is illegal \n", vars->filename,
         //       vars->currentLine);
         vars->errorFound = True;
@@ -274,7 +250,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
     }
     strip(before);
     InstructionWordType commandType = commandGroup(instructionNum);
-    if (commandType==R_WORD) {
+    if (commandType == R_WORD) {
         currentWord->word.instruction.wordType = R_WORD;
         numOfOperands = numberOfOperands(commandType, instructionNum);
         strip(after);
@@ -288,42 +264,35 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
             return False; /*not valid R Command*/
         }
     }
-    if (commandType==I_WORD)
-    {
-        currentWord->word.instruction.wordType= I_WORD;
-        int type=numberOfOperands(commandType,instructionNum);
+    if (commandType == I_WORD) {
+        currentWord->word.instruction.wordType = I_WORD;
+        int type = numberOfOperands(commandType, instructionNum);
         strip(after);
-        validICommand=I_commandAnalyzed(after,before,after,instructionNum,type,vars,currentWord);
-        if(validICommand==True){
+        validICommand = I_commandAnalyzed(after, before, after, instructionNum, type, vars, currentWord);
+        if (validICommand == True) {
             /*need to add the word node to the list*/
-            vars->IC=(vars->IC+4);
+            vars->IC = (vars->IC + 4);
             /*add coding to binary?!*/
             return True;
-        }
-        else {
+        } else {
             return False; /*not valid I Command*/
         }
     }
-    if(commandType==J_WORD)
-    {
-        currentWord->word.instruction.wordType= J_WORD;
-        int type=numberOfOperands(commandType,instructionNum);
+    if (commandType == J_WORD) {
+        currentWord->word.instruction.wordType = J_WORD;
+        int type = numberOfOperands(commandType, instructionNum);
         strip(after);
-        validICommand=J_commandAnalyzed(after,before,after,instructionNum,type,vars,currentWord);
-        if(validICommand==True){
+        validICommand = J_commandAnalyzed(after, before, after, instructionNum, type, vars, currentWord);
+        if (validICommand == True) {
             /*need to add the word node to the list*/
-            vars->IC=(vars->IC+4);
+            vars->IC = (vars->IC + 4);
             /*add coding to binary?!*/
             return True;
-        }
-        else {
+        } else {
             return False; /*not valid I Command*/
         }
 
     }
-
-
-
 
 
 }

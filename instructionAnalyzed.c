@@ -384,7 +384,7 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
         }
             if(type==REG_REG_LABEL)
             {
-                /*in the first Pass we put the  address as the current IC in immediate, in the second pass we . need to see what to do if we coldnt fins this label*/
+                /*in the first Pass we put the  address as the current IC in immediate, in the second pass we . need to see what to do if we couldn't fins this label*/
             }
 
         }

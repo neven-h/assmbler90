@@ -106,7 +106,7 @@
 
 
 
-typedef enum {Instruction, Directive} WordType;
+typedef enum {Instruction, Directive,None} WordType;
 typedef enum {R_WORD, I_WORD, J_WORD} InstructionWordType;
 typedef enum {D_BYTE, D_HALF, D_WORD, ASCIZ} DirectiveWordType;
 typedef enum {False = 0, True = 1} Bool;

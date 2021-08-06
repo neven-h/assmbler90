@@ -102,3 +102,24 @@ void ascizAnalysis(char *str,globalVariables *vars)
     }
 }
 
+Bool labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars)
+
+{
+    if (directiveNum==ENTRY && hasLabel==True) /*we have a label and a directive entry - error*/
+    {
+        vars->type=labelBeforeEntry;
+        // printf("\n%s:Line %d:Illegal Label before entry\n", vars->filename,
+        //       vars->currentLine);
+        vars->errorFound = True;
+        return False;
+    }
+    if(directiveNum==EXTERNAL && hasLabel==True)
+    {
+        vars->type=labelBeforeExtern;
+        // printf("\n%s:Line %d:Illegal Label before entry\n", vars->filename,
+        //       vars->currentLine);
+        vars->errorFound = True;
+        return False;
+    }
+    return True;
+}
