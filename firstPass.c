@@ -4,7 +4,8 @@
 
 #include "firstPass.h"
 #include "inputAnalyzed.h"
-#include "instructionAnalysed.h"
+#include "instructionAnalyzed.h"
+#include "directiveAnalyzed.h"
 
 void readLine(char *[]);
 
@@ -137,7 +138,7 @@ void firstPass(globalVariables *vars) {
 
         }
     }
-}
+
 void getToNextLine(FILE *f) {
     int c;
     while ((c = fgetc(f)) != EOF) {
@@ -237,7 +238,9 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
 {
     int ValidLabelName;
     int numOfOperands;
-    Bool validRCommand;
+    Bool validRCommand ,validICommand;
+
+    currentWord->word.wordType = Instruction;
    if(hasLabel==True)
    {
         ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
@@ -271,21 +274,56 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
     }
     strip(before);
     InstructionWordType commandType = commandGroup(instructionNum);
-    if (commandType==R_WORD)
-    {
-        currentWord->word.instruction.wordType=R_WORD;
-        currentWord->word.instruction.rWord.opcode =0;
-        currentWord->word.instruction.rWord.unused =0;
-        numOfOperands=numberOfOperands(before,instructionNum);
+    if (commandType==R_WORD) {
+        currentWord->word.instruction.wordType = R_WORD;
+        numOfOperands = numberOfOperands(commandType, instructionNum);
         strip(after);
-        if (numOfOperands == THREE_REGISTERS)
-        {
-            validRCommand=(after,before,after,instructionNum,numOfOperands,vars,currentWord);
-
+        validRCommand = R_commandAnalyzed(after, before, after, instructionNum, numOfOperands, vars, currentWord);
+        if (validRCommand == True) {
+            /*need to add the word node to the list*/
+            vars->IC = (vars->IC + 4);
+            /*add coding to binary?!*/
+            return True;
+        } else {
+            return False; /*not valid R Command*/
         }
-        if (numOfOperands == TWO_REGISTERS)
+    }
+    if (commandType==I_WORD)
+    {
+        currentWord->word.instruction.wordType= I_WORD;
+        int type=numberOfOperands(commandType,instructionNum);
+        strip(after);
+        validICommand=I_commandAnalyzed(after,before,after,instructionNum,type,vars,currentWord);
+        if(validICommand==True){
+            /*need to add the word node to the list*/
+            vars->IC=(vars->IC+4);
+            /*add coding to binary?!*/
+            return True;
+        }
+        else {
+            return False; /*not valid I Command*/
+        }
+    }
+    if(commandType==J_WORD)
+    {
+        currentWord->word.instruction.wordType= J_WORD;
+        int type=numberOfOperands(commandType,instructionNum);
+        strip(after);
+        validICommand=J_commandAnalyzed(after,before,after,instructionNum,type,vars,currentWord);
+        if(validICommand==True){
+            /*need to add the word node to the list*/
+            vars->IC=(vars->IC+4);
+            /*add coding to binary?!*/
+            return True;
+        }
+        else {
+            return False; /*not valid I Command*/
+        }
 
     }
+
+
+
 
 
 }

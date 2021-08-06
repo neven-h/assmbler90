@@ -11,16 +11,20 @@ void strip(char*);
 int isEmptyOrCommandLine(char *);
 int split(char *str, char *delimiter, char *before, char *after);
 int isLegalLabel(char*str,globalVariables *vars);
-int isValidDirectiveName(char *str);
-Bool isDirectiveCommand(char command[LINE_LENGTH]);
-void dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive);
-void ascizAnalysis(char *str,globalVariables *vars);
-int isValidNumber(char *str,globalVariables *vars);
+
+
+int isValidNumberDirective(char *str,globalVariables *vars);
 long validNumByDirective(int directive,int num);
 int isValidString(char *str);
-DirectiveWordType getDirectiveType(int directiveNum);
 
 
+int Rfunct(int instructionNum);
+int instructionValidName(char command[LINE_LENGTH]);
+int numberOfOperands(InstructionWordType command,int instructionNum);
+int isValidRegisterNum(char *str,globalVariables *vars);
+int isValidRegister(char *str,globalVariables *vars);
+int isValidImmediate(char *str,globalVariables *vars);
+InstructionWordType commandGroup (int instructionNum);
 
 
 

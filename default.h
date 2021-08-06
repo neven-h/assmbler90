@@ -44,6 +44,7 @@
 #define REG_NOT_IN_RANGE -4
 
 #define VALID_REGISTER 1
+#define IMMEDIATE_NOT_INT -1
 
 #define NUMBER_BITS 32
 #define NUMBER_BITS_IN_BYTE 8
@@ -80,6 +81,9 @@
 #define STOP 27
 #define INSTRUCTION_ERROR -1
 
+#define MIN_REG 0
+#define MAX_REG 31
+
 #define ADD_FUNCT 1
 #define SUB_FUNCT 2
 #define AND_FUNCT 3
@@ -91,11 +95,15 @@
 
 #define THREE_REGISTERS 3
 #define TWO_REGISTERS 2
-#define REG_IM_REG  3
-#define REG_REG_LABEL 3
+#define REG_IM_REG_ARI_LOG  4
+#define REG_REG_LABEL 5
+#define REG_IM_REG_LOAD  6
+
 #define REG_OR_LABEL 1
 #define ONE_LABEL 1
 #define NONE 0
+
+
 
 
 typedef enum {Instruction, Directive} WordType;
@@ -106,7 +114,8 @@ typedef enum {Code, Data } Location;
 typedef enum {Entry, Extern, NoEntryExtern} LabelType;
 typedef enum {LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLabelNotAlphabet,
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
-              IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,ExtraneousOperand,MissingOperand,
+              IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
+              ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,
 
               Valid = 100} errorType; /*add error each time, at the end of firstPass - print*/
 

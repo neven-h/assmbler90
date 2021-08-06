@@ -1,3 +1,3 @@
-/Users/pit/CLionProjectsassembler90/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/pit/CLionProjectsassembler90/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/pit/CLionProjectsassembler90/cmake-build-debug/CMakeFiles/CLionProjectsassembler90.dir
+C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/CMakeFiles/RoniProject.dir
+C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -81,35 +81,6 @@ int isLegalLabel(char *str, globalVariables *vars) {
     return VALID_LABEL;
 }
 
-Bool isDirectiveCommand(char command[LINE_LENGTH]) {
-    return command[0] == '.' ? True : False;
-}
-
-int isValidDirectiveName(char *str)
-{
-    if(strcmp(str,".db")==0)
-        return DIRECTIVE_BYTE; /*1*/
-    if(strcmp(str,".dw")==0)
-        return DIRECTIVE_WORD;  /*4*/
-    if(strcmp(str,".dh")==0)
-        return DIRECTIVE_HALF_WORD; /*2*/
-    if(strcmp(str,".asciz")==0)
-        return DIRECTIVE_ASCIZ; /*3*/
-    if(strcmp(str,".extern")==0)
-        return DIRECTIVE_EXTERN; /*5*/
-    if(strcmp(str,".entry")==0)
-        return DIRECTIVE_ENTRY; /*6*/
-    else return DIRECTIVE_ERROR;/*-1*/
-}
-
-DirectiveWordType getDirectiveType(int directiveNum)
-{
-    if(directiveNum==1) return D_BYTE;
-    if(directiveNum==2) return D_HALF;
-    if(directiveNum==4) return D_WORD;
-    if(directiveNum==3) return ASCIZ;
-
-}
 
 int isEmptyOrCommandLine(char *str) {
     if (str[0] == '\0' || str[0] == ';')
@@ -147,7 +118,7 @@ void dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
                 vars->errorFound = True;
                 continue;
             }
-            number=isValidNumber(before,vars);
+            number=isValidNumberDirective(before,vars);
             validBitRange=validNumByDirective(directive,number);
             if(validBitRange==VALID_BIT_RANGE){
                 validInput[counter]=number;
@@ -166,7 +137,7 @@ void dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
     }
 }
 
-int isValidNumber(char *str,globalVariables *vars)
+int isValidNumberDirective(char *str,globalVariables *vars)
 {
     int sign=1;
     int i;
@@ -221,19 +192,6 @@ long validNumByDirective(int directive,int num)
 
 }
 
-void ascizAnalysis(char *str,globalVariables *vars)
-{
-    int valid=isValidString(str);
-    if(valid==VALID_STRING)
-    {
-        for()
-    }
-    else{
-        printf("\n%s:Line %d: %s not a valid string\n", vars->filename,
-               vars->currentLine,str);
-        vars->errorFound = True;
-    }
-}
 
 
 /*to check if a given string is valid, between "" and only graphic characters*/
@@ -259,3 +217,225 @@ Bool isInstructionCommand(char command[LINE_LENGTH]) {
 }
 
 
+
+int instructionValidName(char command[LINE_LENGTH]) {
+    if (strcmp(command, "add") == 0) return ADD;
+    if (strcmp(command, "sub") == 0) return SUB;
+    if (strcmp(command, "and") == 0) return AND;
+    if (strcmp(command, "or") == 0) return OR;
+    if (strcmp(command, "nor") == 0) return NOR;
+    if (strcmp(command, "move") == 0) return MOVE;
+    if (strcmp(command, "mvhi") == 0) return MVHI;
+    if (strcmp(command, "mvlo") == 0) return MVLO;
+    if (strcmp(command, "addi") == 0) return ADDI;
+    if (strcmp(command, "subi") == 0) return SUBI;
+    if (strcmp(command, "andi") == 0) return ANDI;
+    if (strcmp(command, "ori") == 0) return ORI;
+    if (strcmp(command, "nori") == 0) return NORI;
+    if (strcmp(command, "bne") == 0) return BNE;
+    if (strcmp(command, "beq") == 0) return BEQ;
+    if (strcmp(command, "blt") == 0) return BLT;
+    if (strcmp(command, "bgt") == 0) return BGT;
+    if (strcmp(command, "lb") == 0) return LB;
+    if (strcmp(command, "sb") == 0) return SB;
+    if (strcmp(command, "lw") == 0) return LW;
+    if (strcmp(command, "sw") == 0) return SW;
+    if (strcmp(command, "lh") == 0) return LH;
+    if (strcmp(command, "sh") == 0) return SH;
+    if (strcmp(command, "jmp") == 0) return JMP;
+    if (strcmp(command, "la") == 0) return LA;
+    if (strcmp(command, "call") == 0) return CALL;
+    if (strcmp(command, "stop") == 0) return STOP;
+    else return INSTRUCTION_ERROR;
+}
+/*returns the funct of a given R command*/
+int Rfunct(int instructionNum)
+{
+    if(instructionNum==ADD)
+        return ADD_FUNCT; /*command add funct 1*/
+    if(instructionNum==SUB)
+        return SUB_FUNCT;/*command sub funct 2*/
+    if(instructionNum==AND)
+        return AND_FUNCT; /*command and funct 3*/
+    if(instructionNum==OR)
+        return OR_FUNCT; /*command or funct 4*/
+    if(instructionNum==NOR)
+        return NOR_FUNCT; /*command nor funct 5*/
+    if(instructionNum==MOVE)
+        return MOVE_FUNCT; /*command move funct 1*/
+    if(instructionNum==MVHI)
+        return MVHI_FUNCT;/*command mvhi funct 2*/
+    if(instructionNum==MVLO)
+        return MVLO_FUNCT; /*command mvlo funct 3*/
+}
+/*by given instruction number returns the instruction word type*/
+InstructionWordType commandGroup (int instructionNum)
+{
+    if(instructionNum>=1 &&instructionNum<=8 )
+        return R_WORD;
+    if(instructionNum>=9 &&instructionNum<=23 )
+        return I_WORD;
+    if(instructionNum>=24 &&instructionNum<=27 )
+        return J_WORD;
+}
+
+/*by given instruction number and command type returns the num of expected operands*/
+int numberOfOperands(InstructionWordType command,int instructionNum) {
+    int numOfOperands;
+    if (command == R_WORD) {
+        if (ADD <= instructionNum && instructionNum <= 5)
+            numOfOperands=THREE_REGISTERS;
+        if (6 <= instructionNum && instructionNum <= 8)
+            numOfOperands=TWO_REGISTERS;
+    } else {
+        if (command == I_WORD) {
+            /*all I commands gets 3 operand so we will define by type*/
+            if (ADDI <= instructionNum && instructionNum <= 13)
+                numOfOperands=REG_IM_REG_ARI_LOG; /*arithmetic and logic - will be 4*/
+            if (14 <= instructionNum && instructionNum <= 17)
+                numOfOperands=REG_REG_LABEL;
+            if (18 <= instructionNum && instructionNum <= 23)
+                numOfOperands=REG_IM_REG_LOAD; /*load and store in the memory - will be 6*/
+        } else { /*command==J_WORD */
+            if (instructionNum == JMP) /*JMP*/
+                numOfOperands=REG_OR_LABEL;
+            if (instructionNum == LA || instructionNum == CALL)
+                numOfOperands=ONE_LABEL;
+            if (instructionNum == STOP)
+                numOfOperands=NONE;
+
+        }
+    }
+    return numOfOperands;
+}
+
+
+/*a valid register stars with $ and between 0-31*/
+int isValidRegister(char *str,globalVariables *vars)
+{
+    char currentReg[4]={0};
+    int validNum;
+    strip(str);
+    if(strlen(str)>4) {/*check while debug if in length \0 include*/
+        vars->type=RegisterLength;
+        //printf("\n%s:Line %d: register is to long\n", vars->filename, vars->currentLine);
+        vars->errorFound = True;
+        return REGISTER_ERROR_LENGTH;
+    }
+
+    if(str[0]!='$')/*register must begging with $ */
+    {
+        vars->type=RegisterSign;
+        //printf("\n%s:Line %d: Register must start with $ \n", vars->filename, vars->currentLine);
+        vars->errorFound = True;
+        return REGISTER_ERROR_SIGN;
+    }
+
+    strcpy(currentReg,str+1);/*register must be positive number */
+    if(currentReg[0]=='-')
+    {
+        vars->type=RegisterNegative;
+        //printf("\n%s:Line %d: Register couldn't be negative \n", vars->filename, vars->currentLine);
+        vars->errorFound = True;
+        return REGISTER_ERROR_NEGATIVE;
+    }
+
+    validNum= isValidRegisterNum(currentReg,vars);
+    if(validNum>=0)return validNum;
+}
+
+/*a valid register num is an integer between 0-31*/
+int isValidRegisterNum(char *str,globalVariables *vars)
+{
+    int i,num;
+    for(i=0;i< strlen(str);i++) /*check if an integer*/
+    {
+        if(isdigit(str[i])==0)
+        {
+            vars->type=RegisterNotAnInt;
+            //printf("\n%s:Line %d: Register must be an integer \n", vars->filename, vars->currentLine);
+            vars->errorFound = True;
+            return REG_NOT_INT;
+        }
+    }
+    if(strcmp(str,"0")!=0)
+    {
+        num=atoi(str); /*atoi returns 0 if its not an int*/
+    }
+    else{
+        num=0;
+    }
+    if (num<MIN_REG || num>MAX_REG)
+    {
+        vars->type=RegisterNotInRange;
+        //printf("\n%s:Line %d: Register must be a number between 0 to 31 \n", vars->filename, vars->currentLine);
+        vars->errorFound = True;
+        return REG_NOT_IN_RANGE;
+    }
+    return num;
+}
+
+
+int isValidImmediate(char *str,globalVariables *vars) {
+
+    char positive[LINE_LENGTH]={0};
+    char negative[LINE_LENGTH]={0};
+
+    int i;
+    int validNum;
+    int minRange= pow(-2,15);
+    int maxRange= (pow(2,15)-1);
+    int sign = 1;
+    if (str[0] == '-') sign = -1;   /*immediate can be a negative number*/
+
+    if (str[0] == '-' ||isdigit(str[i]) == 0) {
+        for (i = 1; i < strlen(str); i++) /*check if an integer*/
+        {
+            if (isdigit(str[i]) == 0) {
+                vars->type = ImmediateNotAnInt;
+                //printf("\n%s:Line %d: Immediate must be an integer \n", vars->filename, vars->currentLine);
+                vars->errorFound = True;
+                return INT_MAX;
+            }
+        }
+    }
+    else {
+        vars->type = ImmediateNotValid;
+        //printf("\n%s:Line %d: not a valid Immediate \n", vars->filename, vars->currentLine);
+        vars->errorFound = True;
+        return INT_MAX;
+    }
+
+    /*check if the num is in the correct range 16 bits with negative [-2^15...(2^15)-1]*/
+
+    if (str[0] == '-') {
+        sign = -1;   /*immediate can be a negative number*/
+        strcpy(negative, str + 1);
+        if (strcmp(negative, "0") != 0) {
+            validNum = atoi(negative); /*atoi returns 0 if its not an int ,and we cant have a negative zero*/
+        }
+        validNum=sign*validNum;
+        if (validNum < minRange || validNum > maxRange) {
+            vars->type = ImmediateNotInRange;
+            //printf("\n%s:Line %d: Immediate must be a number in 16 bits in two's complement range \n", vars->filename, vars->currentLine);
+            vars->errorFound = True;
+            return INT_MAX;
+        }
+        return validNum;
+    }
+    else{ /*if its not a - it a digit -already checked*/
+        strcpy(positive, str);
+        if (strcmp(positive, "0") != 0) {
+            validNum = atoi(positive); /*atoi returns 0 if its not an int*/
+        } else {
+            validNum = 0;
+        }
+        if (validNum < minRange || validNum > maxRange) {
+            vars->type = ImmediateNotInRange;
+            //printf("\n%s:Line %d: Immediate must be a number in 16 bits in two's complement range \n", vars->filename, vars->currentLine);
+            vars->errorFound = True;
+            return INT_MAX;
+        }
+        return validNum;
+    }
+}

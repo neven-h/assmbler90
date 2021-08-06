@@ -5,7 +5,7 @@
 #include "WordList.h"
 #include "default.h"
 
-WordNodePtr createWord();
+
 
 WordNodePtr createWord()
 {
