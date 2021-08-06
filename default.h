@@ -112,7 +112,7 @@ typedef enum {D_BYTE, D_HALF, D_WORD, ASCIZ} DirectiveWordType;
 typedef enum {False = 0, True = 1} Bool;
 typedef enum {Code, Data } Location;
 typedef enum {Entry, Extern, NoEntryExtern} LabelType;
-typedef enum {LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLabelNotAlphabet,
+typedef enum {NoError,LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLabelNotAlphabet,
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
               IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
               ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,

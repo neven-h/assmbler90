@@ -193,14 +193,13 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
     }
         /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
     else {
-        labelBeforeEntryOrExtern = labelAndEntryOrExtern(hasLabel, directiveNum, vars);
+        labelAndEntryOrExtern(hasLabel, directiveNum, vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
         if (labelBeforeEntryOrExtern == False) {
-            return False; /*it's invalid to have label before entry or extern*/
+            return False; /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
         } else {
             if (directiveNum == DIRECTIVE_ENTRY) {
 
             }
-
 
         }
 

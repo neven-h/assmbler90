@@ -15,6 +15,6 @@ DirectiveWordType getDirectiveType(int directiveNum);
 void dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive);
 void ascizAnalysis(char *str,globalVariables *vars);
 
-Bool labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars);
+void labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars);
 
 #endif //RONIPROJECT_DIRECTIVEANALYZED_H
