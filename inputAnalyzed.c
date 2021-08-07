@@ -89,55 +89,6 @@ int isEmptyOrCommandLine(char *str) {
     else return -1;
 }
 
-void dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive)
-{
-    int number;
-    int counter=0;
-    int delimiter;
-    long validBitRange;
-    while(counter<LINE_LENGTH)
-    {
-        //to check the stop condition - i think i will have memory
-
-        delimiter= split(str,",",before,after);
-        if (delimiter==VALID_SPLIT)
-        {
-            strip(before);
-            if(strlen(before)==0 && counter==0) /*the first num is without a ,*/
-            {
-                vars->type=CommaBeforeFirstParam;
-               // printf("\n%s:Line %d:Illegal comma before the first param\n", vars->filename,
-                 //      vars->currentLine);
-                vars->errorFound = True;
-                continue;
-            }
-            if(strlen(before)==0 && counter!=0) /*+65,,7...*/
-            {
-                vars->type=CommaBetweenParams;
-               // printf("\n%s:Line %d:Illegal comma between param\n", vars->filename,
-               //      vars->currentLine);
-                vars->errorFound = True;
-                continue;
-            }
-            number=isValidNumberDirective(before,vars);
-            validBitRange=validNumByDirective(directive,number);
-            if(validBitRange==VALID_BIT_RANGE){
-                validInput[counter]=number;
-                counter++;
-
-            }
-            else{
-                vars->type=ParamNotInBitRange;
-               // printf("\n%s:Line %d:number %d is not in bit range\n", vars->filename,
-               //      vars->currentLine,number);
-                vars->errorFound = True;
-                continue;
-            }
-
-        }
-    }
-}
-
 int isValidNumberDirective(char *str,globalVariables *vars)
 {
     int sign=1;

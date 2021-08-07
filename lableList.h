@@ -7,6 +7,7 @@
 
 #include "default.h"
 void addLabelToList(labelListPtr *, labelListPtr );
-int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd);
+int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
+Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
 
 #endif //RONIPROJECT_LABLELIST_H

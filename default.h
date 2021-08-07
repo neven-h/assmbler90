@@ -14,11 +14,6 @@
 #define AS_EXTENSION_LENGTH 3
 
 
-#define DATA 0
-#define CODE 1
-#define EXTERNAL 2
-#define ENTRY 3
-
 #define DIRECTIVE_WORD 4
 #define DIRECTIVE_HALF_WORD 2
 #define DIRECTIVE_BYTE 1
@@ -115,7 +110,8 @@ typedef enum {Entry, Extern, NoEntryExtern} LabelType;
 typedef enum {NoError,LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLabelNotAlphabet,
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
               IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
-              ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,DirectiveOperandNotAnInt,
+              ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,DirectiveOperandNotAnInt,StringNotValid,
+              LabelExistsWithoutExternal,LabelExistsInTable,
 
               Valid = 100} errorType; /*add error each time, at the end of firstPass - print*/
 

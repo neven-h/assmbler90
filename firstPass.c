@@ -100,18 +100,18 @@ void firstPass(globalVariables *vars) {
         }
 
         strip(lineCpyAfterLabel);
-        word = directiveOrInstruction(lineCpyAfterLabel, before, after,
-                                      vars); /*check if Directive or Instruction or none*/
+        word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {
-
-
             directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
-            if (directiveFirstPass == False) continue; /*if we found an error - continue to the next line*/
-        } else {
-            if (word == Instruction) {
+            if (directiveFirstPass == False) continue; /*if we found an error - continue to the next line not a valid directive line*/
+        }
+        else {if (word == Instruction) {
+                instructionNum = instructionValidName(before); /*get the instruction number*/
+                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord,instructionNum);
 
-                directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
-                if (vars->errorFound == True)
+
+
+                if (instructionFirstPass == False) continue; /*if we found an error - continue to the next line not a valid instruction line*/
                     continue; /*if we found an error - continue to the next line **MAYBE PRINT BEFORE*/
             } else { /*not a directive and not an instruction than - None - error*/
                 continue; /*get the next line*/
@@ -121,8 +121,7 @@ void firstPass(globalVariables *vars) {
             instructionNum = instructionValidName(before);
             if (instructionNum != INSTRUCTION_ERROR) {
 
-                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel,
-                                                              currentWord, instructionNum);
+                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord, instructionNum);
             }
         }
     }
@@ -136,81 +135,8 @@ void getToNextLine(FILE *f) {
     }
 }
 
-Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,
-                          WordNodePtr currentWord) {
-   /* long numOfBytes;*/
-    int directiveNum;
-    directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
-
-    if (directiveNum != DIRECTIVE_ERROR && directiveNum != DIRECTIVE_EXTERN && directiveNum != DIRECTIVE_ENTRY)
-    {
-        DirectiveWordType directiveType = getDirectiveType(directiveNum);
-
-        if (directiveNum == DIRECTIVE_BYTE || directiveNum == DIRECTIVE_HALF_WORD ||
-            directiveNum == DIRECTIVE_WORD) { /*dw,db,dh*/
-
-            int validInput[LINE_LENGTH] = {0};
-            dataAnalysis(after, before, after, vars, validInput, directiveNum);
-           /* numOfBytes = ((sizeof(validInput) / sizeof(int)) * directiveNum); */
-            if (hasLabel == True)
-
-                /*we have a label and a data - add to symbol table the value is the DC before insert the numbers to the list*/
-            {
-                int ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
-                if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-                    currentLabel->value = (vars->DC);
-                    currentLabel->codeOrData = Data;
-                    currentLabel->entryOrExtern = NoEntryExtern;
-                    addLabelToList(vars->headLabelTable, currentLabel);/*add the label to table*/
-                    return True;
-                }
-
-            }
-
-            /*not a label only directive */
-            addDirectiveByteToWordList(validInput, vars->headWordList, directiveNum, directiveType, vars->DC);
-            //vars->DC += (numOfBytes);
-            //currentLabel->codeOrData = Data;
-            //currentLabel->entryOrExtern = NoEntryExtern;
-        }
-
-        if (directiveNum == DIRECTIVE_ASCIZ) {
-
-            ascizAnalysis(after, vars);
-            if (hasLabel == VALID_LABEL) {
-                int ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
-                currentLabel->value = (vars->DC);
-                currentLabel->codeOrData = Data;
-                currentLabel->entryOrExtern = NoEntryExtern;
-                addLabelToList(vars->headLabelTable, currentLabel);
-
-            } else {
-                /*add to word table*/
-                addDirectiveAsciz(after, vars->headWordList, directiveNum, directiveType, vars->DC);
-                //vars->DC += (numOfBytes + 1);
-            }
-        }
-    }
-        /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
-    else {
-        labelAndEntryOrExtern(hasLabel, directiveNum, vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
-            if (directiveNum == DIRECTIVE_ENTRY) {
-
-            }
-
-        }
-
-
-    }
-
-    if (directiveNum == DIRECTIVE_ERROR) return False;
-    return True;
-
-}
-
-
-Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,
-                            WordNodePtr currentWord, int instructionNum) {
+Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum)
+{
     int ValidLabelName;
     int numOfOperands;
     Bool validRCommand, validICommand;
