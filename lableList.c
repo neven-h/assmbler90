@@ -4,6 +4,7 @@
 
 #include "lableList.h"
 
+
 void addLabelToList(labelListPtr *head, labelListPtr labelToAdd) {
     labelListPtr wordPtr = (WordNodePtr) calloc(1, sizeof(WordNode));
     labelListPtr temp = *head;
@@ -60,4 +61,30 @@ Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables
     return True;
 }
 
+/*This function checks if an entry label exists in the label table and add 'Entry' to the attribute*/
+Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
+{
+    strip(after);
+    labelListPtr temp = *head;
+    int res,flag=0;
+    while (temp != NULL )
+    {
+        res= strcmp(temp->labelName,after);
+        if(res==0) /*we already have this label name*/
+        {
+            temp->entryOrExtern=Entry;
+            flag=1;
+        }
+        temp = temp->next;
+    }
+
+    if(flag==0)/*we couldn't find this label*/
+    {
+            vars->type = EntryLabelDontExists;
+            /*printf("\n%s:Line %d: Error- Entry Label don't exists in Label Table \n", vars->filename,vars->currentLine);*/
+            vars->errorFound = True;
+            return False;
+    }
+    return True;
+}
 

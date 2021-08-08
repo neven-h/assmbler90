@@ -497,3 +497,8 @@ Bool labelJCommand(char *str,globalVariables *vars, WordNodePtr currentWord)
     return True;
 }
 
+
+Bool secondPassJ(char *str,globalVariables *vars, WordNodePtr currentWord)
+{
+
+}

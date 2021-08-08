@@ -10,7 +10,6 @@
 #include "WordList.h"
 
 void firstPass(globalVariables *);
-Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,
-                            WordNodePtr currentWord, int instructionNum);
+Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel, WordNodePtr currentWord, int instructionNum);
 #endif //RONIPROJ_FIRSTPASS_H
 

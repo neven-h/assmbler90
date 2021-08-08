@@ -36,12 +36,8 @@ void firstPass(globalVariables *vars) {
     strcpy(vars->filename, fileName);
 
 
-    //symbolTable *lastLabel = NULL;
-    //lastLabel=vars->headTable;
     Bool hasLabel;
-    Bool isDirective;
     Bool directiveFirstPass;
-    Bool isInstruction;
     Bool instructionFirstPass;
     WordType word;
 
@@ -56,6 +52,7 @@ void firstPass(globalVariables *vars) {
         memset(lineCpy, 0, LINE_LENGTH);
         memset(before, 0, LINE_LENGTH);
         memset(after, 0, LINE_LENGTH);
+        memset(lineCpyAfterLabel, 0, LINE_LENGTH);
 
         fgets(line, LINE_LENGTH, stdin);
 

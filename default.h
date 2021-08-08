@@ -115,7 +115,7 @@ typedef enum {NoError,LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLab
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
               IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
               ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,DirectiveOperandNotAnInt,StringNotValid,
-              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,
+              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,EntryLabelDontExists,
 
               Valid = 100} errorType; /*add error each time, at the end of firstPass - print*/
 
@@ -187,6 +187,23 @@ typedef struct labelList{
 }labelList;
 
 
+typedef struct externalList *externalListPtr;
+typedef struct externalList{
+    char labelName[LABEL_LENGTH];
+    Location codeOrData;
+    long address;
+    externalListPtr next;
+}externalList;
+
+
+typedef struct entryList *entryListPtr;
+typedef struct entryListList{
+    char labelName[LABEL_LENGTH];
+    Location codeOrData;
+    long address;
+    entryListPtr next;
+}entryList;
+
 typedef struct globalVariables{
     Bool errorFound;
     errorType type;
@@ -197,9 +214,10 @@ typedef struct globalVariables{
     FILE *file;
     labelListPtr headLabelTable;
     WordNodePtr headWordList;
+    externalListPtr headExternList;
+    entryListPtr  headEntryList;
 } globalVariables;
 
-//InstructionWordNode* newWordNode();  delete
-//symbolTable* newLable();   delete
+
 
 #endif

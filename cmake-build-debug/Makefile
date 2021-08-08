@@ -357,6 +357,33 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/main.c.s
 .PHONY : main.c.s
 
+secondPass.obj: secondPass.c.obj
+
+.PHONY : secondPass.obj
+
+# target to build an object file
+secondPass.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/secondPass.c.obj
+.PHONY : secondPass.c.obj
+
+secondPass.i: secondPass.c.i
+
+.PHONY : secondPass.i
+
+# target to preprocess a source file
+secondPass.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/secondPass.c.i
+.PHONY : secondPass.c.i
+
+secondPass.s: secondPass.c.s
+
+.PHONY : secondPass.s
+
+# target to generate assembly for a file
+secondPass.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/secondPass.c.s
+.PHONY : secondPass.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -390,6 +417,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... secondPass.obj
+	@echo ... secondPass.i
+	@echo ... secondPass.s
 .PHONY : help
 
 

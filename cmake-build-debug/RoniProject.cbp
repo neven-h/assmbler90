@@ -122,6 +122,12 @@
 		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/main.h">
 			<Option target="RoniProject"/>
 		</Unit>
+		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/secondPass.c">
+			<Option target="RoniProject"/>
+		</Unit>
+		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/secondPass.h">
+			<Option target="RoniProject"/>
+		</Unit>
 		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
