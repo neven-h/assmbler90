@@ -87,6 +87,10 @@
 #define MOVE_FUNCT 1
 #define MVHI_FUNCT 2
 #define MVLO_FUNCT 3
+#define OP_JMP 30
+#define OP_LA 31
+#define OP_CALL 32
+#define OP_STOP 63
 
 #define THREE_REGISTERS 3
 #define TWO_REGISTERS 2
@@ -111,7 +115,7 @@ typedef enum {NoError,LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLab
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
               IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
               ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,DirectiveOperandNotAnInt,StringNotValid,
-              LabelExistsWithoutExternal,LabelExistsInTable,
+              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,
 
               Valid = 100} errorType; /*add error each time, at the end of firstPass - print*/
 

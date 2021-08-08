@@ -74,13 +74,13 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/EntryAndExtern.c">
+			<Option target="RoniProject"/>
+		</Unit>
 		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/WordList.c">
 			<Option target="RoniProject"/>
 		</Unit>
 		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/WordList.h">
-			<Option target="RoniProject"/>
-		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/dataStructures.c">
 			<Option target="RoniProject"/>
 		</Unit>
 		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/default.h">

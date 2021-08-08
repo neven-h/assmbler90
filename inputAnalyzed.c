@@ -300,9 +300,11 @@ int isValidRegister(char *str,globalVariables *vars)
 int isValidRegisterNum(char *str,globalVariables *vars)
 {
     int i,num;
-    for(i=0;i< strlen(str);i++) /*check if an integer*/
+    char reg[3]={0};
+    strcpy(reg,str+1); /*copy to a new string without $ char*/
+    for(i=0;i< strlen(reg);i++) /*check if an integer*/
     {
-        if(isdigit(str[i])==0)
+        if(isdigit(reg[i])==0)
         {
             vars->type=RegisterNotAnInt;
             //printf("\n%s:Line %d: Register must be an integer \n", vars->filename, vars->currentLine);
@@ -310,9 +312,9 @@ int isValidRegisterNum(char *str,globalVariables *vars)
             return REG_NOT_INT;
         }
     }
-    if(strcmp(str,"0")!=0)
+    if(strcmp(reg,"0")!=0)
     {
-        num=atoi(str); /*atoi returns 0 if its not an int*/
+        num=atoi(reg); /*atoi returns 0 if its not an int*/
     }
     else{
         num=0;

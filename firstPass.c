@@ -72,9 +72,9 @@ void firstPass(globalVariables *vars) {
             vars->errorFound = True;
         }
 
-        strip(lineCpy); //*strip white chars*/
+        strip(lineCpy); /*strip white chars*/
         lineAnalyzed = isEmptyOrCommandLine(lineCpy);
-        if (lineAnalyzed == 1) continue; //*if the line is an empty line or command line - the assembler ignores*/
+        if (lineAnalyzed == 1) continue; /*if the line is an empty line or command line - the assembler ignores*/
 
         /*analyze if its a directive or instruction*/
 
@@ -103,29 +103,38 @@ void firstPass(globalVariables *vars) {
         word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {
             directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
-            if (directiveFirstPass == False) continue; /*if we found an error - continue to the next line not a valid directive line*/
+            if (directiveFirstPass == False ||directiveFirstPass == True )
+                 continue; /*if we found an error - continue to the next line not a valid directive line*/
         }
-        else {if (word == Instruction) {
+        else {
+            if (word == Instruction) {
                 instructionNum = instructionValidName(before); /*get the instruction number*/
-                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord,instructionNum);
-
-
-
-                if (instructionFirstPass == False) continue; /*if we found an error - continue to the next line not a valid instruction line*/
-                    continue; /*if we found an error - continue to the next line **MAYBE PRINT BEFORE*/
+                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord, instructionNum);
+                if (instructionFirstPass == False || instructionFirstPass == True)
+                    continue; /*if we found an error - continue to the next line not a valid instruction line*/
             } else { /*not a directive and not an instruction than - None - error*/
+                vars->type = notDirectiveOrInstruction;
+                /* printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename, vars->currentLine);*/
+                vars->errorFound = True;
                 continue; /*get the next line*/
             }
-
-            /*if its not a directive - check an instruction*/
-            instructionNum = instructionValidName(before);
-            if (instructionNum != INSTRUCTION_ERROR) {
-
-                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord, instructionNum);
-            }
         }
+    }/*we finished to read the file*/
+    if(vars->type!=NoError ) /*we found an error don't continue to the second pass*/
+    {
+       /*call print errors functions*/
+       if(vars->errorFound == True)
+       {
+           /*stop here and continue to the next file*/
+       }
+       else { /*call second pass*/
+
+       }
+
     }
-}
+
+ }
+
 
 void getToNextLine(FILE *f) {
     int c;
@@ -152,8 +161,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         } else {
             if (ValidLabelName == LABEL_EXISTS) {
                 vars->type = labelExistsInTable;
-                // printf("\n%s:Line %d: Label already exists in table\n", vars->filename,
-                //       vars->currentLine);
+                /* printf("\n%s:Line %d: Label already exists in table\n", vars->filename, vars->currentLine);*/
                 vars->errorFound = True;
                 return False;
             }
@@ -194,7 +202,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         if (validICommand == True) {
             /*need to add the word node to the list*/
             vars->IC = (vars->IC + 4);
-            /*add coding to binary?!*/
+
             return True;
         } else {
             return False; /*not valid I Command*/
@@ -204,16 +212,14 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         currentWord->word.instruction.wordType = J_WORD;
         int type = numberOfOperands(commandType, instructionNum);
         strip(after);
-        validICommand = J_commandAnalyzed(after, before, after, instructionNum, type, vars, currentWord);
+        validICommand = J_commandAnalyzed(after, instructionNum, vars, currentWord);
         if (validICommand == True) {
             /*need to add the word node to the list*/
             vars->IC = (vars->IC + 4);
-            /*add coding to binary?!*/
             return True;
         } else {
-            return False; /*not valid I Command*/
+            return False; /*not valid J Command*/
         }
-
     }
 
 

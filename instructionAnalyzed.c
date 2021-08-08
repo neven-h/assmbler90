@@ -372,7 +372,7 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
                     currentWord->word.instruction.iWord.rt = thirdReg;
                     return True;
                 }
-                if (type == REG_IM_REG_ARI_LOG) {
+                else{ /*type == REG_IM_REG_ARI_LOG*/
                     currentWord->word.instruction.iWord.rs = thirdReg;
                     return True;
                 }
@@ -380,41 +380,120 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
             else{ /*not a valid register*/
                 return False; /*error type already been checked*/
             }
-
         }
-            if(type==REG_REG_LABEL)
-            {
-                /*in the first Pass we put the  address as the current IC in immediate, in the second pass we . need to see what to do if we couldn't fins this label*/
-            }
-
+        else{
+                if(type==REG_REG_LABEL) /*in the first Pass we put the address as the current IC in immediate, will be handle in second Pass*/
+              {
+                /*in the first Pass we put the address as the current IC in immediate, will be handle in second Pass*/
+                currentWord->word.instruction.iWord.immed=vars->IC;
+                return True;
+             }
         }
-
     }
-
-
-Bool J_commandAnalyzed(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord)
-{
-    Bool validOperandLine;
-    int funct= Rfunct(numOfOperands);
-    currentWord->word.instruction.rWord.funct =funct; /*add funct to current word*/
-
-    validOperandLine=validROperandLine(str,before,after,instructionNum,numOfOperands,vars,currentWord);
-    if(validOperandLine==True) /*the R command line is valid update the word node and add to word list*/
-    {
-        currentWord->word.instruction.wordType= R_WORD;
-        currentWord->word.instruction.rWord.opcode =0;
-        currentWord->word.instruction.rWord.unused =0;
-        currentWord->word.instruction.address = vars->IC;
-        return True;
-    }
-    else {return False; }/*not a valid R command line*/
-
 }
 
 
-
-Bool validJOperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord,int foundValidOperands)
+Bool J_commandAnalyzed(char *str, int instructionNum,globalVariables *vars, WordNodePtr currentWord)
 {
+    Bool validOperandLine;
+    int opcode=opcodeJ(instructionNum);
+    currentWord->word.instruction.jWord.opcode =opcode;
 
+    validOperandLine= validJOperandLine(str,instructionNum,vars,currentWord);
+
+    if(validOperandLine==True)
+    {
+        return True;
+    }
+    else {return False; }/*not a valid J command line*/
+}
+
+
+int opcodeJ(int instructionNum)
+{
+    if(instructionNum==JMP)
+        return OP_JMP;
+    if(instructionNum==LA)
+        return OP_LA;
+    if(instructionNum==CALL)
+        return OP_CALL;
+    if(instructionNum==STOP)
+        return OP_STOP;
+}
+
+
+Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, WordNodePtr currentWord)
+{
+    strip(str);
+    int isReg, isLabel;
+    Bool JwithReg, JwithLabel;
+    if (instructionNum == JMP) /* jmp cen recive a register or label*/
+    {
+        isReg = isValidRegister(str, vars); /*check if a register*/
+        if (isReg == VALID_REGISTER) {
+            JwithReg = regJCommand(str, vars, currentWord);
+            if (JwithReg == False)return False;
+            /*than True it's a valid register*/
+            return True;
+        } else { /*not a register - check if a valid label by syntax. in the second pass we will check in the Label Table*/
+
+            JwithLabel = labelJCommand(str, vars, currentWord);
+            if (JwithLabel == False) /* not a register and not a label by syntax - operand error*/
+            {
+                vars->type = InvalidOperand;
+                /* printf("\n%s:Line %d: Invalid Operand\n", vars->filename,vars->currentLine); */
+                vars->errorFound = True;
+                return False;
+            } else { return True; /*it's a valid label by syntax*/}
+        }
+    } else {
+        if (instructionNum == LA || instructionNum == CALL) {
+            JwithLabel = labelJCommand(str, vars, currentWord);
+            if (JwithLabel == False) /* not a register and not a label by syntax - operand error*/
+            {
+                vars->type = InvalidOperand;
+                /* printf("\n%s:Line %d: Invalid Operand\n", vars->filename,vars->currentLine); */
+                vars->errorFound = True;
+                return False;
+            }
+        } else {
+            if (instructionNum == STOP) { /*stop doesn't get any operands*/
+                if(strcmp(str,"")!=0) /*we found text after stop command*/
+                {
+                    vars->type = InvalidTextAfterStop;
+                    /* printf("\n%s:Line %d: Extraneous text , stop command doesn't get any operands\n", vars->filename,vars->currentLine); */
+                    vars->errorFound = True;
+                    return False;
+                }
+                currentWord->word.instruction.jWord.reg=0;
+                currentWord->word.instruction.jWord.address =0;
+                return True;
+            }
+        }
+    }
+
+}
+
+Bool regJCommand(char *str,globalVariables *vars, WordNodePtr currentWord)
+{
+    int regNum;
+    regNum= isValidRegisterNum(str,vars);
+    if(regNum<0)/* not valid reg num */
+        return False;
+    currentWord->word.instruction.jWord.reg=1;
+    currentWord->word.instruction.jWord.address =regNum;
+    return True;
+}
+
+
+Bool labelJCommand(char *str,globalVariables *vars, WordNodePtr currentWord)
+{
+   int isLabel;
+   isLabel=isLegalLabel(str,vars);
+   if(isLabel==LABEL_ERROR) /*not a valid label*/
+       return False;
+    /*than a valid label - by syntax. in the second pass we will update the address. */
+    currentWord->word.instruction.jWord.reg=0;
+    return True;
 }
 

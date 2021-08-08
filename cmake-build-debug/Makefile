@@ -141,6 +141,33 @@ RoniProject/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/build
 .PHONY : RoniProject/fast
 
+EntryAndExtern.obj: EntryAndExtern.c.obj
+
+.PHONY : EntryAndExtern.obj
+
+# target to build an object file
+EntryAndExtern.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/EntryAndExtern.c.obj
+.PHONY : EntryAndExtern.c.obj
+
+EntryAndExtern.i: EntryAndExtern.c.i
+
+.PHONY : EntryAndExtern.i
+
+# target to preprocess a source file
+EntryAndExtern.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/EntryAndExtern.c.i
+.PHONY : EntryAndExtern.c.i
+
+EntryAndExtern.s: EntryAndExtern.c.s
+
+.PHONY : EntryAndExtern.s
+
+# target to generate assembly for a file
+EntryAndExtern.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/EntryAndExtern.c.s
+.PHONY : EntryAndExtern.c.s
+
 WordList.obj: WordList.c.obj
 
 .PHONY : WordList.obj
@@ -167,33 +194,6 @@ WordList.s: WordList.c.s
 WordList.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/WordList.c.s
 .PHONY : WordList.c.s
-
-dataStructures.obj: dataStructures.c.obj
-
-.PHONY : dataStructures.obj
-
-# target to build an object file
-dataStructures.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/dataStructures.c.obj
-.PHONY : dataStructures.c.obj
-
-dataStructures.i: dataStructures.c.i
-
-.PHONY : dataStructures.i
-
-# target to preprocess a source file
-dataStructures.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/dataStructures.c.i
-.PHONY : dataStructures.c.i
-
-dataStructures.s: dataStructures.c.s
-
-.PHONY : dataStructures.s
-
-# target to generate assembly for a file
-dataStructures.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/dataStructures.c.s
-.PHONY : dataStructures.c.s
 
 directiveAnalyzed.obj: directiveAnalyzed.c.obj
 
@@ -366,12 +366,12 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... RoniProject
+	@echo ... EntryAndExtern.obj
+	@echo ... EntryAndExtern.i
+	@echo ... EntryAndExtern.s
 	@echo ... WordList.obj
 	@echo ... WordList.i
 	@echo ... WordList.s
-	@echo ... dataStructures.obj
-	@echo ... dataStructures.i
-	@echo ... dataStructures.s
 	@echo ... directiveAnalyzed.obj
 	@echo ... directiveAnalyzed.i
 	@echo ... directiveAnalyzed.s
