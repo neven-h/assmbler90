@@ -8,6 +8,9 @@
 #include "default.h"
 #include "lableList.h"
 #include "WordList.h"
+#include "inputAnalyzed.h"
+#include "instructionAnalyzed.h"
+#include "directiveAnalyzed.h"
 
 void firstPass(globalVariables *);
 Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel, WordNodePtr currentWord, int instructionNum);

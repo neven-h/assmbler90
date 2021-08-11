@@ -26,17 +26,17 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             if (hasLabel == True)
                 /*we have a label and a data - add to symbol table the value is the DC before insert the numbers to the list*/
             {
-                ValidLabelName = labelNameCompare(vars->headLabelTable,currentLabel,vars); /*check if the label name wasn't shown in the table already*/
+                ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label name wasn't shown in the table already*/
                 if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
                     currentLabel->value = (vars->DC);
                     currentLabel->codeOrData = Data;
                     currentLabel->entryOrExtern = NoEntryExtern;
-                    addLabelToList(vars->headLabelTable, currentLabel);/*add the label to table*/
+                    addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
                     return True;
                 } else { return False;  /*we found the label in the label table*/}
             }
             /*not a label only directive */
-            addDirectiveByteToWordList(validInput, vars->headWordList, directiveNum, directiveType, vars->DC,currentWord);
+            addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
             return True;
         }
         if (directiveNum == DIRECTIVE_ASCIZ) {
@@ -44,16 +44,16 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             if (validAsciz == False) return False;
             /*a valid param to asciz directive a valid string starts and ends with " */
             if (hasLabel == True) { /*if the label flag is on - we have label*/
-                ValidLabelName = labelNameCompare(vars->headLabelTable,currentLabel,vars); /*check if the label is already in the table, if it is - dont add to the table*/
+                ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label is already in the table, if it is - dont add to the table*/
                 if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
                     currentLabel->value = (vars->DC);
                     currentLabel->codeOrData = Data;
                     currentLabel->entryOrExtern = NoEntryExtern;
-                    addLabelToList(vars->headLabelTable, currentLabel);
+                    addLabelToList(&(vars->headLabelTable), currentLabel);
                 } else { return False; }  /*we found the label in the label table*/
             } else {
                 /*no label just a directive - add to word table*/
-                addDirectiveAsciz(after, vars->headWordList, directiveNum, directiveType, vars->DC,currentWord);
+                addDirectiveAsciz(after, &(vars->headWordList), directiveNum, directiveType, vars->DC);
             }
         }
     }
@@ -67,13 +67,13 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
                 return False;
             }
             /*else- a valid label check if already exists without external type or with */
-            ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel, vars);
-            labelWithExtern = isLabelExternal(vars->headLabelTable, currentLabel, vars);
+            ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
+            labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
             if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) { /*label is not exists or if exists with external label and add to label table*/
                 currentLabel->value = 0;
                 currentLabel->codeOrData = Data;
                 currentLabel->entryOrExtern = Extern;
-                addLabelToList(vars->headLabelTable, currentLabel);
+                addLabelToList(&(vars->headLabelTable), currentLabel);
                 return True;
             } else {
                 return False;

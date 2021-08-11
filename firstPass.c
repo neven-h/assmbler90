@@ -3,9 +3,7 @@
 //
 
 #include "firstPass.h"
-#include "inputAnalyzed.h"
-#include "instructionAnalyzed.h"
-#include "directiveAnalyzed.h"
+
 
 void readLine(char *[]);
 
@@ -97,16 +95,20 @@ void firstPass(globalVariables *vars) {
         }
 
         strip(lineCpyAfterLabel);
-        word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
+        word = directiveOrInstruction(lineCpyAfterLabel, before, after,
+                                      vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {
             directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
-            if (directiveFirstPass == False ||directiveFirstPass == True )
-                 continue; /*if we found an error - continue to the next line not a valid directive line*/
-        }
-        else {
+
+            if (directiveFirstPass == False) {
+                /*print error*/
+            }
+
+        } else {
             if (word == Instruction) {
                 instructionNum = instructionValidName(before); /*get the instruction number*/
-                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord, instructionNum);
+                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord,
+                                                              instructionNum);
                 if (instructionFirstPass == False || instructionFirstPass == True)
                     continue; /*if we found an error - continue to the next line not a valid instruction line*/
             } else { /*not a directive and not an instruction than - None - error*/
@@ -116,21 +118,24 @@ void firstPass(globalVariables *vars) {
                 continue; /*get the next line*/
             }
         }
-    }/*we finished to read the file*/
-    if(vars->type!=NoError ) /*we found an error don't continue to the second pass*/
-    {
+        /*call print error function*/
+
+    }
+    /**/
+
+
+    /*we finished to read the file*/
+
        /*call print errors functions*/
        if(vars->errorFound == True)
        {
-           /*stop here and continue to the next file*/
+           /*update directive list*/
        }
-       else { /*call second pass*/
 
-       }
 
     }
 
- }
+
 
 
 void getToNextLine(FILE *f) {
@@ -154,7 +159,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
             currentLabel->value = (vars->IC);
             currentLabel->codeOrData = Code;
             currentLabel->entryOrExtern = NoEntryExtern;
-            addLabelToList(vars->headLabelTable, currentLabel);/*add the label to table*/
+            addLabelToList(&(vars->headLabelTable), currentLabel);/*add the label to table*/
         } else {
             if (ValidLabelName == LABEL_EXISTS) {
                 vars->type = labelExistsInTable;
@@ -185,7 +190,6 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         if (validRCommand == True) {
             /*need to add the word node to the list*/
             vars->IC = (vars->IC + 4);
-            /*add coding to binary?!*/
             return True;
         } else {
             return False; /*not valid R Command*/

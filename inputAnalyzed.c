@@ -3,8 +3,7 @@
 //
 
 #include "inputAnalyzed.h"
-#include "default.h"
-#include "directiveAnalyzed.h"
+
 
 /*strip the given string from the white chars in the beginning and the end*/
 void strip(char *str) {

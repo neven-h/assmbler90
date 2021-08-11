@@ -6,18 +6,19 @@
 
 
 void addLabelToList(labelListPtr *head, labelListPtr labelToAdd) {
-    labelListPtr wordPtr = (WordNodePtr) calloc(1, sizeof(WordNode));
     labelListPtr temp = *head;
     if(temp != NULL) {
-        *head = wordPtr;
+        *head = labelToAdd;
         return;
     }
 
     while(temp->next) {
         temp = temp->next;
     }
-    temp->next = wordPtr;
+    temp->next = labelToAdd;
+    labelToAdd->next=NULL;
 }
+
 /*to identify if we already have this label in this label table*/
 int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars)
 {

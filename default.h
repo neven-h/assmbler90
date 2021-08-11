@@ -143,7 +143,7 @@ typedef struct Jfunc {
 } J_cmd;
 
 typedef struct InstructionWord {
-    WordType wordType;
+    InstructionWordType wordType;
     unsigned long address;
     union {
         R_cmd rWord;

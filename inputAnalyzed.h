@@ -6,7 +6,7 @@
 #define MMN14_INPUTANALYZED_H
 
 #include "default.h"
-
+#include "directiveAnalyzed.h"
 
 
 void strip(char*);

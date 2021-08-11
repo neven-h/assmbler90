@@ -5,10 +5,6 @@
 #include "default.h"
 
 
-
-
-
-
 void addExternalToList(externalListPtr *head, externalListPtr externalToAdd) {
     externalListPtr externalLabel = (externalListPtr) calloc(1, sizeof(externalList));
     if(!externalLabel)
