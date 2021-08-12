@@ -78,9 +78,22 @@ void addDirectiveAsciz(char *str, WordNodePtr *head, int directive, DirectiveWor
          WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
          newNode->word.wordType = Directive;
          newNode->word.directive.wordType = givenWordType;
-        newNode->word.directive.address = (DC+=1);
-        newNode->word.directive.asciz =  '\0';
+         newNode->word.directive.address = (DC+=1);
+         newNode->word.directive.asciz =  '\0';
          addWordToList(head, newNode);
 
+
+}
+/*this function adds after the first pass to each directive node in the word list the final IC value to the address*/
+void addDirectiveICF(WordNodePtr *head,int ICF)
+{
+    WordNodePtr temp = *head;
+
+        while(temp) {
+            if(temp->word.wordType == Directive) {
+                temp->word.directive.address +=ICF;
+            }
+            temp = temp->next;
+        }
 
 }

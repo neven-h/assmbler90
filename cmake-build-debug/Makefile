@@ -357,6 +357,33 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/main.c.s
 .PHONY : main.c.s
 
+printErrors.obj: printErrors.c.obj
+
+.PHONY : printErrors.obj
+
+# target to build an object file
+printErrors.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/printErrors.c.obj
+.PHONY : printErrors.c.obj
+
+printErrors.i: printErrors.c.i
+
+.PHONY : printErrors.i
+
+# target to preprocess a source file
+printErrors.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/printErrors.c.i
+.PHONY : printErrors.c.i
+
+printErrors.s: printErrors.c.s
+
+.PHONY : printErrors.s
+
+# target to generate assembly for a file
+printErrors.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RoniProject.dir\build.make CMakeFiles/RoniProject.dir/printErrors.c.s
+.PHONY : printErrors.c.s
+
 secondPass.obj: secondPass.c.obj
 
 .PHONY : secondPass.obj
@@ -417,6 +444,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... printErrors.obj
+	@echo ... printErrors.i
+	@echo ... printErrors.s
 	@echo ... secondPass.obj
 	@echo ... secondPass.i
 	@echo ... secondPass.s

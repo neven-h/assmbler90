@@ -55,10 +55,13 @@ int main(int argc, char *argv[]) {
 void resetVars(globalVariables *vars) {
     vars->IC = 100;
     vars->DC = 0;
+    vars->DCF = 0;
+    vars->ICF = 0;
     vars->errorFound = False;
     vars->currentLine = 1;
     vars->headLabelTable= NULL;
     vars->headWordList=NULL;
+
 }
 
 void freeVars(globalVariables *vars) {

@@ -16,7 +16,7 @@ void firstPass(globalVariables *vars) {
     int lineAnalyzed;
     Bool hasLabel,EntryLabel;
     WordType word;
-    Bool directiveFirstPass;
+    Bool directiveSecondPass;
     Bool instructionFirstPass;
 
     char line[LINE_LENGTH] = {0};
@@ -60,12 +60,12 @@ void firstPass(globalVariables *vars) {
         strip(lineCpyAfterLabel);
         word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {
-            directiveFirstPass = isDirectiveSecondPass(before, after, vars, hasLabel, currentLabel);
-            if (directiveFirstPass == False)
+            directiveSecondPass = isDirectiveSecondPass(before, after, vars, hasLabel, currentLabel);
+            if (directiveSecondPass == False)
                 continue; /* not an ENTRY directive - continue to the next line*/
-            if(directiveFirstPass ==True)
+            if(directiveSecondPass ==True) /*it's an Entry Directive*/
             {
-                EntryLabel=isLabelEntry(vars->headLabelTable,after,vars);
+                EntryLabel=isLabelEntry(&(vars->headLabelTable),after,vars); /*check if the given entry label exists and add to the label list the attribute to this label as -entry*/
                 if(EntryLabel==True || EntryLabel==False)
                     continue;
             }

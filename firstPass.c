@@ -38,10 +38,11 @@ void firstPass(globalVariables *vars) {
     Bool directiveFirstPass;
     Bool instructionFirstPass;
     WordType word;
+    Bool FirstPass;
 
-    int i, lineAnalyzed, label, directive;
-    int numOfBytes;
+    int i, lineAnalyzed;
     int instructionNum;
+    int ICF,DCF;
 
     while (!feof(vars->file)) {
 
@@ -95,41 +96,36 @@ void firstPass(globalVariables *vars) {
         }
 
         strip(lineCpyAfterLabel);
-        word = directiveOrInstruction(lineCpyAfterLabel, before, after,
-                                      vars); /*check if Directive or Instruction or none*/
+        word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {
             directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
-
             if (directiveFirstPass == False) {
-                /*print error*/
+                printErrors(vars);
             }
 
         } else {
             if (word == Instruction) {
                 instructionNum = instructionValidName(before); /*get the instruction number*/
-                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord,
-                                                              instructionNum);
-                if (instructionFirstPass == False || instructionFirstPass == True)
-                    continue; /*if we found an error - continue to the next line not a valid instruction line*/
+                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord, instructionNum);
+                if (instructionFirstPass == False )
+                    printErrors(vars); /* we found an error -  print and continue to the next line not a valid instruction line*/
             } else { /*not a directive and not an instruction than - None - error*/
                 vars->type = notDirectiveOrInstruction;
                 /* printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename, vars->currentLine);*/
                 vars->errorFound = True;
-                continue; /*get the next line*/
+                printErrors(vars);
             }
         }
-        /*call print error function*/
-
     }
-    /**/
-
-
-    /*we finished to read the file*/
-
-       /*call print errors functions*/
-       if(vars->errorFound == True)
+        /*we finished to read the file*/
+       if(vars->errorFound == False) /*we found errors - don't continue to second Pass */
        {
-           /*update directive list*/
+           /*we haven't found any errors */
+           vars->IC=vars->ICF;
+           vars->DC=vars->DCF;
+
+           updateLabelTableICF(&(vars->headLabelTable),vars->ICF); /*update the value of data labels with final IC*/
+           addDirectiveICF(&(vars->headWordList),vars->ICF); /*add the final IC value to the directive values in Word list*/
        }
 
 
@@ -156,7 +152,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
     if (hasLabel == True) {
         ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
         if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-            currentLabel->value = (vars->IC);
+            currentLabel->address = (vars->IC);
             currentLabel->codeOrData = Code;
             currentLabel->entryOrExtern = NoEntryExtern;
             addLabelToList(&(vars->headLabelTable), currentLabel);/*add the label to table*/
@@ -173,10 +169,9 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
     {
         free(currentLabel);
     }
-    if (instructionNum < 1 || instructionNum > 27) {
+    if (instructionNum < ADD || instructionNum > STOP) {
         vars->type = IllegalInstruction;
-        // printf("\n%s:Line %d: Instruction name is illegal \n", vars->filename,
-        //       vars->currentLine);
+        // printf("\n%s:Line %d: Instruction name is illegal \n", vars->filename,vars->currentLine);
         vars->errorFound = True;
         return False;
     }

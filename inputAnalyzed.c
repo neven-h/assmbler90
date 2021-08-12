@@ -55,8 +55,7 @@ int isLegalLabel(char *str, globalVariables *vars) {
                     if (isAlphaNum == 0)//*neither an alphabet nor a digit.*/
                     {
                         vars->type=IllegalCharInLabel;
-                       // printf("\n%s:Line %d:Illegal Label char %c neither an alphabet nor a digit\n", vars->filename,
-                       //     vars->currentLine, str[i]);
+                       // printf("\n%s:Line %d:Illegal Label char %c neither an alphabet nor a digit\n", vars->filename,vars->currentLine, str[i]);
                         vars->errorFound = True;
                         return LABEL_ERROR;
                     }
@@ -335,7 +334,7 @@ int isValidImmediate(char *str,globalVariables *vars) {
     char negative[LINE_LENGTH]={0};
 
     int i;
-    int validNum;
+    int validNum = 0;
     int minRange= pow(-2,15);
     int maxRange= (pow(2,15)-1);
     int sign = 1;
@@ -448,8 +447,7 @@ WordType directiveOrInstruction(char *lineCpy,char *before,char *after,globalVar
     }
     else{
         vars->type=notDirectiveOrInstruction;
-        // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename,
-        //       vars->currentLine);
+        // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename, vars->currentLine);
         vars->errorFound=True;
         word=None;
 

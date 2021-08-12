@@ -180,7 +180,7 @@ typedef struct WordNode {
 typedef struct labelList *labelListPtr;
 typedef struct labelList{
     char labelName[LABEL_LENGTH];
-    long value;
+    long address;
     Location codeOrData;
     LabelType entryOrExtern; // enum {entry, extern, none}
     labelListPtr next;
@@ -209,6 +209,8 @@ typedef struct globalVariables{
     errorType type;
     int IC;
     int DC;
+    int DCF;
+    int ICF;
     int currentLine;
     char filename[FILE_NAME_LENGTH];
     FILE *file;

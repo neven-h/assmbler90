@@ -68,7 +68,7 @@ Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
     strip(after);
     labelListPtr temp = *head;
     int res,flag=0;
-    while (temp != NULL )
+    while (temp != NULL)
     {
         res= strcmp(temp->labelName,after);
         if(res==0) /*we already have this label name*/
@@ -88,4 +88,16 @@ Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
     }
     return True;
 }
+/*this function updates the data labels with final IC value after the first pass*/
+void  updateLabelTableICF(labelListPtr *head,int ICF)
+{
+    labelListPtr temp = *head;
 
+    while(temp) {
+        if(temp->codeOrData==Data) {
+            temp->address+=ICF;
+        }
+        temp = temp->next;
+    }
+
+}
