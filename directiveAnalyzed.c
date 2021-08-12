@@ -28,9 +28,10 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             {
                 ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label name wasn't shown in the table already*/
                 if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-                    currentLabel->value = (vars->DC);
-                    currentLabel->codeOrData = Data;
-                    currentLabel->entryOrExtern = NoEntryExtern;
+                    updateLabel(currentLabel,vars->DC,Data,NoEntryExtern);
+                    //currentLabel->address = (vars->DC);
+                    //currentLabel->codeOrData = Data;
+                   // currentLabel->entryOrExtern = NoEntryExtern;
                     addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
                     return True;
                 } else { return False;  /*we found the label in the label table*/}
@@ -46,9 +47,10 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             if (hasLabel == True) { /*if the label flag is on - we have label*/
                 ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label is already in the table, if it is - dont add to the table*/
                 if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-                    currentLabel->value = (vars->DC);
-                    currentLabel->codeOrData = Data;
-                    currentLabel->entryOrExtern = NoEntryExtern;
+                    updateLabel(currentLabel,vars->DC,Data,NoEntryExtern);
+                    //currentLabel->address = (vars->DC);
+                    //currentLabel->codeOrData = Data;
+                    //currentLabel->entryOrExtern = NoEntryExtern;
                     addLabelToList(&(vars->headLabelTable), currentLabel);
                 } else { return False; }  /*we found the label in the label table*/
             } else {
@@ -70,9 +72,10 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
             labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
             if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) { /*label is not exists or if exists with external label and add to label table*/
-                currentLabel->value = 0;
-                currentLabel->codeOrData = Data;
-                currentLabel->entryOrExtern = Extern;
+                updateLabel(currentLabel,0,Data,Extern);
+                //currentLabel->address = 0;
+                //currentLabel->codeOrData = Data;
+                //currentLabel->entryOrExtern = Extern;
                 addLabelToList(&(vars->headLabelTable), currentLabel);
                 return True;
             } else {
@@ -184,8 +187,7 @@ Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
             }
 
         } else {/*we couldn't find a comma*/
-            if (strcmp(before, "") ==
-                0) /*if we couldn't find a comma, by split function before gets line value,if empty- missing operands*/
+            if (strcmp(before, "") == 0) /*if we couldn't find a comma, by split function before gets line value,if empty- missing operands*/
             {
                 vars->type = MissingOperand;
                 /* printf("\n%s:Line %d:Missing Operand\n", vars->filename,vars->currentLine);*/
@@ -230,11 +232,11 @@ void labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars)
     if (directiveNum==DIRECTIVE_ENTRY && hasLabel==True) /*we have a label and a directive entry - error*/
     {
         vars->type=labelBeforeEntry;
-        /* printf("\n%s:Line %d:Warning!Illegal Label before Entry\n", vars->filename,vars->currentLine);*/
+        printf("\n%s:Line %d:Warning!Illegal Label before Entry\n", vars->filename,vars->currentLine);
     }
     if(directiveNum==DIRECTIVE_EXTERN && hasLabel==True)
     {
         vars->type=labelBeforeExtern;
-         /* printf("\n%s:Line %d:Warning!Illegal Label before External\n", vars->filename,vars->currentLine);*/
+         printf("\n%s:Line %d:Warning!Illegal Label before External\n", vars->filename,vars->currentLine);
     }
 }

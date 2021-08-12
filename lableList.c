@@ -88,6 +88,19 @@ Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
     }
     return True;
 }
+
+/*update current label node with data*/
+void updateLabel(labelListPtr currentLabel,int address,Location Data,LabelType Extern)
+{
+    currentLabel->address = address;
+    currentLabel->codeOrData = Data;
+    currentLabel->entryOrExtern = Extern;
+}
+
+
+
+
+
 /*this function updates the data labels with final IC value after the first pass*/
 void  updateLabelTableICF(labelListPtr *head,int ICF)
 {

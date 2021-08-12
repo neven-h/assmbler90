@@ -8,9 +8,13 @@
 #include "default.h"
 #include "inputAnalyzed.h"
 
+
+void updateLabel(labelListPtr currentLabel,int address,Location Data,LabelType Extern);
 void addLabelToList(labelListPtr *, labelListPtr );
 int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
 Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
 Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars);
 void  updateLabelTableICF(labelListPtr *head,int ICF);
+
+
 #endif //RONIPROJECT_LABLELIST_H
