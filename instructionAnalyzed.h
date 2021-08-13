@@ -15,7 +15,7 @@ InstructionWordType commandGroup (int instructionNum);
 
 
 
-Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord,int foundValidOperands);
+Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord);
 Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,int type,globalVariables *vars, WordNodePtr currentWord);
 Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, WordNodePtr currentWord);
 

@@ -185,3 +185,21 @@ void  updateLabelTableICF(labelListPtr *head,int ICF)
     }
 
 }
+
+
+int EntryValueAfterSecondPass(labelListPtr *head, char *str)
+{
+    labelListPtr temp = *head;
+    int res;
+    while (temp != NULL)
+    {
+        res= strcmp(temp->labelName,str);
+        if(res==0 && temp->entryOrExtern==Entry) /*we already have this label name*/
+        {
+            return temp->address;
+        }
+        temp = temp->next;
+    }
+
+    return LABEL_ERROR;
+}

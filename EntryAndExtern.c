@@ -31,28 +31,37 @@ void createExternalNode(char *str, long address,externalListPtr *head)
     }
 
     strcpy(externalLabel->labelName,str);
-    externalLabel->address=address;
+    externalLabel->value=address;
     addExternalToList(head,externalLabel); /*add to external list*/
 }
 
 
 
-void addEntryToList(entryListPtr *head, entryListPtr entryToAdd) {
-    entryListPtr entryLabel = (entryListPtr) calloc(1, sizeof(entryList));
-    if(!entryLabel)
-    {
-        exit(0);
-    }
+void addEntryToList(entryListPtr *head, entryListPtr entryToAdd)
+{
     entryListPtr temp = *head;
     if (temp != NULL) {
-        *head = entryLabel;
+        *head = entryToAdd;
         return;
     }
 
     while (temp->next) { /*find the right place to locate the new node*/
         temp = temp->next;
     }
-    temp->next = entryLabel;
+    temp->next = entryToAdd;
+    entryToAdd->next=NULL;
+
 }
 
+void createEntryNode(char *str, long address,entryListPtr *head)
+{
+    entryListPtr entryLabel = (entryListPtr) calloc(1, sizeof(entryList));
+    if(!entryLabel)
+    {
+        exit(0);
+    }
 
+    strcpy(entryLabel->labelName,str);
+    entryLabel->value=address;
+    addEntryToList(head,entryLabel); /*add to external list*/
+}

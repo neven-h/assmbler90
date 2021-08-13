@@ -112,9 +112,7 @@ typedef enum {NoError,LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLab
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
               IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
               ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,DirectiveOperandNotAnInt,StringNotValid,
-              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,EntryLabelDontExists,JCommandLabelDontExists,IBranchLabelIsExternal,
-
-              Valid = 100} errorType; /*add error each time, at the end of firstPass - print*/
+              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,EntryLabelDontExists,JCommandLabelDontExists,IBranchLabelIsExternal,IBranchLabelDontExists} errorType; /*add error each time, at the end of firstPass - print*/
 
 
 typedef struct Rfunc {
@@ -187,16 +185,15 @@ typedef struct labelList{
 typedef struct externalList *externalListPtr;
 typedef struct externalList{
     char labelName[LABEL_LENGTH];
-    long address;
+    int value;
     externalListPtr next;
 }externalList;
 
 
 typedef struct entryList *entryListPtr;
-typedef struct entryListList{
+typedef struct entryList{
     char labelName[LABEL_LENGTH];
-    Location codeOrData;
-    long address;
+    int value;
     entryListPtr next;
 }entryList;
 

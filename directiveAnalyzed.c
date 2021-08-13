@@ -243,6 +243,7 @@ Bool isDirectiveSecondPass(char *before,char after ,globalVariables *vars, Bool 
     {
         return False; /*if it's not an entry continue to the next line*/
     }
+    /*an entry label */
     return True;
 
 }

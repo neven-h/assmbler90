@@ -9,4 +9,6 @@
 void addExternalToList(externalListPtr *head, externalListPtr externalToAdd);
 void createExternalNode(char *str, long address,externalListPtr *head);
 
+void addEntryToList(entryListPtr *head, entryListPtr entryToAdd);
+void createEntryNode(char *str, long address,entryListPtr *head);
 #endif //RONIPROJECT_ENTRYANDEXTERN_H

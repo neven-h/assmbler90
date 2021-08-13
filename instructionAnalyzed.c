@@ -7,20 +7,19 @@
 #include "instructionAnalyzed.h"
 
 
-
-Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum)
-{
+Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum) {
     int ValidLabelName;
     int numOfOperands;
     Bool validRCommand, validICommand;
 
     currentWord->word.wordType = Instruction;
     if (hasLabel == True) {
-        ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
+        ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
         if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-            currentLabel->address = (vars->IC);
-            currentLabel->codeOrData = Code;
-            currentLabel->entryOrExtern = NoEntryExtern;
+            updateLabel(currentLabel, vars->IC, Code, NoEntryExtern);
+            // currentLabel->address = (vars->IC);
+            // currentLabel->codeOrData = Code;
+            // currentLabel->entryOrExtern = NoEntryExtern;
             addLabelToList(&(vars->headLabelTable), currentLabel);/*add the label to table*/
         } else {
             if (ValidLabelName == LABEL_EXISTS) {
@@ -50,6 +49,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         validRCommand = R_commandAnalyzed(after, before, after, instructionNum, numOfOperands, vars, currentWord);
         if (validRCommand == True) {
             /*need to add the word node to the list*/
+            currentWord->word.instruction.address = vars->IC;
             vars->IC = (vars->IC + 4);
             return True;
         } else {
@@ -63,6 +63,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         validICommand = I_commandAnalyzed(after, before, after, instructionNum, type, vars, currentWord);
         if (validICommand == True) {
             /*need to add the word node to the list*/
+            currentWord->word.instruction.address = vars->IC;
             vars->IC = (vars->IC + 4);
 
             return True;
@@ -77,14 +78,13 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         validICommand = J_commandAnalyzed(after, instructionNum, vars, currentWord);
         if (validICommand == True) {
             /*need to add the word node to the list*/
+            currentWord->word.instruction.address = vars->IC;
             vars->IC = (vars->IC + 4);
             return True;
         } else {
             return False; /*not valid J Command*/
         }
     }
-
-
 }
 
 
@@ -109,7 +109,7 @@ Bool R_commandAnalyzed(char *str,char *before ,char *after, int instructionNum,i
 
 
 
-Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord,int foundValidOperands)
+Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord)
 {
     int validReg;
     int firstReg,secondReg,thirdReg;
@@ -506,7 +506,7 @@ Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, Word
     strip(str);
     int isReg, isLabel;
     Bool JwithReg, JwithLabel;
-    if (instructionNum == JMP) /* jmp cen recive a register or label*/
+    if (instructionNum == JMP) /* jmp cen receive a register or label*/
     {
         isReg = isValidRegister(str, vars); /*check if a register*/
         if (isReg == VALID_REGISTER) {
@@ -632,7 +632,7 @@ Bool secondPassI(char *str,globalVariables *vars,int ICcounter, InstructionWordT
     isExternal = existsLabelExternalIBranch(&(vars->headLabelTable), after, vars);
     if (isExternal == False) /*the I Branch label is external - error*/
         return False;
-    addLabelAddress(&(vars->headWordList), ICcounter, currentLabelAddress, commandType);
+    addLabelAddress(&(vars->headWordList), ICcounter, currentLabelAddress, commandType,isExternal);
     return True;
 
 }

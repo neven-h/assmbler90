@@ -10,7 +10,7 @@
 
 
 void updateLabel(labelListPtr currentLabel,int address,Location Data,LabelType Extern);
-void addLabelToList(labelListPtr *, labelListPtr );
+void addLabelToList(labelListPtr* , labelListPtr );
 int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
 Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
 Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars);
@@ -18,5 +18,6 @@ void  updateLabelTableICF(labelListPtr *head,int ICF);
 long findLabel(labelListPtr *head, char *str,globalVariables *vars,InstructionWordType commandType);
 Bool existsLabelExternalIBranch(labelListPtr *head, char *str,globalVariables *vars);
 Bool existsLabelExternalJ(labelListPtr *head, char *str,globalVariables *vars);
+int EntryValueAfterSecondPass(labelListPtr *head, char *str);
 
 #endif //RONIPROJECT_LABLELIST_H

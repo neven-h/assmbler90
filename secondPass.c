@@ -62,6 +62,14 @@ void secondPass(globalVariables *vars) {
             if(directiveSecondPass ==True) /*it's an Entry Directive*/
             {
                 EntryLabel=isLabelEntry(&(vars->headLabelTable),after,vars); /*check if the given entry label exists and add to the label list the attribute to this label as -entry*/
+                if(EntryLabel==True) /*add to entry list*/
+                {
+                    int entryValue=EntryValueAfterSecondPass(&(vars->headLabelTable),after);
+                    if(entryValue!=LABEL_ERROR)
+                    {
+                        createEntryNode(after,entryValue,&(vars->headEntryList));/*add to entry list*/
+                    }
+                }
                 if(EntryLabel==False) /*not a valid label*/
                     printErrors(vars);
             }

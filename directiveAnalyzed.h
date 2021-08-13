@@ -9,7 +9,7 @@
 #include "inputAnalyzed.h"
 
 Bool isDirectiveFirstPass(char* before,char* after,globalVariables *vars,Bool hasLabel,labelListPtr currentLabel,WordNodePtr currentWord) ;
-Bool isDirectiveSecondPass(char *before,char after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel);
+Bool isDirectiveSecondPass(char *before,char* after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel);
 
 Bool isDirectiveCommand(char command[LINE_LENGTH]);
 int isValidDirectiveName(char *str);

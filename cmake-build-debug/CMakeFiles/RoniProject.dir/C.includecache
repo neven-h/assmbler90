@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/ronia/CLionProjects/assmbler90/EntryAndExtern.h
+
 C:/Users/ronia/CLionProjects/assmbler90/WordList.h
 default.h
 C:/Users/ronia/CLionProjects/assmbler90/default.h
@@ -57,6 +59,8 @@ instructionAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
 directiveAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.h
+printErrors.h
+C:/Users/ronia/CLionProjects/assmbler90/printErrors.h
 
 C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h
 default.h
@@ -64,13 +68,79 @@ C:/Users/ronia/CLionProjects/assmbler90/default.h
 directiveAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.h
 
+C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.c
+instructionAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
+
 C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
 inputAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h
+firstPass.h
+C:/Users/ronia/CLionProjects/assmbler90/firstPass.h
+default.h
+C:/Users/ronia/CLionProjects/assmbler90/default.h
+EntryAndExtern.h
+C:/Users/ronia/CLionProjects/assmbler90/EntryAndExtern.h
+
+C:/Users/ronia/CLionProjects/assmbler90/lableList.c
+lableList.h
+C:/Users/ronia/CLionProjects/assmbler90/lableList.h
 
 C:/Users/ronia/CLionProjects/assmbler90/lableList.h
 default.h
 C:/Users/ronia/CLionProjects/assmbler90/default.h
 inputAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h
+
+C:/Users/ronia/CLionProjects/assmbler90/main.c
+main.h
+C:/Users/ronia/CLionProjects/assmbler90/main.h
+
+C:/Users/ronia/CLionProjects/assmbler90/main.h
+default.h
+C:/Users/ronia/CLionProjects/assmbler90/default.h
+firstPass.h
+C:/Users/ronia/CLionProjects/assmbler90/firstPass.h
+secondPass.h
+C:/Users/ronia/CLionProjects/assmbler90/secondPass.h
+
+C:/Users/ronia/CLionProjects/assmbler90/printErrors.c
+printErrors.h
+C:/Users/ronia/CLionProjects/assmbler90/printErrors.h
+
+C:/Users/ronia/CLionProjects/assmbler90/printErrors.h
+default.h
+C:/Users/ronia/CLionProjects/assmbler90/default.h
+lableList.h
+C:/Users/ronia/CLionProjects/assmbler90/lableList.h
+WordList.h
+C:/Users/ronia/CLionProjects/assmbler90/WordList.h
+inputAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h
+instructionAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
+directiveAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.h
+firstPass.h
+C:/Users/ronia/CLionProjects/assmbler90/firstPass.h
+
+C:/Users/ronia/CLionProjects/assmbler90/secondPass.c
+secondPass.h
+C:/Users/ronia/CLionProjects/assmbler90/secondPass.h
+
+C:/Users/ronia/CLionProjects/assmbler90/secondPass.h
+default.h
+C:/Users/ronia/CLionProjects/assmbler90/default.h
+lableList.h
+C:/Users/ronia/CLionProjects/assmbler90/lableList.h
+WordList.h
+C:/Users/ronia/CLionProjects/assmbler90/WordList.h
+inputAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h
+instructionAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
+directiveAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.h
+printErrors.h
+C:/Users/ronia/CLionProjects/assmbler90/printErrors.h
 
