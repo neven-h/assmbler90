@@ -22,7 +22,7 @@ void addExternalToList(externalListPtr *head, externalListPtr externalToAdd) {
 }
 
 
-externalListPtr createNode(char *str, long address)
+void createExternalNode(char *str, long address,externalListPtr *head)
 {
     externalListPtr externalLabel = (externalListPtr) calloc(1, sizeof(externalList));
     if(!externalLabel)
@@ -32,6 +32,7 @@ externalListPtr createNode(char *str, long address)
 
     strcpy(externalLabel->labelName,str);
     externalLabel->address=address;
+    addExternalToList(head,externalLabel); /*add to external list*/
 }
 
 

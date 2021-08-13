@@ -3,9 +3,9 @@
 //
 
 
-#include "default.h"
+
 #include "instructionAnalyzed.h"
-#include "firstPass.h"
+
 
 
 Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum)
@@ -595,7 +595,7 @@ Bool secondPassJ(char *str,globalVariables *vars,int ICcounter, InstructionWordT
         addLabelAddress(&(vars->headWordList),ICcounter,labelAddress,commandType,isExtern);
         if (isExtern==True) /*if it is a J command and the label is extern add to extern list*/
         {
-
+            createExternalNode(str,ICcounter,(&(vars->headExternList)));
         }
         return True;
     }

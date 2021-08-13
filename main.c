@@ -61,7 +61,8 @@ void resetVars(globalVariables *vars) {
     vars->currentLine = 1;
     vars->headLabelTable= NULL;
     vars->headWordList=NULL;
-
+    vars->headExternList=NULL;
+    vars->headEntryList=NULL;
 }
 
 void freeVars(globalVariables *vars) {

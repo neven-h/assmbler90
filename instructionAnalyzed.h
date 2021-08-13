@@ -6,7 +6,9 @@
 #define RONIPROJECT_INSTRUCTIONANALYZED_H
 
 #include "inputAnalyzed.h"
-
+#include "firstPass.h"
+#include "default.h"
+#include "EntryAndExtern.h"
 
 InstructionWordType commandGroup (int instructionNum);
 

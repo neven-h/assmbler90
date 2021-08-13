@@ -84,8 +84,6 @@ void secondPass(globalVariables *vars) {
             ICcounter+=4;
         }
 
-
-
     }
 }
 
