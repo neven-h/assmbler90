@@ -6,23 +6,33 @@
 
 
 void addExternalToList(externalListPtr *head, externalListPtr externalToAdd) {
-    externalListPtr externalLabel = (externalListPtr) calloc(1, sizeof(externalList));
-    if(!externalLabel)
-    {
-        exit(0);
-    }
+
     externalListPtr temp = *head;
     if (temp != NULL) {
-        *head = externalLabel;
+        *head = externalToAdd;
         return;
     }
 
     while (temp->next) { /*find the right place to locate the new node*/
         temp = temp->next;
     }
-    temp->next = externalLabel;
+    temp->next = externalToAdd;
+    externalToAdd->next=NULL;
+
 }
 
+
+externalListPtr createNode(char *str, long address)
+{
+    externalListPtr externalLabel = (externalListPtr) calloc(1, sizeof(externalList));
+    if(!externalLabel)
+    {
+        exit(0);
+    }
+
+    strcpy(externalLabel->labelName,str);
+    externalLabel->address=address;
+}
 
 
 

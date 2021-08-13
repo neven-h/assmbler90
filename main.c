@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         printf("Completed First Pass!\n");
         rewind(vars->file);
 
-       // secondPass(vars);
+       secondPass(vars);
         if(vars->errorFound == True) {
             printf("\n");
             freeVars(vars);

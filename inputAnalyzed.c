@@ -270,7 +270,7 @@ int isValidRegister(char *str,globalVariables *vars)
         vars->type=RegisterLength;
         //printf("\n%s:Line %d: register is to long\n", vars->filename, vars->currentLine);
         vars->errorFound = True;
-        return REGISTER_ERROR_LENGTH;
+        return REGISTER_ERROR;
     }
 
     if(str[0]!='$')/*register must begging with $ */
@@ -278,7 +278,7 @@ int isValidRegister(char *str,globalVariables *vars)
         vars->type=RegisterSign;
         //printf("\n%s:Line %d: Register must start with $ \n", vars->filename, vars->currentLine);
         vars->errorFound = True;
-        return REGISTER_ERROR_SIGN;
+        return REGISTER_ERROR;
     }
 
     strcpy(currentReg,str+1);/*register must be positive number */
@@ -287,7 +287,7 @@ int isValidRegister(char *str,globalVariables *vars)
         vars->type=RegisterNegative;
         //printf("\n%s:Line %d: Register couldn't be negative \n", vars->filename, vars->currentLine);
         vars->errorFound = True;
-        return REGISTER_ERROR_NEGATIVE;
+        return REGISTER_ERROR;
     }
 
     validNum= isValidRegisterNum(currentReg,vars);
@@ -307,7 +307,7 @@ int isValidRegisterNum(char *str,globalVariables *vars)
             vars->type=RegisterNotAnInt;
             //printf("\n%s:Line %d: Register must be an integer \n", vars->filename, vars->currentLine);
             vars->errorFound = True;
-            return REG_NOT_INT;
+            return REGISTER_ERROR;
         }
     }
     if(strcmp(reg,"0")!=0)
@@ -322,7 +322,7 @@ int isValidRegisterNum(char *str,globalVariables *vars)
         vars->type=RegisterNotInRange;
         //printf("\n%s:Line %d: Register must be a number between 0 to 31 \n", vars->filename, vars->currentLine);
         vars->errorFound = True;
-        return REG_NOT_IN_RANGE;
+        return REGISTER_ERROR;
     }
     return num;
 }

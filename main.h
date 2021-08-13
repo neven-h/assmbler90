@@ -3,6 +3,7 @@
 
 #include "default.h"
 #include "firstPass.h"
+#include "secondPass.h"
 
 void resetVars(globalVariables *);
 void freeVars(globalVariables *);

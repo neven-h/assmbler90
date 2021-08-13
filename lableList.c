@@ -39,7 +39,35 @@ int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd,globalVariables
     return VALID_LABEL;
 }
 
-/*This function checks is the external label we want to add is already exists with external attribute*/
+/*this function search in a given name the label in the list*/
+long findLabel(labelListPtr *head, char *str,globalVariables *vars, InstructionWordType commandType)
+{
+    labelListPtr temp = *head;
+    int res;
+    while (temp != NULL)
+    {
+        res= strcmp(temp->labelName,str);
+        if(res==0) /*we found the label*/
+        {
+            return temp->address;
+        }
+        temp = temp->next;
+    }
+    if(commandType==J_WORD)
+    {
+        vars->type = JCommandLabelDontExists;
+        vars->errorFound = True;
+    }
+    if(commandType==I_WORD)
+    {
+        vars->type = IBranchLabelDontExists;
+        vars->errorFound = True;
+    }
+    return LABEL_ERROR;
+}
+
+
+/*This function checks is the external label we want to add is already exists without external attribute*/
 Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars)
 {
     labelListPtr temp = *head;
@@ -49,7 +77,7 @@ Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables
         res= strcmp(temp->labelName,labelToAdd->labelName);
         if(res==0) /*we already have this label name*/
         {
-            if(temp->codeOrData==Data && temp->entryOrExtern==Extern) /*check if the existed label is an extern*/
+            if(temp->entryOrExtern==NoEntryExtern) /*check if the existed label is an extern*/
             {
                 vars->type = LabelExistsWithoutExternal;
                 /*printf("\n%s:Line %d: Error- Label exists in label list but without External attribute \n", vars->filename,vars->currentLine);*/
@@ -61,6 +89,49 @@ Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables
     }
     return True;
 }
+
+/*This function checks if a given label is External Label - in it's an I Branch cannot be an external*/
+Bool existsLabelExternalIBranch(labelListPtr *head, char *str,globalVariables *vars)
+{
+    labelListPtr temp = *head;
+    int res;
+    while (temp != NULL )
+    {
+        res= strcmp(temp->labelName,str);
+        if(res==0) /*we already have this label name*/
+        {
+            if(temp->entryOrExtern==Extern) /*check if the existed label is an extern*/
+            {
+                vars->type = IBranchLabelIsExternal;
+                vars->errorFound = True;
+                return False;
+            }
+        }
+        temp = temp->next;
+    }
+    return True;
+}
+
+/*this function returns True- if the J label is external ,otherwise False*/
+Bool existsLabelExternalJ(labelListPtr *head, char *str,globalVariables *vars)
+{
+    labelListPtr temp = *head;
+    int res;
+    while (temp != NULL )
+    {
+        res= strcmp(temp->labelName,str);
+        if(res==0) /*we already have this label name*/
+        {
+            if(temp->entryOrExtern==Extern) /*check if the existed label is an extern*/
+            {
+                return True;
+            }
+        }
+        temp = temp->next;
+    }
+    return False;
+}
+
 
 /*This function checks if an entry label exists in the label table and add 'Entry' to the attribute*/
 Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
@@ -90,11 +161,11 @@ Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
 }
 
 /*update current label node with data*/
-void updateLabel(labelListPtr currentLabel,int address,Location Data,LabelType Extern)
+void updateLabel(labelListPtr currentLabel,int address,Location DataOrCode,LabelType EntryOrExtern)
 {
     currentLabel->address = address;
-    currentLabel->codeOrData = Data;
-    currentLabel->entryOrExtern = Extern;
+    currentLabel->codeOrData = DataOrCode;
+    currentLabel->entryOrExtern = EntryOrExtern;
 }
 
 

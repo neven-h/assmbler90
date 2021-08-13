@@ -48,9 +48,6 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
                 ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label is already in the table, if it is - dont add to the table*/
                 if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
                     updateLabel(currentLabel,vars->DC,Data,NoEntryExtern);
-                    //currentLabel->address = (vars->DC);
-                    //currentLabel->codeOrData = Data;
-                    //currentLabel->entryOrExtern = NoEntryExtern;
                     addLabelToList(&(vars->headLabelTable), currentLabel);
                 } else { return False; }  /*we found the label in the label table*/
             } else {
@@ -72,10 +69,7 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
             labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
             if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) { /*label is not exists or if exists with external label and add to label table*/
-                updateLabel(currentLabel,0,Data,Extern);
-                //currentLabel->address = 0;
-                //currentLabel->codeOrData = Data;
-                //currentLabel->entryOrExtern = Extern;
+                updateLabel(currentLabel,0,NoCodeOrData,Extern);
                 addLabelToList(&(vars->headLabelTable), currentLabel);
                 return True;
             } else {
@@ -239,4 +233,16 @@ void labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars)
         vars->type=labelBeforeExtern;
          printf("\n%s:Line %d:Warning!Illegal Label before External\n", vars->filename,vars->currentLine);
     }
+}
+
+
+Bool isDirectiveSecondPass(char *before,char after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel) {
+    int directiveNum;
+    directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
+    if (directiveNum != DIRECTIVE_ENTRY)
+    {
+        return False; /*if it's not an entry continue to the next line*/
+    }
+    return True;
+
 }

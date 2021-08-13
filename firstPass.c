@@ -150,11 +150,12 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
 
     currentWord->word.wordType = Instruction;
     if (hasLabel == True) {
-        ValidLabelName = labelNameCompare(vars->headLabelTable, currentLabel);
+        ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel,vars);
         if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-            currentLabel->address = (vars->IC);
-            currentLabel->codeOrData = Code;
-            currentLabel->entryOrExtern = NoEntryExtern;
+            updateLabel(currentLabel,vars->IC,Code,NoEntryExtern);
+           // currentLabel->address = (vars->IC);
+           // currentLabel->codeOrData = Code;
+           // currentLabel->entryOrExtern = NoEntryExtern;
             addLabelToList(&(vars->headLabelTable), currentLabel);/*add the label to table*/
         } else {
             if (ValidLabelName == LABEL_EXISTS) {
@@ -184,6 +185,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         validRCommand = R_commandAnalyzed(after, before, after, instructionNum, numOfOperands, vars, currentWord);
         if (validRCommand == True) {
             /*need to add the word node to the list*/
+            currentWord->word.instruction.address=vars->IC;
             vars->IC = (vars->IC + 4);
             return True;
         } else {
@@ -197,6 +199,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         validICommand = I_commandAnalyzed(after, before, after, instructionNum, type, vars, currentWord);
         if (validICommand == True) {
             /*need to add the word node to the list*/
+            currentWord->word.instruction.address=vars->IC;
             vars->IC = (vars->IC + 4);
 
             return True;
@@ -211,6 +214,7 @@ Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bo
         validICommand = J_commandAnalyzed(after, instructionNum, vars, currentWord);
         if (validICommand == True) {
             /*need to add the word node to the list*/
+            currentWord->word.instruction.address=vars->IC;
             vars->IC = (vars->IC + 4);
             return True;
         } else {

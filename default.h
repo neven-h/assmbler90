@@ -32,11 +32,8 @@
 #define VALID_SPLIT 1
 #define INVALID_SPLIT -1
 
-#define REGISTER_ERROR_SIGN -1
-#define REGISTER_ERROR_LENGTH -2
-#define REGISTER_ERROR_NEGATIVE -3
-#define REG_NOT_INT -1
-#define REG_NOT_IN_RANGE -4
+#define REGISTER_ERROR -1
+
 
 #define VALID_REGISTER 1
 #define IMMEDIATE_NOT_INT -1
@@ -109,13 +106,13 @@ typedef enum {Instruction, Directive,None} WordType;
 typedef enum {R_WORD, I_WORD, J_WORD} InstructionWordType;
 typedef enum {D_BYTE, D_HALF, D_WORD, ASCIZ} DirectiveWordType;
 typedef enum {False = 0, True = 1} Bool;
-typedef enum {Code, Data } Location;
+typedef enum {Code, Data,NoCodeOrData } Location;
 typedef enum {Entry, Extern, NoEntryExtern} LabelType;
 typedef enum {NoError,LineTooLong,IllegalCharInLabel,TooLongLabel,firstCharInLabelNotAlphabet,
               CommaBeforeFirstParam,CommaBetweenParams,ParamNotInBitRange,labelBeforeEntry,labelBeforeExtern,notDirectiveOrInstruction,labelExistsInTable,
               IllegalInstruction,IllegalOperandNoComma,RegisterLength,RegisterSign,RegisterNegative,RegisterNotAnInt,RegisterNotInRange,ExtraneousComma,ExtraneousText,
               ExtraneousOperand,MissingOperand,ImmediateNotAnInt,ImmediateNotValid,ImmediateNotInRange,InvalidOperand,ExtraneousImmediate,DirectiveOperandNotAnInt,StringNotValid,
-              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,EntryLabelDontExists,
+              LabelExistsWithoutExternal,LabelExistsInTable,InvalidTextAfterStop,EntryLabelDontExists,JCommandLabelDontExists,IBranchLabelIsExternal,
 
               Valid = 100} errorType; /*add error each time, at the end of firstPass - print*/
 
@@ -190,7 +187,6 @@ typedef struct labelList{
 typedef struct externalList *externalListPtr;
 typedef struct externalList{
     char labelName[LABEL_LENGTH];
-    Location codeOrData;
     long address;
     externalListPtr next;
 }externalList;

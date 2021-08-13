@@ -129,6 +129,15 @@ void printErrors(globalVariables *vars)
     {
         printf("\n%s:Line %d: Error- Entry Label don't exists in Label Table \n", vars->filename,vars->currentLine);
     }
+    if(vars->type==JCommandLabelDontExists)
+    {
+        printf("\n%s:Line %d: Error- Couldn't find the requested operand label in label list \n", vars->filename,vars->currentLine);
+    }
+    if(vars->type==IBranchLabelIsExternal)
+    {
+        printf("\n%s:Line %d: Error- I -Branch label can't be an External label \n", vars->filename,vars->currentLine);
+    }
+
 
 
 }

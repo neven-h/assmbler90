@@ -26,6 +26,7 @@ Bool labelJCommand(char *str,globalVariables *vars, WordNodePtr currentWord);
 
 int opcodeJ(int instructionNum);
 
-
+Bool secondPassJ(char *str,globalVariables *vars,int ICcounter, InstructionWordType commandType);
+Bool secondPassI(char *str,globalVariables *vars,int ICcounter, InstructionWordType commandType);
 
 #endif //RONIPROJECT_INSTRUCTIONANALYZED_H

@@ -13,8 +13,11 @@
 #include "inputAnalyzed.h"
 #include "instructionAnalyzed.h"
 #include "directiveAnalyzed.h"
+#include "printErrors.h"
 
-Bool isDirectiveSecondPass(char *before,char after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel);
+
+
+void secondPass(globalVariables *vars);
 
 
 #endif //RONIPROJECT_SECONDPASS_H

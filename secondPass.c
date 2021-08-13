@@ -3,21 +3,17 @@
 //
 
 #include "secondPass.h"
-#include "default.h"
-#include "lableList.h"
-#include "WordList.h"
-#include "inputAnalyzed.h"
-#include "instructionAnalyzed.h"
-#include "directiveAnalyzed.h"
 
 
-void firstPass(globalVariables *vars) {
+void secondPass(globalVariables *vars) {
 
-    int lineAnalyzed;
+    int lineAnalyzed,instructionNum;
     Bool hasLabel,EntryLabel;
     WordType word;
     Bool directiveSecondPass;
-    Bool instructionFirstPass;
+    Bool instructionSecondPass;
+    int ICcounter=100;
+
 
     char line[LINE_LENGTH] = {0};
     char before[LINE_LENGTH] = {0};
@@ -66,26 +62,32 @@ void firstPass(globalVariables *vars) {
             if(directiveSecondPass ==True) /*it's an Entry Directive*/
             {
                 EntryLabel=isLabelEntry(&(vars->headLabelTable),after,vars); /*check if the given entry label exists and add to the label list the attribute to this label as -entry*/
-                if(EntryLabel==True || EntryLabel==False)
-                    continue;
+                if(EntryLabel==False) /*not a valid label*/
+                    printErrors(vars);
             }
         }
-        if(word == Instruction)
-        {
-
+        else{ /*if it is not a directive it must be an instruction*/
+            instructionNum = instructionValidName(before); /*get the instruction number*/
+            InstructionWordType commandType = commandGroup(instructionNum);
+            if((instructionNum>=BNE && instructionNum<=BGT)) /*an I - Branch instruction - calculate the sub between*/
+            {
+                instructionSecondPass=secondPassI(after,vars,ICcounter,commandType);
+            }
+            else {
+                if ((instructionNum >= JMP && instructionNum <= CALL)) /*an J - Branch instruction*/
+                {
+                    instructionSecondPass = secondPassJ(after, vars, ICcounter, commandType);
+                }
+            }
+            if(instructionSecondPass==False)
+                printErrors(vars);
+            ICcounter+=4;
         }
 
+
+
     }
 }
 
-Bool isDirectiveSecondPass(char *before,char after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel) {
-    int directiveNum;
-    directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
-    if (directiveNum != DIRECTIVE_ENTRY)
-    {
-            return False; /*if it's not an entry continue to the next line*/
-    }
-    return True;
 
-}
 
