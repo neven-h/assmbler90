@@ -38,6 +38,7 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             }
             /*not a label only directive */
             addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
+            free(currentWord);
             return True;
         }
         if (directiveNum == DIRECTIVE_ASCIZ) {
@@ -52,7 +53,8 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
                 } else { return False; }  /*we found the label in the label table*/
             } else {
                 /*no label just a directive - add to word table*/
-                addDirectiveAsciz(after, &(vars->headWordList), directiveNum, directiveType, vars->DC);
+                addDirectiveAsciz(after, &(vars->headWordList),directiveType, vars->DC);
+                free(currentWord);
             }
         }
     }
@@ -236,7 +238,7 @@ void labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars)
 }
 
 
-Bool isDirectiveSecondPass(char *before,char after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel) {
+Bool isDirectiveSecondPass(char *before,char *after ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel) {
     int directiveNum;
     directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
     if (directiveNum != DIRECTIVE_ENTRY)
