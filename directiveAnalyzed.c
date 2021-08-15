@@ -29,7 +29,6 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
             }
             /*not a label only directive */
             addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
-            free(currentWord);
             return True;
         }
         if (directiveNum == DIRECTIVE_ASCIZ) {
@@ -43,7 +42,6 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
             } else {
                 /*no label just a directive - add to word table*/
                 addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars->DC);
-                free(currentWord);
                 return True;
             }
         }
