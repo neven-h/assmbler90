@@ -34,6 +34,7 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
         if (directiveNum == DIRECTIVE_ASCIZ) {
             validAsciz = ascizAnalysis(after, vars);
             if (validAsciz == False) return False;
+            ascizSring(after);
             /*a valid param to asciz directive a valid string starts and ends with " */
             if (hasLabel == True) { /*if the label flag is on - we have label*/
                 labelBeforeDirective = labelBeforeDirectiveCommand(label, vars, currentLabel);
@@ -178,7 +179,6 @@ Bool ascizAnalysis(char *str,globalVariables *vars)
     int valid=isValidString(str);
     if(valid==VALID_STRING)
     {
-        ascizSring(str);
         return True;
     }
     else{
