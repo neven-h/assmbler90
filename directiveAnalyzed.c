@@ -24,8 +24,8 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
                 /*we have a label and a data - add to symbol table the value is the DC before insert the numbers to the list*/
             {
                 labelBeforeDirective = labelBeforeDirectiveCommand(label, vars, currentLabel);
-                if (labelBeforeDirective == True) return True;
-                else return False;
+                if (labelBeforeDirective == False) return False; /*if False - return false and get the next row, else continue*/
+
             }
             /*not a label only directive */
             addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
@@ -37,14 +37,12 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
             /*a valid param to asciz directive a valid string starts and ends with " */
             if (hasLabel == True) { /*if the label flag is on - we have label*/
                 labelBeforeDirective = labelBeforeDirectiveCommand(label, vars, currentLabel);
-                if (labelBeforeDirective == True) return True;
-                else return False;
-            } else {
+                if (labelBeforeDirective == False) return False; /*if False - return false and get the next row, else continue*/
+            }
                 /*no label just a directive - add to word table*/
                 addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars->DC);
                 return True;
             }
-        }
         /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
         labelAndEntryOrExtern(hasLabel, directiveNum,vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
         if (directiveNum == DIRECTIVE_EXTERN) {
