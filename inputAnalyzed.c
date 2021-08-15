@@ -414,12 +414,12 @@ Bool foundLabel(char *lineCpy,char *before,char *after,globalVariables *vars,lab
  * */
 }
 
-WordType directiveOrInstruction(char *lineCpy,char *before,char *after,globalVariables *vars)
+WordType directiveOrInstruction(char *str,char *before,char *after,globalVariables *vars)
 {
     WordType word;
     int lineAnalyzed,directiveName,instructionNum;
     Bool isDirective;
-    lineAnalyzed = split(after, " \t", before, after);
+    lineAnalyzed = split(str, " \t", before, after);
     if (lineAnalyzed == VALID_SPLIT) { /*we found a tab*/
         strip(before);
         strip(after);
