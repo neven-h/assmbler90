@@ -20,13 +20,13 @@ void addLabelToList(labelListPtr *head, labelListPtr labelToAdd) {
 }
 
 /*to identify if we already have this label in this label table*/
-int labelNameCompare(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars)
+int labelNameCompare(labelListPtr *head,char *labelName,globalVariables *vars)
 {
     labelListPtr temp = *head;
     int res;
     while (temp != NULL)
     {
-        res= strcmp(temp->labelName,labelToAdd->labelName);
+        res= strcmp(temp->labelName,labelName);
         if(res==0) /*we already have this label name*/
         {
             vars->type = LabelExistsInTable;

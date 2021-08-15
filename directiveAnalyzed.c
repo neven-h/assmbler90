@@ -3,38 +3,29 @@
 //
 
 #include "directiveAnalyzed.h"
-#include "default.h"
 #include "instructionAnalyzed.h"
-#include "lableList.h"
-#include "WordList.h"
 
-Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord) {
-    /* long numOfBytes;*/
-    int directiveNum , ValidLabelName , externLabel;
+Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord) {
+
+    int directiveNum , ValidLabelName ;
     Bool validDirectiveParam;
-    Bool validAsciz,labelWithExtern;
+    Bool validAsciz,labelBeforeDirective;
     directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
 
-    if (directiveNum != DIRECTIVE_ERROR && directiveNum != DIRECTIVE_EXTERN && directiveNum != DIRECTIVE_ENTRY) {
-        DirectiveWordType directiveType = getDirectiveType(directiveNum);
+    /* first pass step 6 */
+    if (directiveNum != DIRECTIVE_ERROR ) {
+        DirectiveWordType directiveType = getDirectiveType(directiveNum); /*find the directive word type*/
 
-        if (directiveNum == DIRECTIVE_BYTE || directiveNum == DIRECTIVE_HALF_WORD ||  directiveNum == DIRECTIVE_WORD) { /*dw,db,dh*/
+        if (directiveNum == DIRECTIVE_BYTE || directiveNum == DIRECTIVE_HALF_WORD || directiveNum == DIRECTIVE_WORD) { /*dw,db,dh*/
             int validInput[LINE_LENGTH] = {0};
-            validDirectiveParam = dataAnalysis(after, before, after, vars, validInput, directiveNum);
+            validDirectiveParam = dataAnalysis(after, before, after, vars, validInput,directiveNum);/*analyzed the operands of directive row*/
             if (validDirectiveParam == False) return False;
-            /* numOfBytes = ((sizeof(validInput) / sizeof(int)) * directiveNum); */
             if (hasLabel == True)
                 /*we have a label and a data - add to symbol table the value is the DC before insert the numbers to the list*/
             {
-                ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label name wasn't shown in the table already*/
-                if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-                    updateLabel(currentLabel,vars->DC,Data,NoEntryExtern);
-                    //currentLabel->address = (vars->DC);
-                    //currentLabel->codeOrData = Data;
-                   // currentLabel->entryOrExtern = NoEntryExtern;
-                    addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
-                    return True;
-                } else { return False;  /*we found the label in the label table*/}
+                labelBeforeDirective = labelBeforeDirectiveCommand(label, vars, currentLabel);
+                if (labelBeforeDirective == True) return True;
+                else return False;
             }
             /*not a label only directive */
             addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
@@ -46,47 +37,27 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
             if (validAsciz == False) return False;
             /*a valid param to asciz directive a valid string starts and ends with " */
             if (hasLabel == True) { /*if the label flag is on - we have label*/
-                ValidLabelName = labelNameCompare(&(vars->headLabelTable),currentLabel,vars); /*check if the label is already in the table, if it is - dont add to the table*/
-                if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-                    updateLabel(currentLabel,vars->DC,Data,NoEntryExtern);
-                    addLabelToList(&(vars->headLabelTable), currentLabel);
-                } else { return False; }  /*we found the label in the label table*/
+                labelBeforeDirective = labelBeforeDirectiveCommand(label, vars, currentLabel);
+                if (labelBeforeDirective == True) return True;
+                else return False;
             } else {
                 /*no label just a directive - add to word table*/
-                addDirectiveAsciz(after, &(vars->headWordList),directiveType, vars->DC);
+                addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars->DC);
                 free(currentWord);
+                return True;
             }
         }
-    }
         /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
-    else {
         labelAndEntryOrExtern(hasLabel, directiveNum,vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
-        if (directiveNum == DIRECTIVE_EXTERN) {  /*in the first pass if it's an external - enter tha label if it's correct one with dc of 0 and external type*/
-            strip(after);
-            externLabel = isLegalLabel(after, vars); /*check if its a valid label*/
-            if (externLabel == LABEL_ERROR) { /*not a valid label - return an error*/
-                return False;
-            }
-            /*else- a valid label check if already exists without external type or with */
-            ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
-            labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
-            if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) { /*label is not exists or if exists with external label and add to label table*/
-                updateLabel(currentLabel,0,NoCodeOrData,Extern);
-                addLabelToList(&(vars->headLabelTable), currentLabel);
-                return True;
-            } else {
-                return False;
-            }
-        } else {
-            if (directiveNum == DIRECTIVE_ENTRY) {
-                /*in the first pass if we see an entry label - don't do nothing just continue to the next row*/
-                return True;
-            } else { /*it's none of the directives return error*/
-                return False;
-            }
+        if (directiveNum == DIRECTIVE_EXTERN) {
+            Bool externFirstPass = externDirectiveFirstPass(after, vars, currentLabel);
+            if (externFirstPass == False)return False;
+            else { return True; }
         }
+        /*directiveNum == DIRECTIVE_ENTRY -in the first pass if we see an entry label - don't do nothing just continue to the next row**/
+        return True;
     }
-    return True;
+    return False; /*it's not a valid directive*/
 }
 
 
@@ -233,7 +204,7 @@ void labelAndEntryOrExtern(Bool hasLabel,int directiveNum,globalVariables *vars)
     if(directiveNum==DIRECTIVE_EXTERN && hasLabel==True)
     {
         vars->type=labelBeforeExtern;
-         printf("\n%s:Line %d:Warning!Illegal Label before External\n", vars->filename,vars->currentLine);
+        printf("\n%s:Line %d:Warning!Illegal Label before External\n", vars->filename,vars->currentLine);
     }
 }
 
@@ -248,4 +219,40 @@ Bool isDirectiveSecondPass(char *before,char *after ,globalVariables *vars, Bool
     /*an entry label */
     return True;
 
+}
+/*This function handles cases where there is a label before db,dw,dh,asciiz directives. check if the label is already in the label list and if not update the label list*/
+Bool labelBeforeDirectiveCommand(char *labelName, globalVariables *vars, labelListPtr currentLabel)
+{
+    int ValidLabelName;
+    ValidLabelName = labelNameCompare(&(vars->headLabelTable),labelName,vars); /*check if the label name wasn't shown in the table already*/
+    if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
+        updateLabel(currentLabel,vars->DC,Data,NoEntryExtern); /*update the current label node*/
+        addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
+        return True;
+    }
+
+    else{ return False;  /*we found the label in the label table*/}
+}
+
+Bool externDirectiveFirstPass(char *after, globalVariables *vars,labelListPtr currentLabel)
+{
+   int ValidLabelName;
+   Bool labelWithExtern,externLabel;
+
+    strip(after);
+    externLabel = isLegalLabel(after, vars); /*check if  the operand label is valid label by syntax*/
+    if (externLabel == LABEL_ERROR) { /*not a valid label - return an error*/
+        return False;
+    }
+    /*else- a valid label check if already exists without external type or with */
+    ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
+    labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
+    if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) {
+        /*label is not exists or if exists with external label and add to label table*/
+        updateLabel(currentLabel,0,NoCodeOrData,Extern);
+        addLabelToList(&(vars->headLabelTable), currentLabel);
+        return True;
+    } else {
+        return False;
+    }
 }

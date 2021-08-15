@@ -29,6 +29,7 @@ void firstPass(globalVariables *vars) {
     char before[LINE_LENGTH] = {0};
     char after[LINE_LENGTH] = {0};
     char lineCpyAfterLabel[LINE_LENGTH] = {0};
+    char label[LABEL_LENGTH] = {0};
 
     char fileName[FILE_NAME_LENGTH + AS_EXTENSION_LENGTH];
     strcpy(vars->filename, fileName);
@@ -38,7 +39,7 @@ void firstPass(globalVariables *vars) {
     Bool directiveFirstPass;
     Bool instructionFirstPass;
     WordType word;
-    Bool FirstPass;
+
 
     int i, lineAnalyzed;
     int instructionNum;
@@ -52,6 +53,7 @@ void firstPass(globalVariables *vars) {
         memset(before, 0, LINE_LENGTH);
         memset(after, 0, LINE_LENGTH);
         memset(lineCpyAfterLabel, 0, LINE_LENGTH);
+        memset(label, 0, LABEL_LENGTH);
 
         fgets(line, LINE_LENGTH, stdin);
 
@@ -90,6 +92,13 @@ void firstPass(globalVariables *vars) {
         hasLabel = foundLabel(lineCpy, before, after, vars, currentLabel);
 
         if (hasLabel == True) { /*we found a label*/
+            strcpy(label, before);
+            int validLabel= isLegalLabel(label,vars);
+            if(validLabel==LABEL_ERROR)  /*if it's no a legal label - print the error and continue*/
+            {
+                printErrors(vars);
+                continue;
+            }
             strcpy(lineCpyAfterLabel, after);
         } else { /*we couldn't fina d label, by split fun before=linecpy*/
             strcpy(lineCpyAfterLabel, lineCpy);
@@ -98,7 +107,7 @@ void firstPass(globalVariables *vars) {
         strip(lineCpyAfterLabel);
         word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {
-            directiveFirstPass = isDirectiveFirstPass(before, after, vars, hasLabel, currentLabel, currentWord);
+            directiveFirstPass = isDirectiveFirstPass(before, after,label ,vars, hasLabel, currentLabel, currentWord);
             if (directiveFirstPass == False) {
                 printErrors(vars);
             }
