@@ -1,8 +1,7 @@
 //
 // Created by ronia on 05/08/2021.
 //
-
-
+#include <limits.h>
 
 #include "instructionAnalyzed.h"
 
