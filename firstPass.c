@@ -102,6 +102,7 @@ void firstPass(globalVariables *vars) {
             strcpy(lineCpyAfterLabel, after);
         } else { /*we couldn't fina d label, by split fun before=linecpy*/
             strcpy(lineCpyAfterLabel, lineCpy);
+            free(currentLabel); /*we couldn't find a label*/
         }
 
         strip(lineCpyAfterLabel);
@@ -115,7 +116,7 @@ void firstPass(globalVariables *vars) {
         } else {
             if (word == Instruction) {
                 instructionNum = instructionValidName(before); /*get the instruction number*/
-                instructionFirstPass = isInstructionFirstPass(before, after, vars, hasLabel, currentLabel, currentWord, instructionNum);
+                instructionFirstPass = isInstructionFirstPass(before, after,label, vars, hasLabel, currentLabel, currentWord, instructionNum);
                 if (instructionFirstPass == False )
                     printErrors(vars); /* we found an error -  print and continue to the next line not a valid instruction line*/
             } else { /*not a directive and not an instruction than - None - error*/
