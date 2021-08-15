@@ -232,7 +232,7 @@ Bool labelBeforeDirectiveCommand(char *labelName, globalVariables *vars, labelLi
     else{ return False;  /*we found the label in the label table*/}
 }
 
-Bool externDirectiveFirstPass(char *after, globalVariables *vars,labelListPtr currentLabel)
+Bool externDirectiveFirstPass(char *after ,globalVariables *vars,labelListPtr currentLabel)
 {
    int ValidLabelName;
    Bool labelWithExtern,externLabel;
@@ -243,7 +243,7 @@ Bool externDirectiveFirstPass(char *after, globalVariables *vars,labelListPtr cu
         return False;
     }
     /*else- a valid label check if already exists without external type or with */
-    ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
+    ValidLabelName = labelNameCompare(&(vars->headLabelTable), after, vars);
     labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
     if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) {
         /*label is not exists or if exists with external label and add to label table*/
