@@ -126,19 +126,17 @@ void firstPass(globalVariables *vars) {
             }
         }
     }
-        /*we finished to read the file*/
-       if(vars->errorFound == False) /*we found errors - don't continue to second Pass */
-       {
-           /*we haven't found any errors */
-           vars->IC=vars->ICF;
-           vars->DC=vars->DCF;
+    /*we finished to read the file*/
+    if(vars->errorFound == False) /*we found errors - don't continue to second Pass */
+    {
+        /*we haven't found any errors */
+        vars->IC=vars->ICF;
+        vars->DC=vars->DCF;
 
-           updateLabelTableICF(&(vars->headLabelTable),vars->ICF); /*update the value of data labels with final IC*/
-           addDirectiveICF(&(vars->headWordList),vars->ICF); /*add the final IC value to the directive values in Word list*/
-       }
-
-
+        updateLabelTableICF(&(vars->headLabelTable),vars->ICF); /*update the value of data labels with final IC*/
+        addDirectiveICF(&(vars->headWordList),vars->ICF); /*add the final IC value to the directive values in Word list*/
     }
+}
 
 
 
