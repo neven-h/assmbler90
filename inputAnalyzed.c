@@ -81,7 +81,7 @@ int isLegalLabel(char *str, globalVariables *vars) {
 }
 
 
-int isCommentLine(char *str) {
+int isEmptyOrCommandLine(char *str) {
     if (str[0] == ';'||isspace(str[0])!=0 )
         return 1;
     else return -1;
@@ -151,18 +151,29 @@ int isValidString(char *str)
 {
     int first=str[0];
     int last=str[strlen(str)-1];
-    int i,isGraph;
+    int i,isPrint;
+    char newStr[LINE_LENGTH]={0};
     if(first!='"'||last!='"' ) return STRING_ERROR; /*a valid string start&end with ""*/
 
     for(i=0;i< strlen(str);i++)
     {
-        isGraph=(int)(str[i]);
-        if(isGraph==0) return STRING_ERROR; /*a valid string all the chars are graphic characters*/
+        isPrint=(isprint(str[i]));
+        if(isPrint==0) return STRING_ERROR; /*a valid string all the chars are graphic characters*/
 
     }
     return VALID_STRING;
 }
 
+void ascizSring(char *str)
+{
+    int first=str[0];
+    int last=str[strlen(str)-1];
+    char newStr[LINE_LENGTH]={0};
+    strncpy(newStr, str + first, last - first + 1);
+    memset(str, 0, LINE_LENGTH);
+    strcpy(str, newStr);
+
+}
 
 Bool isInstructionCommand(char command[LINE_LENGTH]) {
     return command[0] == '.' ? True : False;

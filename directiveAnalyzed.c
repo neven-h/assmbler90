@@ -174,9 +174,11 @@ Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
 
 Bool ascizAnalysis(char *str,globalVariables *vars)
 {
+
     int valid=isValidString(str);
     if(valid==VALID_STRING)
     {
+        ascizSring(str);
         return True;
     }
     else{
