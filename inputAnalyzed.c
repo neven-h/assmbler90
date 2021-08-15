@@ -410,8 +410,7 @@ Bool foundLabel(char *lineCpy,char *before,char *after,globalVariables *vars,lab
         }
         else return False; /*we found a label but it's not valid*/
     }
-    else return False; /*we couldn't find ":'
- * */
+    else return False; /*we couldn't find ":"*/
 }
 
 WordType directiveOrInstruction(char *str,char *before,char *after,globalVariables *vars)
