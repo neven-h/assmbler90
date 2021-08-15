@@ -13,7 +13,8 @@
 InstructionWordType commandGroup (int instructionNum);
 
 
-
+Bool isInstructionFirstPass(char *before, char *after,char *labelName, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel, WordNodePtr currentWord, int instructionNum);
+Bool labelBeforeInstructionCommand(char *labelName, globalVariables *vars, labelListPtr currentLabel);
 
 Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,int numOfOperands,globalVariables *vars, WordNodePtr currentWord);
 Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,int type,globalVariables *vars, WordNodePtr currentWord);

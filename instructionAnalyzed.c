@@ -7,33 +7,17 @@
 #include "instructionAnalyzed.h"
 
 
-Bool isInstructionFirstPass(char *before, char *after, globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum) {
-    int ValidLabelName;
+Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum) {
+
     int numOfOperands;
-    Bool validRCommand, validICommand;
+    Bool validRCommand, validICommand,labelBeforeInstruction;
 
     currentWord->word.wordType = Instruction;
     if (hasLabel == True) {
-        ValidLabelName = labelNameCompare(&(vars->headLabelTable), currentLabel, vars);
-        if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
-            updateLabel(currentLabel, vars->IC, Code, NoEntryExtern);
-            // currentLabel->address = (vars->IC);
-            // currentLabel->codeOrData = Code;
-            // currentLabel->entryOrExtern = NoEntryExtern;
-            addLabelToList(&(vars->headLabelTable), currentLabel);/*add the label to table*/
-        } else {
-            if (ValidLabelName == LABEL_EXISTS) {
-                vars->type = labelExistsInTable;
-                /* printf("\n%s:Line %d: Label already exists in table\n", vars->filename, vars->currentLine);*/
-                vars->errorFound = True;
-                return False;
-            }
-        }
+        labelBeforeInstruction=labelBeforeInstructionCommand(label,vars,currentLabel);
+        if(labelBeforeInstruction==False) return False; /*and get the next row, else continue */
     }
-    if (hasLabel == False) /*we couldn't fond a label*/
-    {
-        free(currentLabel);
-    }
+
     if (instructionNum < ADD || instructionNum > STOP) {
         vars->type = IllegalInstruction;
         // printf("\n%s:Line %d: Instruction name is illegal \n", vars->filename,vars->currentLine);
@@ -635,4 +619,20 @@ Bool secondPassI(char *str,globalVariables *vars,int ICcounter, InstructionWordT
     addLabelAddress(&(vars->headWordList), ICcounter, currentLabelAddress, commandType,isExternal);
     return True;
 
+}
+
+
+
+/*This function handles cases where there is a label before instruction command. check if the label is already in the label list and if not update the label list*/
+Bool labelBeforeInstructionCommand(char *labelName, globalVariables *vars, labelListPtr currentLabel)
+{
+    int ValidLabelName;
+    ValidLabelName = labelNameCompare(&(vars->headLabelTable),labelName,vars); /*check if the label name wasn't shown in the table already*/
+    if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
+        updateLabel(currentLabel,vars->IC,Code,NoEntryExtern); /*update the current label node*/
+        addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
+        return True;
+    }
+
+    else{ return False;  /*we found the label in the label table*/}
 }
