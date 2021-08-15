@@ -164,16 +164,16 @@ int isValidString(char *str)
     return VALID_STRING;
 }
 
-void ascizSring(char *str)
-{
-    int first=str[0];
-    int last=str[strlen(str)-1];
-    char newStr[LINE_LENGTH]={0};
-    strncpy(newStr, str + first, last - first + 1);
-    memset(str, 0, LINE_LENGTH);
-    strcpy(str, newStr);
+//void ascizSring(char *str)
+//{
+//    int first=str[0];
+ //   int last=str[strlen(str)-1];
+ //   char newStr[LINE_LENGTH]={0};
+//    strncpy(newStr, str + first, last - first + 1);
+//    memset(str, 0, LINE_LENGTH);
+//    strcpy(str, newStr);
 
-}
+//}
 
 Bool isInstructionCommand(char command[LINE_LENGTH]) {
     return command[0] == '.' ? True : False;
