@@ -2,6 +2,7 @@
 // Created by ronia on 06/08/2021.
 //
 
+#include <limits.h>
 #include "directiveAnalyzed.h"
 #include "instructionAnalyzed.h"
 
@@ -84,7 +85,7 @@ DirectiveWordType getDirectiveType(int directiveNum)
     if(directiveNum==2) return D_HALF;
     if(directiveNum==4) return D_WORD;
     if(directiveNum==3) return ASCIZ;
-
+    __builtin_abort();
 }
 
 Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive) {
