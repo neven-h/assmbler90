@@ -102,7 +102,6 @@ void firstPass(globalVariables *vars) {
             strcpy(lineCpyAfterLabel, after);
         } else { /*we couldn't fina d label, by split fun before=linecpy*/
             strcpy(lineCpyAfterLabel, lineCpy);
-            free(currentLabel); /*we couldn't find a label*/
         }
 
         strip(lineCpyAfterLabel);
