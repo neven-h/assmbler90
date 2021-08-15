@@ -82,7 +82,7 @@ int isLegalLabel(char *str, globalVariables *vars) {
 
 
 int isCommentLine(char *str) {
-    if (str[0] == ';'||str[0] == '\0' )
+    if (str[0] == ';'||isspace(str[0])!=0 )
         return 1;
     else return -1;
 }
@@ -419,7 +419,7 @@ WordType directiveOrInstruction(char *lineCpy,char *before,char *after,globalVar
     WordType word;
     int lineAnalyzed,directiveName,instructionNum;
     Bool isDirective;
-    lineAnalyzed = split(after, "\t\n", before, after);
+    lineAnalyzed = split(after, " \t", before, after);
     if (lineAnalyzed == VALID_SPLIT) { /*we found a tab*/
         strip(before);
         strip(after);
