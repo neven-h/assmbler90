@@ -68,6 +68,7 @@ Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariable
             return False; /*not valid J Command*/
         }
     }
+    __builtin_unreachable();
 }
 
 
@@ -259,6 +260,7 @@ Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,i
         }
     }
 
+    __builtin_unreachable();
 }
 
 
@@ -452,6 +454,7 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
              }
         }
     }
+    __builtin_unreachable();
 }
 
 
@@ -481,6 +484,7 @@ int opcodeJ(int instructionNum)
         return OP_CALL;
     if(instructionNum==STOP)
         return OP_STOP;
+    __builtin_unreachable();
 }
 
 
@@ -534,6 +538,7 @@ Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, Word
         }
     }
 
+    __builtin_unreachable();
 }
 
 Bool regJCommand(char *str,globalVariables *vars, WordNodePtr currentWord)
