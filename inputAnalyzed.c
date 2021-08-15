@@ -231,6 +231,7 @@ int Rfunct(int instructionNum)
         return MVHI_FUNCT;/*command mvhi funct 2*/
     if(instructionNum==MVLO)
         return MVLO_FUNCT; /*command mvlo funct 3*/
+    __builtin_unreachable();
 }
 /*by given instruction number returns the instruction word type*/
 InstructionWordType commandGroup (int instructionNum)
@@ -241,6 +242,7 @@ InstructionWordType commandGroup (int instructionNum)
         return I_WORD;
     if(instructionNum>=24 &&instructionNum<=27 )
         return J_WORD;
+    __builtin_unreachable();
 }
 
 /*by given instruction number and command type returns the num of expected operands*/
@@ -306,6 +308,7 @@ int isValidRegister(char *str,globalVariables *vars)
 
     validNum= isValidRegisterNum(currentReg,vars);
     if(validNum>=0)return validNum;
+    __builtin_unreachable();
 }
 
 /*a valid register num is an integer between 0-31*/
