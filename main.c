@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
         }
 
         printf("Completed Second Pass!\n");
-        createOutput(vars);
+       // createOutput(vars);
         freeVars(vars);
         printf("\n");
     }

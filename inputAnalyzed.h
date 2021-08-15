@@ -10,7 +10,7 @@
 
 
 void strip(char*);
-int isEmptyOrCommandLine(char *);
+int isCommentLine(char *);
 int split(char *str, char *delimiter, char *before, char *after);
 int isLegalLabel(char*str,globalVariables *vars);
 int isValidNumberDirective(char *str,globalVariables *vars);

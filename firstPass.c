@@ -55,25 +55,29 @@ void firstPass(globalVariables *vars) {
         memset(lineCpyAfterLabel, 0, LINE_LENGTH);
         memset(label, 0, LABEL_LENGTH);
 
-        fgets(line, LINE_LENGTH, stdin);
+        fgets(line, LINE_LENGTH, vars->file);
+
+
+
 
         /*checks if the row is in the length boundaries*/
         for (i = 0; i <= LAST_CHAR_IN_LINE; i++) {
             if (line[i] == '\0') {
                 strncpy(lineCpy, line, i + 1);
-                vars->currentLine++;
                 break;
             }
         }
         if (((i - 1) == LAST_CHAR_IN_LINE) && line[i - 1] != '\0') {
             vars->type = LineTooLong;
             vars->errorFound = True;
+            printErrors(vars);
+            continue;
         }
 
         strip(lineCpy); /*strip white chars*/
-        lineAnalyzed = isEmptyOrCommandLine(lineCpy);
+        lineAnalyzed = isCommentLine(lineCpy);
         if (lineAnalyzed == 1) continue; /*if the line is an empty line or command line - the assembler ignores*/
-
+        vars->currentLine++;
         /*analyze if its a directive or instruction*/
 
         /*create a new word node*/
@@ -89,16 +93,10 @@ void firstPass(globalVariables *vars) {
         }
 
         /*add bool function to check if we have a label*/
-        hasLabel = foundLabel(lineCpy, before, after, vars, currentLabel);
+        hasLabel = foundLabel(lineCpy, before, after, vars, currentLabel); /*look for a label and the checks if it's a valid label*/
 
         if (hasLabel == True) { /*we found a label*/
             strcpy(label, before);
-            int validLabel= isLegalLabel(label,vars);
-            if(validLabel==LABEL_ERROR)  /*if it's no a legal label - print the error and continue*/
-            {
-                printErrors(vars);
-                continue;
-            }
             strcpy(lineCpyAfterLabel, after);
         } else { /*we couldn't fina d label, by split fun before=linecpy*/
             strcpy(lineCpyAfterLabel, lineCpy);

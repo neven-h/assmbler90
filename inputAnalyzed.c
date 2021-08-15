@@ -81,11 +81,13 @@ int isLegalLabel(char *str, globalVariables *vars) {
 }
 
 
-int isEmptyOrCommandLine(char *str) {
-    if (str[0] == '\0' || str[0] == ';')
+int isCommentLine(char *str) {
+    if (str[0] == ';'||str[0] == '\0' )
         return 1;
     else return -1;
 }
+
+
 
 int isValidNumberDirective(char *str,globalVariables *vars)
 {
