@@ -7,10 +7,10 @@
 
 
 
-
+/*this functions adds a word node to word list*/
 void addWordToList(WordNodePtr *head, WordNodePtr nodeToAdd) {
     WordNodePtr temp = *head;
-    if (temp != NULL) {
+    if (temp == NULL) {
         *head = nodeToAdd;
         return;
     }
