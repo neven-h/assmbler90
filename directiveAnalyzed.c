@@ -15,6 +15,7 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
     Bool validAsciz,labelWithExtern;
     directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
 
+    // first pass step 6 
     if (directiveNum != DIRECTIVE_ERROR && directiveNum != DIRECTIVE_EXTERN && directiveNum != DIRECTIVE_ENTRY) {
         DirectiveWordType directiveType = getDirectiveType(directiveNum);
 
@@ -34,7 +35,9 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
                    // currentLabel->entryOrExtern = NoEntryExtern;
                     addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
                     return True;
-                } else { return False;  /*we found the label in the label table*/}
+                } else { 
+                    return False;  /*we found the label in the label table*/
+                }
             }
             /*not a label only directive */
             addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
@@ -57,8 +60,7 @@ Bool isDirectiveFirstPass(char *before, char *after, globalVariables *vars, Bool
                 free(currentWord);
             }
         }
-    }
-        /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
+    }        /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
     else {
         labelAndEntryOrExtern(hasLabel, directiveNum,vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
         if (directiveNum == DIRECTIVE_EXTERN) {  /*in the first pass if it's an external - enter tha label if it's correct one with dc of 0 and external type*/
