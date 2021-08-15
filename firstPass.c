@@ -75,7 +75,7 @@ void firstPass(globalVariables *vars) {
         }
 
         strip(lineCpy); /*strip white chars*/
-        lineAnalyzed = isCommentLine(lineCpy);
+        lineAnalyzed = isEmptyOrCommandLine(lineCpy);
         if (lineAnalyzed == 1) continue; /*if the line is an empty line or command line - the assembler ignores*/
         vars->currentLine++;
         /*analyze if its a directive or instruction*/
