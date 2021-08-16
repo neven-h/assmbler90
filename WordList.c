@@ -63,7 +63,7 @@ void addDirectiveByteToWordList(int validInput[LINE_LENGTH], WordNodePtr *head, 
 
 void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, int DC)
 {
-    ascizString(str);
+    ascizStr(str);
     int i;
     for (i = 0; i < strlen(str); i++)
     {

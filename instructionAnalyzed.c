@@ -638,5 +638,5 @@ Bool labelBeforeInstructionCommand(char *labelName, globalVariables *vars, label
         return True;
     }
 
-    else{ return False;  /*we found the label in the label table*/}
+    else{ return False; } /*we found the label in the label table*/
 }

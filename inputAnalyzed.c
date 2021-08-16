@@ -144,27 +144,24 @@ long validNumByDirective(int directive,int num)
 
 }
 
-
-
 /*to check if a given string is valid, between "" and only graphic characters*/
 int isValidString(char *str)
 {
-    int first=str[0];
-    int last=str[strlen(str)-1];
+    int first=(int)str[0];
+    int last=(int)str[strlen(str)-1];
     int i,isPrint;
-    char newStr[LINE_LENGTH]={0};
     if(first!='"'||last!='"' ) return STRING_ERROR; /*a valid string start&end with ""*/
 
     for(i=0;i< strlen(str);i++)
     {
         isPrint=(isprint(str[i]));
         if(isPrint==0) return STRING_ERROR; /*a valid string all the chars are graphic characters*/
-
     }
     return VALID_STRING;
 }
 
-void ascizString(char *str)
+
+void ascizStr(char *str)
 {
     int first=1;
     int last=strlen(str)-1;
@@ -467,3 +464,6 @@ WordType directiveOrInstruction(char *str,char *before,char *after,globalVariabl
     return word;
 
 }
+
+
+

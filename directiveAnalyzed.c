@@ -34,16 +34,16 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
         if (directiveNum == DIRECTIVE_ASCIZ) {
             validAsciz = ascizAnalysis(after, vars);
             if (validAsciz == False) return False;
-            //ascizSring(after);
             /*a valid param to asciz directive a valid string starts and ends with " */
+
             if (hasLabel == True) { /*if the label flag is on - we have label*/
                 labelBeforeDirective = labelBeforeDirectiveCommand(label, vars, currentLabel);
                 if (labelBeforeDirective == False) return False; /*if False - return false and get the next row, else continue*/
             }
-                /*no label just a directive - add to word table*/
-                addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars->DC);
-                return True;
-            }
+            /*no label just a directive - add to word table*/
+            addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars->DC);
+            return True;
+        }
         /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/
         labelAndEntryOrExtern(hasLabel, directiveNum,vars); /*if we have a label before entry or extern - it's not an error just ignore- don't insert label to label list*/
         if (directiveNum == DIRECTIVE_EXTERN) {
@@ -175,7 +175,6 @@ Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
 
 Bool ascizAnalysis(char *str,globalVariables *vars)
 {
-
     int valid=isValidString(str);
     if(valid==VALID_STRING)
     {
@@ -234,8 +233,8 @@ Bool labelBeforeDirectiveCommand(char *labelName, globalVariables *vars, labelLi
 
 Bool externDirectiveFirstPass(char *after ,globalVariables *vars,labelListPtr currentLabel)
 {
-   int ValidLabelName;
-   Bool labelWithExtern,externLabel;
+    int ValidLabelName;
+    Bool labelWithExtern,externLabel;
 
     strip(after);
     externLabel = isLegalLabel(after, vars); /*check if  the operand label is valid label by syntax*/
