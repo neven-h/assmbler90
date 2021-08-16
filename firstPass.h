@@ -14,6 +14,6 @@
 #include "printErrors.h"
 
 void firstPass(globalVariables *);
-
+Bool getLine(char *line,char *lineCpy,globalVariables *vars);
 #endif //RONIPROJ_FIRSTPASS_H
 

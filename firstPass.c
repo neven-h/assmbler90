@@ -35,7 +35,7 @@ void firstPass(globalVariables *vars) {
     strcpy(vars->filename, fileName);
 
 
-    Bool hasLabel;
+    Bool hasLabel,validLineLength;
     Bool directiveFirstPass;
     Bool instructionFirstPass;
     WordType word;
@@ -57,22 +57,9 @@ void firstPass(globalVariables *vars) {
 
         fgets(line, LINE_LENGTH, vars->file);
 
+        validLineLength=getLine(line,lineCpy,vars);
+        if (validLineLength==False)continue; /*get the next line*/
 
-
-
-        /*checks if the row is in the length boundaries*/
-        for (i = 0; i <= LAST_CHAR_IN_LINE; i++) {
-            if (line[i] == '\0') {
-                strncpy(lineCpy, line, i + 1);
-                break;
-            }
-        }
-        if (((i - 1) == LAST_CHAR_IN_LINE) && line[i - 1] != '\0') {
-            vars->type = LineTooLong;
-            vars->errorFound = True;
-            printErrors(vars);
-            continue;
-        }
 
         strip(lineCpy); /*strip white chars*/
         lineAnalyzed = isEmptyOrCommandLine(lineCpy);
@@ -147,4 +134,23 @@ void getToNextLine(FILE *f) {
     }
 }
 
-
+Bool getLine(char *line,char *lineCpy,globalVariables *vars)
+{
+    /*checks if the row is in the length boundaries*/
+   int i;
+    for (i = 0; i <= LAST_CHAR_IN_LINE; i++) {
+        if (line[i] == '\0') {
+            strncpy(lineCpy, line, i + 1);
+            break;
+        }
+    }
+    /*Check if the line we got is to long - more than 80 chars*/
+    if (((i - 1) == LAST_CHAR_IN_LINE) && line[i - 1] != '\0') {
+        vars->type = LineTooLong;
+        vars->errorFound = True;
+        printErrors(vars);
+        getToNextLine(vars->file);
+        return False;
+    }
+    return True;
+}
