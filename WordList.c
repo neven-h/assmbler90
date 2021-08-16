@@ -62,25 +62,32 @@ void addDirectiveByteToWordList(int validInput[LINE_LENGTH], WordNodePtr *head, 
 }
 
 void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, int DC)
- {
+{
+    ascizString(str);
     int i;
-         for (i = 0; i < strlen(str); i++)
-         {
-             WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
-             newNode->word.wordType = Directive;
-             newNode->word.directive.wordType = givenWordType;
-             newNode->word.directive.address = DC++;
-             newNode->word.directive.asciz =  str[i];
-             addWordToList(head, newNode);
-         }
+    for (i = 0; i < strlen(str); i++)
+    {
+        WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
+        newNode->word.wordType = Directive;
+        newNode->word.directive.wordType = givenWordType;
+        newNode->word.directive.address = DC++;
+        newNode->word.directive.asciz =  str[i];
+        newNode->word.directive.dw=0;
+        newNode->word.directive.db=0;
+        newNode->word.directive.dh=0;
+        addWordToList(head, newNode);
+    }
 
-         /*add the \0 char to end the string*/
-         WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
-         newNode->word.wordType = Directive;
-         newNode->word.directive.wordType = givenWordType;
-         newNode->word.directive.address = (DC+=1);
-         newNode->word.directive.asciz =  '\0';
-         addWordToList(head, newNode);
+    /*add the \0 char to end the string*/
+    WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
+    newNode->word.wordType = Directive;
+    newNode->word.directive.wordType = givenWordType;
+    newNode->word.directive.address = (DC+=1);
+    newNode->word.directive.asciz =  '\0';
+    newNode->word.directive.dw=0;
+    newNode->word.directive.db=0;
+    newNode->word.directive.dh=0;
+    addWordToList(head, newNode);
 
 
 }
@@ -89,40 +96,39 @@ void addDirectiveICF(WordNodePtr *head,int ICF)
 {
     WordNodePtr temp = *head;
 
-        while(temp) {
-            if(temp->word.wordType == Directive) {
-                temp->word.directive.address +=ICF;
-            }
-            temp = temp->next;
+    while(temp) {
+        if(temp->word.wordType == Directive) {
+            temp->word.directive.address +=ICF;
         }
+        temp = temp->next;
+    }
 
 }
 
-
 void addLabelAddress(WordNodePtr *head,int ICcounter,long labelAddress,InstructionWordType commandType, Bool isExtern)
 {
-   long finalIAddress;
+    long finalIAddress;
     WordNodePtr temp = *head;
     while (temp != NULL)
     {
-       if(temp->word.instruction.address == ICcounter) /*find the right node */
-       {
-           if(commandType==J_WORD)  /*if it's a J - just update the address from label list*/
-           {
-               if(isExtern==True)
-               {
-                   temp->word.instruction.jWord.address=0;
-               }
-               else {temp->word.instruction.jWord.address=labelAddress;}
-           }
-           else{ if(commandType==I_WORD) /*if it's an I-Branch update the immed */
-               {
-                   finalIAddress= labelAddress- (temp->word.instruction.address); /*the final address (Immediate value) will be the sub between address from label list and current address*/
+        if(temp->word.instruction.address == ICcounter) /*find the right node */
+        {
+            if(commandType==J_WORD)  /*if it's a J - just update the address from label list*/
+            {
+                if(isExtern==True)
+                {
+                    temp->word.instruction.jWord.address=0;
+                }
+                else {temp->word.instruction.jWord.address=labelAddress;}
+            }
+            else{ if(commandType==I_WORD) /*if it's an I-Branch update the immed */
+                {
+                    finalIAddress= labelAddress- (temp->word.instruction.address); /*the final address (Immediate value) will be the sub between address from label list and current address*/
                     temp->word.instruction.iWord.immed=finalIAddress;
-               }
-           }
+                }
+            }
 
-       }
+        }
         temp = temp->next;
     }
 }

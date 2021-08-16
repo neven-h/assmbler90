@@ -1,5 +1,5 @@
 main:main.o firsPass.o secondPass.o inputAnalyzed.o instructionAnalyzed.o directiveAnalyzed.o EntryAndExtern.o lableList.o WordList.o
-
+	gcc -g main.o firsPass.o secondPass.o inputAnalyzed.o instructionAnalyzed.o directiveAnalyzed.o EntryAndExtern.o lableList.o WordList.o -o main
 main.o: main.c
 	gcc -c -g main.c -ansi -Wall -pedantic -o main.o
 

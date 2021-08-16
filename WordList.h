@@ -6,6 +6,7 @@
 #define RONIPROJECT_WORDLIST_H
 
 #include "default.h"
+#include "inputAnalyzed.h"
 
 
 void addWordToList(WordNodePtr *head, WordNodePtr nodeToAdd);

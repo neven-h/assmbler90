@@ -24,7 +24,7 @@ int labelNameCompare(labelListPtr *head,char *labelName,globalVariables *vars)
 {
     labelListPtr temp = *head;
     int res;
-    while (temp != NULL)
+    while (temp)
     {
         res= strcmp(temp->labelName,labelName);
         if(res==0) /*we already have this label name*/
@@ -152,10 +152,10 @@ Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars)
 
     if(flag==0)/*we couldn't find this label*/
     {
-            vars->type = EntryLabelDontExists;
-            /*printf("\n%s:Line %d: Error- Entry Label don't exists in Label Table \n", vars->filename,vars->currentLine);*/
-            vars->errorFound = True;
-            return False;
+        vars->type = EntryLabelDontExists;
+        /*printf("\n%s:Line %d: Error- Entry Label don't exists in Label Table \n", vars->filename,vars->currentLine);*/
+        vars->errorFound = True;
+        return False;
     }
     return True;
 }

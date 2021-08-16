@@ -6,7 +6,6 @@
 
 #include "instructionAnalyzed.h"
 
-
 Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord, int instructionNum) {
 
     int numOfOperands;
@@ -100,15 +99,16 @@ Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,i
     int firstDelimiter,secondDelimiter,thirdDelimiter;
 
     /*look for the first comma */
-    firstDelimiter= split(str,",",before,after);
+    char operandLine[LINE_LENGTH]={0};
+    strcpy(operandLine,str);
+    firstDelimiter= split(operandLine,",",before,after);
     if (firstDelimiter==VALID_SPLIT) /*we found he first comma*/
     {
         strip(before);
         if(strlen(before)==0) /*the first operand is without a comma*/
         {
             vars->type=CommaBeforeFirstParam;
-            // printf("\n%s:Line %d:Illegal comma before the first param\n", vars->filename,
-            //      vars->currentLine);
+            // printf("\n%s:Line %d:Illegal comma before the first param\n", vars->filename, vars->currentLine);
             vars->errorFound = True;
             return False;
         }
@@ -135,18 +135,20 @@ Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,i
         }
     }
     /*look for the second comma*/
-    secondDelimiter= split(after,",",before,after);
+    memset(operandLine,0,LINE_LENGTH);
+    strcpy(operandLine,after);
+    secondDelimiter= split(operandLine,",",before,after);
     strip(before);
     strip(after);
     if(secondDelimiter==VALID_SPLIT) /*we found the second comma */
     {
         if(strcmp(before,"")==0) /*$3,,7...*/
         {
-                vars->type=CommaBetweenParams;
-                // printf("\n%s:Line %d:Illegal comma between param\n", vars->filename,
-                //      vars->currentLine);
-                vars->errorFound = True;
-                return False;
+            vars->type=CommaBetweenParams;
+            // printf("\n%s:Line %d:Illegal comma between param\n", vars->filename,
+            //      vars->currentLine);
+            vars->errorFound = True;
+            return False;
         }
 
         if(numOfOperands==TWO_REGISTERS)
@@ -210,7 +212,9 @@ Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,i
         }
     }
     /*look for the third comma*/
-    thirdDelimiter= split(after,",",before,after);
+    memset(operandLine,0,LINE_LENGTH);
+    strcpy(operandLine,after);
+    thirdDelimiter= split(operandLine,",",before,after);
     strip(before);
     strip(after);
     if(thirdDelimiter==VALID_SPLIT) /*if we found the third comma*/
@@ -273,8 +277,8 @@ Bool I_commandAnalyzed(char *str,char *before ,char *after, int instructionNum,i
     validOperandLine=validIOperandLine(str,before,after,instructionNum,type,vars,currentWord);
     if(validOperandLine==True)
     {
-    currentWord->word.instruction.address = vars->IC;
-    return True;
+        currentWord->word.instruction.address = vars->IC;
+        return True;
     }
     else {return False; }/*not a valid I command line*/
 
@@ -445,12 +449,12 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
             }
         }
         else{
-                if(type==REG_REG_LABEL) /*in the first Pass we put the address as the current IC in immediate, will be handle in second Pass*/
-              {
+            if(type==REG_REG_LABEL) /*in the first Pass we put the address as the current IC in immediate, will be handle in second Pass*/
+            {
                 /*in the first Pass we put the address as the current IC in immediate, will be handle in second Pass*/
                 currentWord->word.instruction.iWord.immed=vars->IC;
                 return True;
-             }
+            }
         }
     }
 }
@@ -551,10 +555,10 @@ Bool regJCommand(char *str,globalVariables *vars, WordNodePtr currentWord)
 
 Bool labelJCommand(char *str,globalVariables *vars, WordNodePtr currentWord)
 {
-   int isLabel;
-   isLabel=isLegalLabel(str,vars);
-   if(isLabel==LABEL_ERROR) /*not a valid label*/
-       return False;
+    int isLabel;
+    isLabel=isLegalLabel(str,vars);
+    if(isLabel==LABEL_ERROR) /*not a valid label*/
+        return False;
     /*than a valid label - by syntax. in the second pass we will update the address. */
     currentWord->word.instruction.jWord.reg=0;
     return True;
@@ -571,7 +575,7 @@ Bool secondPassJ(char *str,globalVariables *vars,int ICcounter, InstructionWordT
     validRegister=isValidRegister(str,vars); /*jmp can get a register*/
     if (validRegister==REGISTER_ERROR) /*not a register so it's a label*/
     {
-       /*we need to find the label in label list and update the address*/
+        /*we need to find the label in label list and update the address*/
         labelAddress= findLabel(&(vars->headLabelTable),str,vars,commandType);
         if (labelAddress==LABEL_ERROR) /*couldn't find the label*/
             return False;
