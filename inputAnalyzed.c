@@ -426,6 +426,8 @@ WordType directiveOrInstruction(char *str,char *before,char *after,globalVariabl
     WordType word;
     int lineAnalyzed,directiveName,instructionNum;
     Bool isDirective;
+    strip(after);
+    instructionNum=instructionValidName(after);
     lineAnalyzed = split(str, " \t", before, after);
     if (lineAnalyzed == VALID_SPLIT) { /*we found a tab*/
         strip(before);
@@ -455,10 +457,16 @@ WordType directiveOrInstruction(char *str,char *before,char *after,globalVariabl
         }
     }
     else{
-        vars->type=notDirectiveOrInstruction;
-        // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename, vars->currentLine);
-        vars->errorFound=True;
-        word=None;
+        if (instructionNum==STOP)
+        {
+            word=Instruction;
+        }
+        else {
+            vars->type = notDirectiveOrInstruction;
+            // printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename, vars->currentLine);
+            vars->errorFound = True;
+            word = None;
+        }
 
     }
     return word;

@@ -142,8 +142,10 @@ void printErrors(globalVariables *vars)
         printf("\n%s:Line %d: Error- Couldn't find the requested operand label in label list \n", vars->filename,vars->currentLine);
     }
 
-
-
+    if(vars->type==notDirectiveOrInstruction)
+    {
+        printf("\n%s:Line %d:Illegal we couldn't find an Instruction or Directive\n", vars->filename, vars->currentLine);
+    }
 
 
 }
