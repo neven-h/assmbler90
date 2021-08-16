@@ -32,10 +32,6 @@ C:/Users/ronia/CLionProjects/assmbler90/default.h
 inputAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h
 
-C:/Users/ronia/CLionProjects/assmbler90/firstPass.c
-firstPass.h
-C:/Users/ronia/CLionProjects/assmbler90/firstPass.h
-
 C:/Users/ronia/CLionProjects/assmbler90/firstPass.h
 default.h
 C:/Users/ronia/CLionProjects/assmbler90/default.h
@@ -57,6 +53,10 @@ default.h
 C:/Users/ronia/CLionProjects/assmbler90/default.h
 directiveAnalyzed.h
 C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.h
+
+C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.c
+instructionAnalyzed.h
+C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
 
 C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h
 inputAnalyzed.h

@@ -309,7 +309,7 @@ int isValidRegisterNum(char *str,globalVariables *vars)
 {
     int i,num;
     char reg[10]={0};
-    strcpy(reg,str+1); /*copy to a new string without $ char*/
+    strcpy(reg,str); /*copy to a new string without $ char*/
     for(i=0;i< strlen(reg);i++) /*check if an integer*/
     {
         if(isdigit(reg[i])==0)

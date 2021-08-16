@@ -12,6 +12,8 @@ Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariable
     Bool validRCommand, validICommand,labelBeforeInstruction;
 
     currentWord->word.wordType = Instruction;
+
+
     if (hasLabel == True) {
         labelBeforeInstruction=labelBeforeInstructionCommand(label,vars,currentLabel);
         if(labelBeforeInstruction==False) return False; /*and get the next row, else continue */
@@ -508,7 +510,7 @@ Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, Word
     {
         isReg = validJRegister(str, vars); /*check if a register and returns*/
             if (isReg >= VALID_REG_NUM) { /*a valid reg number is 0-31*/
-            JwithReg = regJCommand(str, vars, currentWord);
+            JwithReg = regJCommand(str+1, vars, currentWord);
             if (JwithReg == False)return False;
             /*than True it's a valid register*/
             return True;
