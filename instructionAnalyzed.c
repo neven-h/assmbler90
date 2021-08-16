@@ -117,8 +117,7 @@ Bool validROperandLine(char *str,char *before ,char *after, int instructionNum,i
     }
     else { /*wwe couldn't find the first comma*/
         vars->type=IllegalOperandNoComma;
-        // printf("\n%s:Line %d:Illegal operand no comma\n", vars->filename,
-        //      vars->currentLine);
+        // printf("\n%s:Line %d:Illegal operand no comma\n", vars->filename, vars->currentLine);
         vars->errorFound = True;
         return False;
     }
@@ -291,7 +290,9 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
     int firstDelimiter,secondDelimiter,thirdDelimiter;
 
     /*look for the first comma */
-    firstDelimiter= split(str,",",before,after);
+    char operandLine[LINE_LENGTH]={0};
+    strcpy(operandLine,str);
+    firstDelimiter= split(operandLine,",",before,after);
     {
         if(firstDelimiter==VALID_SPLIT) /*we found a comma check if valid operand*/
         {
@@ -324,14 +325,16 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
         else{
             /*wwe couldn't find the first comma*/
             vars->type=IllegalOperandNoComma;
-            // printf("\n%s:Line %d:Illegal operand no comma\n", vars->filename,
-            //      vars->currentLine);
+            // printf("\n%s:Line %d:Illegal operand no comma\n", vars->filename, vars->currentLine);
             vars->errorFound = True;
             return False;
         }
     }
     /*look for the second comma */
-    secondDelimiter= split(after,",",before,after);
+    memset(operandLine,0,LINE_LENGTH);
+    strcpy(operandLine,after);
+    secondDelimiter= split(operandLine,",",before,after);
+
     strip(before);
     strip(after);
     if(secondDelimiter==VALID_SPLIT) /*we found the second comma*/
@@ -383,7 +386,11 @@ Bool validIOperandLine(char *str,char *before ,char *after, int instructionNum,i
     }
 
     /*look for the third comma*/
-    thirdDelimiter= split(after,",",before,after);
+    memset(operandLine,0,LINE_LENGTH);
+    strcpy(operandLine,after);
+
+    thirdDelimiter= split(operandLine,",",before,after);
+
     strip(before);
     strip(after);
     if(thirdDelimiter==VALID_SPLIT) /*if we found the third comma*/
@@ -496,7 +503,7 @@ Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, Word
     Bool JwithReg, JwithLabel;
     if (instructionNum == JMP) /* jmp cen receive a register or label*/
     {
-        isReg = isValidRegister(str, vars); /*check if a register*/
+        isReg = validJRegister(str, vars); /*check if a register*/
         if (isReg == VALID_REGISTER) {
             JwithReg = regJCommand(str, vars, currentWord);
             if (JwithReg == False)return False;

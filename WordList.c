@@ -72,9 +72,6 @@ void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWord
         newNode->word.directive.wordType = givenWordType;
         newNode->word.directive.address = DC++;
         newNode->word.directive.asciz =  str[i];
-        newNode->word.directive.dw=0;
-        newNode->word.directive.db=0;
-        newNode->word.directive.dh=0;
         addWordToList(head, newNode);
     }
 
@@ -84,9 +81,6 @@ void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWord
     newNode->word.directive.wordType = givenWordType;
     newNode->word.directive.address = (DC+=1);
     newNode->word.directive.asciz =  '\0';
-    newNode->word.directive.dw=0;
-    newNode->word.directive.db=0;
-    newNode->word.directive.dh=0;
     addWordToList(head, newNode);
 
 

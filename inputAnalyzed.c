@@ -466,4 +466,32 @@ WordType directiveOrInstruction(char *str,char *before,char *after,globalVariabl
 }
 
 
+/*this function check if the operand of J is a valid Register*/
+int validJRegister(char *str,globalVariables *vars)
+{
+    char currentReg[4]={0};
+    int validNum;
+    strip(str);
+    if(strlen(str)>4) {/*check while debug if in length \0 include*/
+        return REGISTER_ERROR;
+    }
 
+    if(str[0]!='$')/*register must begging with $ */
+    {
+        return REGISTER_ERROR;
+    }
+
+    strcpy(currentReg,str+1);/*register must be positive number */
+    if(currentReg[0]=='-')
+    {
+        return REGISTER_ERROR;
+    }
+
+    validNum= isValidRegisterNum(currentReg,vars); /*than we have a register - check if the number is valid between 0-31*/
+    if(validNum>=0)return validNum;
+}
+
+Bool validJLabel()
+{
+
+}

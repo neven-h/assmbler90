@@ -32,6 +32,7 @@ int isValidImmediate(char *str,globalVariables *vars);
 InstructionWordType commandGroup (int instructionNum);
 Bool foundLabel(char *lineCpy,char *before,char *after,globalVariables *vars,labelListPtr currentLabel);
 
+int validJRegister(char *str,globalVariables *vars);
 
 
 #endif //MMN14_INPUTANALYZED_H
