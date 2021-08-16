@@ -55,7 +55,7 @@ void firstPass(globalVariables *vars) {
         memset(lineCpyAfterLabel, 0, LINE_LENGTH);
         memset(label, 0, LABEL_LENGTH);
 
-        fgets(line, LINE_LENGTH, vars->file);
+        fgets(line, LINE_LENGTH, vars->file); /*vars->file*/
 
         validLineLength=getLine(line,lineCpy,vars);
         if (validLineLength==False)continue; /*get the next line*/

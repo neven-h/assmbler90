@@ -35,6 +35,7 @@
 #define REGISTER_ERROR -1
 
 
+#define VALID_REG_NUM 0
 #define VALID_REGISTER 1
 #define IMMEDIATE_NOT_INT -1
 

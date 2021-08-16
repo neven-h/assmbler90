@@ -33,6 +33,7 @@ Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariable
         if (validRCommand == True) {
             /*need to add the word node to the list*/
             currentWord->word.instruction.address = vars->IC;
+            addWordToList(&(vars->headWordList),currentWord); /*it's a valid R command - add to word list*/
             vars->IC = (vars->IC + 4);
             return True;
         } else {
@@ -47,6 +48,7 @@ Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariable
         if (validICommand == True) {
             /*need to add the word node to the list*/
             currentWord->word.instruction.address = vars->IC;
+            addWordToList(&(vars->headWordList),currentWord); /*it's a valid I command - add to word list*/
             vars->IC = (vars->IC + 4);
 
             return True;
@@ -62,6 +64,7 @@ Bool isInstructionFirstPass(char *before, char *after,char *label,globalVariable
         if (validICommand == True) {
             /*need to add the word node to the list*/
             currentWord->word.instruction.address = vars->IC;
+            addWordToList(&(vars->headWordList),currentWord); /*it's a valid J command - add to word list*/
             vars->IC = (vars->IC + 4);
             return True;
         } else {
@@ -503,8 +506,8 @@ Bool validJOperandLine(char *str, int instructionNum,globalVariables *vars, Word
     Bool JwithReg, JwithLabel;
     if (instructionNum == JMP) /* jmp cen receive a register or label*/
     {
-        isReg = validJRegister(str, vars); /*check if a register*/
-        if (isReg == VALID_REGISTER) {
+        isReg = validJRegister(str, vars); /*check if a register and returns*/
+            if (isReg >= VALID_REG_NUM) { /*a valid reg number is 0-31*/
             JwithReg = regJCommand(str, vars, currentWord);
             if (JwithReg == False)return False;
             /*than True it's a valid register*/

@@ -114,7 +114,7 @@ int isValidNumberDirective(char *str,globalVariables *vars)
             return INT_MIN;/*error- not an integer*/
         }
     }
-    if (strcpy(num,"0")==0)
+    if (strcmp(num,"0")==0)
         number=0; /*atoi doesn't recognize 0 */
     else{
         number=atoi(num);
@@ -308,8 +308,8 @@ int isValidRegister(char *str,globalVariables *vars)
 int isValidRegisterNum(char *str,globalVariables *vars)
 {
     int i,num;
-    char reg[3]={0};
-    strcpy(reg,str); /*copy to a new string without $ char*/
+    char reg[10]={0};
+    strcpy(reg,str+1); /*copy to a new string without $ char*/
     for(i=0;i< strlen(reg);i++) /*check if an integer*/
     {
         if(isdigit(reg[i])==0)
@@ -350,7 +350,7 @@ int isValidImmediate(char *str,globalVariables *vars) {
     int sign = 1;
     if (str[0] == '-') sign = -1;   /*immediate can be a negative number*/
 
-    if (str[0] == '-' ||isdigit(str[i]) == 0) {
+    if (str[0] == '-' || isdigit(str[0]) != 0) {
         for (i = 1; i < strlen(str); i++) /*check if an integer*/
         {
             if (isdigit(str[i]) == 0) {
@@ -470,7 +470,6 @@ WordType directiveOrInstruction(char *str,char *before,char *after,globalVariabl
 int validJRegister(char *str,globalVariables *vars)
 {
     char currentReg[4]={0};
-    int validNum;
     strip(str);
     if(strlen(str)>4) {/*check while debug if in length \0 include*/
         return REGISTER_ERROR;
@@ -487,11 +486,7 @@ int validJRegister(char *str,globalVariables *vars)
         return REGISTER_ERROR;
     }
 
-    validNum= isValidRegisterNum(currentReg,vars); /*than we have a register - check if the number is valid between 0-31*/
-    if(validNum>=0)return validNum;
+
+    return VALID_REGISTER;
 }
 
-Bool validJLabel()
-{
-
-}

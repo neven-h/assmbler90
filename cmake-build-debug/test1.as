@@ -14,7 +14,7 @@ LIST: .db 6,-9
         la K
         sw $0,4,$10
         bne %31,$9,LOOP
-        call vall
+        call val1
         jmp $4
         la wNumber
 .extern vall

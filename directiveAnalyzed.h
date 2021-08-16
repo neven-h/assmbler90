@@ -16,7 +16,7 @@ int isValidDirectiveName(char *str);
 
 
 DirectiveWordType getDirectiveType(int directiveNum);
-Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive);
+Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,long validInput [LINE_LENGTH],int directive);
 Bool ascizAnalysis(char *str,globalVariables *vars);
 Bool externDirectiveFirstPass(char *after, globalVariables *vars,labelListPtr currentLabel);
 Bool labelBeforeDirectiveCommand(char *labelName, globalVariables *vars, labelListPtr currentLabel);

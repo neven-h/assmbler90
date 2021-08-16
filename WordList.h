@@ -10,7 +10,7 @@
 
 
 void addWordToList(WordNodePtr *head, WordNodePtr nodeToAdd);
-void addDirectiveByteToWordList(int validInput[LINE_LENGTH], WordNodePtr *head, int directive, DirectiveWordType givenWordType, int DC);
+void addDirectiveByteToWordList(long validInput[LINE_LENGTH], WordNodePtr *head, int directive, DirectiveWordType givenWordType,globalVariables *vars);
 void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, int DC);
 void addDirectiveICF(WordNodePtr *head,int ICF);
 void addLabelAddress(WordNodePtr *head,int ICcounter,long labelAddress,InstructionWordType commandType,Bool isExtern);

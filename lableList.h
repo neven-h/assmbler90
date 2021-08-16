@@ -12,7 +12,7 @@
 void updateLabel(labelListPtr currentLabel,int address,Location Data,LabelType Extern);
 void addLabelToList(labelListPtr* , labelListPtr );
 int labelNameCompare(labelListPtr *head, char *labelName,globalVariables *vars);
-Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars);
+Bool isLabelExternal(labelListPtr *head,char *labelName ,globalVariables *vars);
 Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars);
 void  updateLabelTableICF(labelListPtr *head,int ICF);
 long findLabel(labelListPtr *head, char *str,globalVariables *vars,InstructionWordType commandType);

@@ -21,15 +21,15 @@ void addWordToList(WordNodePtr *head, WordNodePtr nodeToAdd) {
 }
 
 
-void addDirectiveByteToWordList(int validInput[LINE_LENGTH], WordNodePtr *head, int directive, DirectiveWordType givenWordType, int DC)
+void addDirectiveByteToWordList(long validInput[LINE_LENGTH], WordNodePtr *head, int directive, DirectiveWordType givenWordType,globalVariables *vars)
 {
     int i;
     if (givenWordType == D_BYTE) {
-        for (i = 0; i < LINE_LENGTH; i++) {
+        for (i = 0; i < LINE_LENGTH && validInput[i]!=LONG_MAX ; i++) {
             WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
             newNode->word.wordType = Directive;
             newNode->word.directive.wordType = givenWordType;
-            newNode->word.directive.address = DC++;
+            newNode->word.directive.address = vars->DC++;
             newNode->word.directive.db = (long) validInput[i];
             addWordToList(head, newNode);
         }
@@ -37,22 +37,22 @@ void addDirectiveByteToWordList(int validInput[LINE_LENGTH], WordNodePtr *head, 
     } else {
         if (givenWordType == D_HALF) {
             {
-                for (i = 0; i < LINE_LENGTH; i++) {
+                for (i = 0; i < LINE_LENGTH && validInput[i]!=LONG_MAX; i++) {
                     WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
                     newNode->word.wordType = Directive;
                     newNode->word.directive.wordType = givenWordType;
-                    newNode->word.directive.address = (DC = +2);
+                    newNode->word.directive.address = vars->DC+=2;
                     newNode->word.directive.dh = (long) validInput[i];
                     addWordToList(head, newNode);
                 }
             }
         } else {
             /* givenWordType==D_WORD WORD=4 Bytes */
-            for (i = 0; i < LINE_LENGTH; i++) {
+            for (i = 0; i < LINE_LENGTH && validInput[i]!=LONG_MAX; i++) {
                 WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
                 newNode->word.wordType = Directive;
                 newNode->word.directive.wordType = givenWordType;
-                newNode->word.directive.address = (DC = +4);
+                newNode->word.directive.address = vars->DC+=4;
                 newNode->word.directive.dw = (long) validInput[i];
                 addWordToList(head, newNode);
             }

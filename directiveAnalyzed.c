@@ -7,7 +7,7 @@
 
 Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables *vars, Bool hasLabel, labelListPtr currentLabel,WordNodePtr currentWord) {
 
-    int directiveNum , ValidLabelName ;
+    int directiveNum , ValidLabelName;
     Bool validDirectiveParam;
     Bool validAsciz,labelBeforeDirective;
     directiveNum = isValidDirectiveName(before); /*find if it's a valid directive and the num*/
@@ -17,7 +17,7 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
         DirectiveWordType directiveType = getDirectiveType(directiveNum); /*find the directive word type*/
 
         if (directiveNum == DIRECTIVE_BYTE || directiveNum == DIRECTIVE_HALF_WORD || directiveNum == DIRECTIVE_WORD) { /*dw,db,dh*/
-            int validInput[LINE_LENGTH] = {0};
+            long validInput[LINE_LENGTH] = {0};
             validDirectiveParam = dataAnalysis(after, before, after, vars, validInput,directiveNum);/*analyzed the operands of directive row*/
             if (validDirectiveParam == False) return False;
             if (hasLabel == True)
@@ -28,7 +28,7 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
 
             }
             /*not a label only directive */
-            addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars->DC);
+            addDirectiveByteToWordList(validInput, &(vars->headWordList), directiveNum, directiveType, vars);
             return True;
         }
         if (directiveNum == DIRECTIVE_ASCIZ) {
@@ -88,8 +88,9 @@ DirectiveWordType getDirectiveType(int directiveNum)
 
 }
 
-Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int validInput [LINE_LENGTH],int directive) {
+Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,long validInput [LINE_LENGTH],int directive) {
     int number, i;
+    int counter=0;
     int delimiter;
     long validBitRange;
     char line[LINE_LENGTH] = {0};
@@ -138,10 +139,10 @@ Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
             if (number == INT_MIN) {
                 return False; /*error - not a valid number*/
             }
-            validBitRange = validNumByDirective(directive,
-                                                number); /*check if the num is in the correct range according directive type*/
+            validBitRange = validNumByDirective(directive, number); /*check if the num is in the correct range according directive type*/
             if (validBitRange == VALID_BIT_RANGE) {
                 validInput[i] = number;
+                counter++;
                 continue;
             } else {
                 vars->type = ParamNotInBitRange;
@@ -159,17 +160,20 @@ Bool dataAnalysis(char *str,char *before,char *after,globalVariables *vars,int v
                 return False;
             } else {/*not an empty string check if it's a valid operand*/
                 number = isValidNumberDirective(before, vars); /*errors will update in the function*/
-                if (number == INT_MIN) {
+                if (number == LONG_MIN) {
                     return False; /*error - not a valid number*/
                 }
                 validBitRange = validNumByDirective(directive, number); /*check if the num is in the correct range according directive type*/
                 if (validBitRange == VALID_BIT_RANGE) {
                     validInput[i] = number;
-                    continue;
+                    counter++;
+                    break; /*couldn't find a comma and we updates the last number in array*/
                 }
             }
         }
     }
+    /*block the int array*/
+    validInput[counter]=LONG_MAX;
     return True;
 }
 
@@ -243,11 +247,13 @@ Bool externDirectiveFirstPass(char *after ,globalVariables *vars,labelListPtr cu
     }
     /*else- a valid label check if already exists without external type or with */
     ValidLabelName = labelNameCompare(&(vars->headLabelTable), after, vars);
-    labelWithExtern = isLabelExternal(&(vars->headLabelTable), currentLabel, vars);
+    labelWithExtern = isLabelExternal(&(vars->headLabelTable), after, vars);
     if (ValidLabelName == VALID_LABEL || labelWithExtern ==True) {
         /*label is not exists or if exists with external label and add to label table*/
+        strcpy(currentLabel->labelName,after); /*update the label we want to add name*/
         updateLabel(currentLabel,0,NoCodeOrData,Extern);
-        addLabelToList(&(vars->headLabelTable), currentLabel);
+        addLabelToList(&(vars->headLabelTable), currentLabel);/*add to label list*/
+
         return True;
     } else {
         return False;

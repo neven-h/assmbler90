@@ -68,13 +68,13 @@ long findLabel(labelListPtr *head, char *str,globalVariables *vars, InstructionW
 
 
 /*This function checks is the external label we want to add is already exists without external attribute*/
-Bool isLabelExternal(labelListPtr *head, labelListPtr labelToAdd,globalVariables *vars)
+Bool isLabelExternal(labelListPtr *head, char *labelName,globalVariables *vars)
 {
     labelListPtr temp = *head;
     int res;
     while (temp != NULL )
     {
-        res= strcmp(temp->labelName,labelToAdd->labelName);
+        res= strcmp(temp->labelName,labelName);
         if(res==0) /*we already have this label name*/
         {
             if(temp->entryOrExtern==NoEntryExtern) /*check if the existed label is an extern*/
