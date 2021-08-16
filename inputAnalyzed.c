@@ -55,7 +55,7 @@ int isLegalLabel(char *str, globalVariables *vars) {
                     if (isAlphaNum == 0)//*neither an alphabet nor a digit.*/
                     {
                         vars->type=IllegalCharInLabel;
-                       // printf("\n%s:Line %d:Illegal Label char %c neither an alphabet nor a digit\n", vars->filename,vars->currentLine, str[i]);
+                        // printf("\n%s:Line %d:Illegal Label char %c neither an alphabet nor a digit\n", vars->filename,vars->currentLine, str[i]);
                         vars->errorFound = True;
                         return LABEL_ERROR;
                     }
@@ -63,7 +63,7 @@ int isLegalLabel(char *str, globalVariables *vars) {
 
             } else {
                 vars->type=firstCharInLabelNotAlphabet;
-               // printf("\n%s:Line %d:Illegal Label first char %c not an alphabet\n", vars->filename,
+                // printf("\n%s:Line %d:Illegal Label first char %c not an alphabet\n", vars->filename,
                 //       vars->currentLine, str[0]);
                 vars->errorFound = True;
                 return LABEL_ERROR;
@@ -71,8 +71,8 @@ int isLegalLabel(char *str, globalVariables *vars) {
         }
     } else {
         vars->type=TooLongLabel;
-      //  printf("\n%s:Line %d:Illegal Label more than 31 characters\n", vars->filename,
-      //         vars->currentLine);
+        //  printf("\n%s:Line %d:Illegal Label more than 31 characters\n", vars->filename,
+        //         vars->currentLine);
         vars->errorFound = True;
         return LABEL_ERROR;/*more than 31 char*/
     }
@@ -164,16 +164,16 @@ int isValidString(char *str)
     return VALID_STRING;
 }
 
-//void ascizSring(char *str)
-//{
-//    int first=str[0];
- //   int last=str[strlen(str)-1];
- //   char newStr[LINE_LENGTH]={0};
-//    strncpy(newStr, str + first, last - first + 1);
-//    memset(str, 0, LINE_LENGTH);
-//    strcpy(str, newStr);
+void ascizString(char *str)
+{
+    int first=1;
+    int last=strlen(str)-1;
+    char newStr[LINE_LENGTH]={0};
+    strncpy(newStr, str + first, last - first );
+    memset(str, 0, LINE_LENGTH);
+    strcpy(str, newStr);
 
-//}
+}
 
 Bool isInstructionCommand(char command[LINE_LENGTH]) {
     return command[0] == '.' ? True : False;
@@ -312,7 +312,7 @@ int isValidRegisterNum(char *str,globalVariables *vars)
 {
     int i,num;
     char reg[3]={0};
-    strcpy(reg,str+1); /*copy to a new string without $ char*/
+    strcpy(reg,str); /*copy to a new string without $ char*/
     for(i=0;i< strlen(reg);i++) /*check if an integer*/
     {
         if(isdigit(reg[i])==0)

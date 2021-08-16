@@ -19,7 +19,7 @@ WordType directiveOrInstruction(char *lineCpy,char *before,char *after,globalVar
 
 long validNumByDirective(int directive,int num);
 
-//void ascizSring(char *str);
+void ascizString(char *str)
 int isValidString(char *str);
 
 
