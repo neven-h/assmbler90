@@ -41,19 +41,14 @@ void firstPass(globalVariables *vars) {
     WordType word;
 
 
-    int i, lineAnalyzed;
+    int  lineAnalyzed;
     int instructionNum;
-    int ICF,DCF;
+
 
     while (!feof(vars->file)) {
 
 
-        memset(line, 0, LINE_LENGTH);
-        memset(lineCpy, 0, LINE_LENGTH);
-        memset(before, 0, LINE_LENGTH);
-        memset(after, 0, LINE_LENGTH);
-        memset(lineCpyAfterLabel, 0, LINE_LENGTH);
-        memset(label, 0, LABEL_LENGTH);
+        resetStrings(line,lineCpy,before,after,lineCpyAfterLabel,label);
 
         fgets(line, LINE_LENGTH, stdin); /*vars->file*/
 
@@ -110,6 +105,9 @@ void firstPass(globalVariables *vars) {
                 printErrors(vars);
             }
         }
+
+        free(currentLabel);
+        free(currentWord);
     }
     /*we finished to read the file*/
     if(vars->errorFound == False) /*we found errors - don't continue to second Pass */
@@ -121,6 +119,7 @@ void firstPass(globalVariables *vars) {
         updateLabelTableICF(&(vars->headLabelTable),vars->ICF); /*update the value of data labels with final IC*/
         addDirectiveICF(&(vars->headWordList),vars->ICF); /*add the final IC value to the directive values in Word list*/
     }
+
 }
 
 

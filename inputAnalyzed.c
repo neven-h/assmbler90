@@ -498,3 +498,14 @@ int validJRegister(char *str,globalVariables *vars)
     return VALID_REGISTER;
 }
 
+
+
+void resetStrings(char *line,char *lineCpy,char *before , char *after, char *lineCpyAfterLabel,char *label)
+{
+    memset(line, 0, LINE_LENGTH);
+    memset(lineCpy, 0, LINE_LENGTH);
+    memset(before, 0, LINE_LENGTH);
+    memset(after, 0, LINE_LENGTH);
+    memset(lineCpyAfterLabel, 0, LINE_LENGTH);
+    memset(label, 0, LABEL_LENGTH);
+}

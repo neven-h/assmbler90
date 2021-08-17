@@ -16,9 +16,11 @@ void secondPass(globalVariables *vars) {
 
 
     char line[LINE_LENGTH] = {0};
+    char lineCpy[LINE_LENGTH] = {0};
     char before[LINE_LENGTH] = {0};
     char after[LINE_LENGTH] = {0};
     char lineCpyAfterLabel[LINE_LENGTH] = {0};
+    char label[LABEL_LENGTH] = {0};
 
     char fileName[FILE_NAME_LENGTH + AS_EXTENSION_LENGTH];
     strcpy(vars->filename, fileName);
@@ -30,12 +32,17 @@ void secondPass(globalVariables *vars) {
         memset(before, 0, LINE_LENGTH);
         memset(after, 0, LINE_LENGTH);
         memset(lineCpyAfterLabel, 0, LINE_LENGTH);
+        memset(label, 0, LINE_LENGTH);
+
+        resetStrings(line,lineCpy,before,after,lineCpyAfterLabel,label);
 
         fgets(line, LINE_LENGTH, stdin);
 
-        strip(line); /*strip white chars*/
-        lineAnalyzed = isEmptyOrCommandLine(line);
+        strcpy(lineCpy,line);
+        strip(lineCpy); /*strip white chars*/
+        lineAnalyzed = isEmptyOrCommandLine(lineCpy);
         if (lineAnalyzed == 1) continue; /*if the line is an empty line or command line - the assembler ignores*/
+
 
         /*create a new label node*/
         labelListPtr currentLabel = (labelListPtr) calloc(1, sizeof(labelListPtr));
@@ -45,12 +52,13 @@ void secondPass(globalVariables *vars) {
 
         /*check if we have label - if we do - skip this label*/
         /*add bool function to check if we have a label*/
-        hasLabel = foundLabel(line, before, after, vars, currentLabel);
+        hasLabel = foundLabel(lineCpy, before, after, vars, currentLabel);
 
         if (hasLabel == True) { /*we found a label*/
+            strcpy(label, before);
             strcpy(lineCpyAfterLabel, after);
         } else { /*we couldn't fina d label, by split fun before=line*/
-            strcpy(lineCpyAfterLabel, line);
+            strcpy(lineCpyAfterLabel, lineCpy);
         }
 
         strip(lineCpyAfterLabel);

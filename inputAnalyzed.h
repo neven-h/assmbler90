@@ -33,6 +33,7 @@ InstructionWordType commandGroup (int instructionNum);
 Bool foundLabel(char *lineCpy,char *before,char *after,globalVariables *vars,labelListPtr currentLabel);
 
 int validJRegister(char *str,globalVariables *vars);
+void resetStrings(char *line,char *lineCpy,char *before , char *after, char *lineCpyAfterLabel,char *label);
 
 
 #endif //MMN14_INPUTANALYZED_H
