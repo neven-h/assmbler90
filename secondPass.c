@@ -28,12 +28,6 @@ void secondPass(globalVariables *vars) {
     while (!feof(vars->file)) {
 
 
-        memset(line, 0, LINE_LENGTH);
-        memset(before, 0, LINE_LENGTH);
-        memset(after, 0, LINE_LENGTH);
-        memset(lineCpyAfterLabel, 0, LINE_LENGTH);
-        memset(label, 0, LINE_LENGTH);
-
         resetStrings(line,lineCpy,before,after,lineCpyAfterLabel,label);
 
         fgets(line, LINE_LENGTH, stdin);
