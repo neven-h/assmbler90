@@ -41,7 +41,7 @@ Bool isDirectiveFirstPass(char *before, char *after,char *label ,globalVariables
                 if (labelBeforeDirective == False) return False; /*if False - return false and get the next row, else continue*/
             }
             /*no label just a directive - add to word table*/
-            addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars->DC);
+            addDirectiveAsciz(after, &(vars->headWordList), directiveType, vars);
             return True;
         }
         /*not a db,dw,dh,asciz - check if an entry or extern or non=invalid directive*/

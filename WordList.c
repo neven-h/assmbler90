@@ -61,7 +61,7 @@ void addDirectiveByteToWordList(long validInput[LINE_LENGTH], WordNodePtr *head,
     }
 }
 
-void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, int DC)
+void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, globalVariables *vars)
 {
     ascizStr(str);
     int i;
@@ -70,7 +70,7 @@ void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWord
         WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
         newNode->word.wordType = Directive;
         newNode->word.directive.wordType = givenWordType;
-        newNode->word.directive.address = DC++;
+        newNode->word.directive.address = vars->DC++;
         newNode->word.directive.asciz =  str[i];
         addWordToList(head, newNode);
     }
@@ -79,7 +79,7 @@ void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWord
     WordNodePtr newNode = (WordNodePtr) calloc(1, sizeof(WordNode)); /*creat new node*/
     newNode->word.wordType = Directive;
     newNode->word.directive.wordType = givenWordType;
-    newNode->word.directive.address = (DC+=1);
+    newNode->word.directive.address = vars->DC++;
     newNode->word.directive.asciz =  '\0';
     addWordToList(head, newNode);
 

@@ -11,7 +11,7 @@
 
 void addWordToList(WordNodePtr *head, WordNodePtr nodeToAdd);
 void addDirectiveByteToWordList(long validInput[LINE_LENGTH], WordNodePtr *head, int directive, DirectiveWordType givenWordType,globalVariables *vars);
-void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, int DC);
+void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWordType, globalVariables *vars);
 void addDirectiveICF(WordNodePtr *head,int ICF);
 void addLabelAddress(WordNodePtr *head,int ICcounter,long labelAddress,InstructionWordType commandType,Bool isExtern);
 
