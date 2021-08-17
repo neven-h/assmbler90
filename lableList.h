@@ -14,7 +14,7 @@ void addLabelToList(labelListPtr* , labelListPtr );
 int labelNameCompare(labelListPtr *head, char *labelName,globalVariables *vars);
 Bool isLabelExternal(labelListPtr *head,char *labelName ,globalVariables *vars);
 Bool isLabelEntry(labelListPtr *head, char *after,globalVariables *vars);
-void  updateLabelTableICF(labelListPtr *head,int ICF);
+void  updateLabelTableICF(labelListPtr *head,globalVariables *vars);
 long findLabel(labelListPtr *head, char *str,globalVariables *vars,InstructionWordType commandType);
 Bool existsLabelExternalIBranch(labelListPtr *head, char *str,globalVariables *vars);
 Bool existsLabelExternalJ(labelListPtr *head, char *str,globalVariables *vars);

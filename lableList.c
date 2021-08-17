@@ -174,13 +174,13 @@ void updateLabel(labelListPtr currentLabel,int address,Location DataOrCode,Label
 
 
 /*this function updates the data labels with final IC value after the first pass*/
-void  updateLabelTableICF(labelListPtr *head,int ICF)
+void  updateLabelTableICF(labelListPtr *head,globalVariables *vars)
 {
     labelListPtr temp = *head;
 
     while(temp) {
         if(temp->codeOrData==Data) {
-            temp->address+=ICF;
+            temp->address+=vars->ICF;
         }
         temp = temp->next;
     }

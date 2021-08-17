@@ -86,13 +86,13 @@ void addDirectiveAsciz(char *str, WordNodePtr *head, DirectiveWordType givenWord
 
 }
 /*this function adds after the first pass to each directive node in the word list the final IC value to the address*/
-void addDirectiveICF(WordNodePtr *head,int ICF)
+void addDirectiveICF(WordNodePtr *head,globalVariables *vars)
 {
     WordNodePtr temp = *head;
 
     while(temp) {
         if(temp->word.wordType == Directive) {
-            temp->word.directive.address +=ICF;
+            temp->word.directive.address +=vars->ICF;
         }
         temp = temp->next;
     }
