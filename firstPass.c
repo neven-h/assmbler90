@@ -50,7 +50,7 @@ void firstPass(globalVariables *vars) {
 
         resetStrings(line,lineCpy,before,after,lineCpyAfterLabel,label);
 
-        fgets(line, LINE_LENGTH, stdin); /*vars->file*/
+        fgets(line, LINE_LENGTH, vars->file); /*vars->file*/
 
         validLineLength=getLine(line,lineCpy,vars);
         if (validLineLength==False)continue; /*get the next line*/
@@ -106,8 +106,6 @@ void firstPass(globalVariables *vars) {
             }
         }
 
-        free(currentLabel);
-        free(currentWord);
     }
     /*we finished to read the file*/
     if(vars->errorFound == False) /*we found errors - don't continue to second Pass */

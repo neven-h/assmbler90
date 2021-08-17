@@ -44,7 +44,7 @@ int isLegalLabel(char *str, globalVariables *vars) {
     {
         strip(str);
         int length = strlen(str);
-        if (length <= LABEL_LENGTH)//לבדוק label של 31 תווים אם נכנס באורך מבחינת תו אחרון
+        if (length <= LABEL_LENGTH)
         {
             int first = (int) str[0];
             if (isalpha(first)) //*a legal label starts with an alphabet */

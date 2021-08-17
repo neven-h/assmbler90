@@ -6,6 +6,7 @@
 
 /*add a label node to the label list*/
 void addLabelToList(labelListPtr *head, labelListPtr labelToAdd) {
+
     labelListPtr temp = *head;
     if(temp == NULL) {
         *head = labelToAdd;

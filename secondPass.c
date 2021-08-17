@@ -32,7 +32,7 @@ void secondPass(globalVariables *vars) {
 
         resetStrings(line,lineCpy,before,after,lineCpyAfterLabel,label);
 
-        fgets(line, LINE_LENGTH, stdin);
+        fgets(line, LINE_LENGTH,vars->file);
 
         strcpy(lineCpy,line);
         strip(lineCpy); /*strip white chars*/
