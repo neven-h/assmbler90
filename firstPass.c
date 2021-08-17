@@ -111,8 +111,8 @@ void firstPass(globalVariables *vars) {
     if(vars->errorFound == False) /*we found errors - don't continue to second Pass */
     {
         /*we haven't found any errors */
-        vars->IC=vars->ICF;
-        vars->DC=vars->DCF;
+        vars->ICF=vars->IC;
+        vars->DCF=vars->DC;
 
         updateLabelTableICF(&(vars->headLabelTable),vars); /*update the value of data labels with final IC*/
         addDirectiveICF(&(vars->headWordList),vars); /*add the final IC value to the directive values in Word list*/
