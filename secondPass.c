@@ -25,7 +25,9 @@ void secondPass(globalVariables *vars) {
     char fileName[FILE_NAME_LENGTH + AS_EXTENSION_LENGTH];
     strcpy(vars->filename, fileName);
 
-    while (!feof(vars->file)) {
+    varsResetForSecondPass(vars); /*reset IC=100,DC=0 , lineNumber=1*/
+
+   while (!feof(vars->file)) {
 
 
         resetStrings(line,lineCpy,before,after,lineCpyAfterLabel,label);
@@ -99,3 +101,9 @@ void secondPass(globalVariables *vars) {
 
 
 
+void varsResetForSecondPass(globalVariables *vars)
+{
+    vars->DC=0;
+    vars->IC=100;
+    vars->currentLine=1;
+}

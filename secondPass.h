@@ -18,6 +18,6 @@
 
 
 void secondPass(globalVariables *vars);
-
+void varsResetForSecondPass(globalVariables *vars);
 
 #endif //RONIPROJECT_SECONDPASS_H
