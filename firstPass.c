@@ -84,6 +84,7 @@ void firstPass(globalVariables *vars) {
             strcpy(lineCpyAfterLabel, lineCpy);
         }
 
+
         strip(lineCpyAfterLabel);
         word = directiveOrInstruction(lineCpyAfterLabel, before, after, vars); /*check if Directive or Instruction or none*/
         if (word == Directive) {

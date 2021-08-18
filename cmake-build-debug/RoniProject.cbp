@@ -8,136 +8,140 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug"/>
+				<Option working_dir="/Users/pit/assmbler90/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="RoniProject">
-				<Option output="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/RoniProject.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 RoniProject"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="RoniProject/fast">
-				<Option output="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/RoniProject.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
-					<Add directory="C:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 RoniProject/fast"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug"/>
+				<Option working_dir="/Users/pit/assmbler90/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/ronia/CLionProjects/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/pit/assmbler90/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RoniProject">
+				<Option output="/Users/pit/assmbler90/cmake-build-debug/RoniProject" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/pit/assmbler90/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 RoniProject"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RoniProject/fast">
+				<Option output="/Users/pit/assmbler90/cmake-build-debug/RoniProject" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/pit/assmbler90/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 RoniProject/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/pit/assmbler90/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/EntryAndExtern.c">
+		<Unit filename="/Users/pit/assmbler90/EntryAndExtern.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/EntryAndExtern.h">
+		<Unit filename="/Users/pit/assmbler90/EntryAndExtern.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/WordList.c">
+		<Unit filename="/Users/pit/assmbler90/WordList.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/WordList.h">
+		<Unit filename="/Users/pit/assmbler90/WordList.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/default.h">
+		<Unit filename="/Users/pit/assmbler90/default.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.c">
+		<Unit filename="/Users/pit/assmbler90/directiveAnalyzed.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/directiveAnalyzed.h">
+		<Unit filename="/Users/pit/assmbler90/directiveAnalyzed.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/firstPass.c">
+		<Unit filename="/Users/pit/assmbler90/firstPass.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/firstPass.h">
+		<Unit filename="/Users/pit/assmbler90/firstPass.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.c">
+		<Unit filename="/Users/pit/assmbler90/inputAnalyzed.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/inputAnalyzed.h">
+		<Unit filename="/Users/pit/assmbler90/inputAnalyzed.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.c">
+		<Unit filename="/Users/pit/assmbler90/instructionAnalyzed.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/instructionAnalyzed.h">
+		<Unit filename="/Users/pit/assmbler90/instructionAnalyzed.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/lableList.c">
+		<Unit filename="/Users/pit/assmbler90/lableList.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/lableList.h">
+		<Unit filename="/Users/pit/assmbler90/lableList.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/main.c">
+		<Unit filename="/Users/pit/assmbler90/main.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/main.h">
+		<Unit filename="/Users/pit/assmbler90/main.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/printErrors.c">
+		<Unit filename="/Users/pit/assmbler90/printErrors.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/printErrors.h">
+		<Unit filename="/Users/pit/assmbler90/printErrors.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/secondPass.c">
+		<Unit filename="/Users/pit/assmbler90/secondPass.c">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/secondPass.h">
+		<Unit filename="/Users/pit/assmbler90/secondPass.h">
 			<Option target="RoniProject"/>
 		</Unit>
-		<Unit filename="C:/Users/ronia/CLionProjects/assmbler90/CMakeLists.txt">
+		<Unit filename="/Users/pit/assmbler90/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

@@ -228,7 +228,7 @@ Bool labelBeforeDirectiveCommand(char *labelName, globalVariables *vars, labelLi
     ValidLabelName = labelNameCompare(&(vars->headLabelTable),labelName,vars); /*check if the label name wasn't shown in the table already*/
     if (ValidLabelName == VALID_LABEL) { /* a label isn't in the table*/
         updateLabel(currentLabel,vars->DC,Data,NoEntryExtern); /*update the current label node*/
-        addLabelToList((&vars->headLabelTable), currentLabel);/*add the label to table*/
+        addLabelToList((&vars->headLabelTable), currentLabel);/*adds the label to table */
         return True;
     }
 
