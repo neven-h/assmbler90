@@ -8,7 +8,7 @@
 void addExternalToList(externalListPtr *head, externalListPtr externalToAdd) {
 
     externalListPtr temp = *head;
-    if (temp != NULL) {
+    if (temp == NULL) {
         *head = externalToAdd;
         return;
     }
@@ -40,7 +40,7 @@ void createExternalNode(char *str, long address,externalListPtr *head)
 void addEntryToList(entryListPtr *head, entryListPtr entryToAdd)
 {
     entryListPtr temp = *head;
-    if (temp != NULL) {
+    if (temp == NULL) {
         *head = entryToAdd;
         return;
     }
